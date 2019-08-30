@@ -85,10 +85,10 @@ function registerHooks(name: string, fn: () => void) {
 function proxy<P>(currentVm: any, props?: any): P {
   return new Proxy({} as any, {
     get: (target, key) => {
-      const { propsData, _props } = currentVm.$options
-      return props
-        ? (propsData || {})[key] || (props[key] || {}).default
-        : (currentVm.$attrs || {})[key] || _props[key]
+      return (currentVm.$attrs || {})[key]
+        || (currentVm.$options.propsData || {})[key]
+        || ((props || {})[key] || {}).default
+        || (currentVm.$options._props || {})[key]
     },
     set: (target, key) => {
       throw new Error([key] + ' as a prop is readonly')
