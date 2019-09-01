@@ -31,7 +31,7 @@ type componentOptions<P> = {
 
 export function computed<O extends any>(options: O) {
   vm.$options.computed = options
-  return vm as Readonly<{ [key in keyof O]: ReturnType<O[key]> }>
+  return vm as Readonly<{ [key in keyof O]: ReturnType<O[key]> }> & Record<string, any>;
 }
 
 export function watch<T>(fn: () => T, cb: (v: T, o: T) => void) {

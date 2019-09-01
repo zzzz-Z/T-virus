@@ -35,24 +35,33 @@ const ApiDeom = createComponent<Dprops>((props, vm) => {
 export default createComponent((props) => {
 
 
-  const state = reactive({ age: 1 })
+  const state = reactive({
+    age: 1,
+    type: 'error'
+
+  })
 
   const add = () => { state.age++ }
-
+  const changeType = () => state.type = ''
   const [show, toggle] = useToggle()
 
   return (h) => (
     <div style='padding:40px;background:#ccc;width:100vw;height:100vh' id='app'>
-      <Card title={ <a>111</a> } border={false} extra={<a>222</a>}  >
+      <Card title={<a>111</a>} extra={<a>222</a>}  >
         <Button
-          onClick={add}
-          type='error' >
-          add.props.age
+          onClick={toggle}
+          type='success'
+          style='display:block;margin:10px' >
+          toggle Loading
         </Button>
+        <Button
+          loading={show.value}
+          onClick={add}
+          // icon='folder-add'
+          style='display:block;margin:10px'
+          type='error' />
         <ApiDeom age={state.age} />
         <Input prefix='md-open' v-model={state.age} style='width:200px' />
-        <Button onClick={toggle} type='success' style='display:block' >toggle</Button>
-        <h1> {show.value ? 'show' : 'hidden'} </h1>
       </Card>
     </div>
   )
