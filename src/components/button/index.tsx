@@ -1,12 +1,20 @@
-import { ButtonProps, buttonProps } from './type';
-import Icon from '../icon/Icon';
+import { ButtonProps } from './type';
+import Icon from '../icon';
 import { createComponent, computed } from '@/createComponent';
-
-interface Event {
-  onClick(...arg: any): void
+export const buttonProps = {
+  shape: String,
+  loading: Boolean,
+  disabled: Boolean,
+  type: { type: String, default: 'default' },
+  size: { type: String, default: 'default' },
+  htmlType: { type: String, default: 'button' },
+  icon: { type: String, default: '' },
+  customIcon: { type: String, default: '' },
+  long: { type: Boolean, default: false },
+  ghost: { type: Boolean, default: false }
 }
 
-export default createComponent<ButtonProps, Event>({
+const Button = createComponent<ButtonProps>({
   name: 't-button',
   props: buttonProps,
   setup(props) {
@@ -40,9 +48,11 @@ export default createComponent<ButtonProps, Event>({
           type={props.icon}
           custom={props.customIcon}
           v-is={(props.icon || props.customIcon) && !props.loading} />
-        {getter.showSlot && this.$slots.default}
+        {getter.showSlot && <span> {this.$slots.default} </span>}
       </button >
     )
   }
 }
 )
+
+export default Button

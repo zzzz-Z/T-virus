@@ -1,15 +1,5 @@
-export const buttonProps = {
-  shape: String,
-  loading: Boolean,
-  disabled: Boolean,
-  type: { type: String, default: 'default' },
-  size: { type: String, default: 'default' },
-  htmlType: { type: String, default: 'button' },
-  icon: { type: String, default: '' },
-  customIcon: { type: String, default: '' },
-  long: { type: Boolean, default: false },
-  ghost: { type: Boolean, default: false }
-}
+import { TsComponent } from '@/createComponent';
+
 
 export interface ButtonProps {
 
@@ -94,3 +84,5 @@ export interface ButtonGroupProps {
    */
   vertical?: boolean;
 }
+
+export type Button = TsComponent<ButtonProps>

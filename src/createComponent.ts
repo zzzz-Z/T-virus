@@ -1,4 +1,5 @@
 import Vue, { VNode, CreateElement, VueConstructor } from 'vue'
+import { BaseEvent } from './components/mixin';
 
 let vm: any = null
 interface BaseProps<P> {
@@ -19,7 +20,7 @@ interface BaseProps<P> {
 }
 type This<T> = Vue & Readonly<T> & { $props: Readonly<T>, $attrs: Readonly<T> }
 
-type TsComponent<P = {}, E = {}> = (props: P & Partial<E>) => VNode
+export type TsComponent<P = {}, E = {}> = (props: P & E & BaseEvent) => VNode
 
 type componentOptions<P> = {
   name?: string
@@ -30,7 +31,7 @@ type componentOptions<P> = {
 
 export function computed<O extends any>(options: O) {
   vm.$options.computed = options
-  return vm as { [key in keyof O]: Readonly<ReturnType<O[key]>> }
+  return vm as Readonly<{ [key in keyof O]: ReturnType<O[key]> }>
 }
 
 export function watch<T>(fn: () => T, cb: (v: T, o: T) => void) {
@@ -56,14 +57,12 @@ export const useVm = () => vm as Vue
 
 export function createComponent<Props = {}, Event = {}>(options: componentOptions<Props>)
   : TsComponent<Props & BaseProps<Props>, Event> {
-
+  const asAttrs = typeof options === 'function' || !options.props
   const component: any = {
     ...options,
+    inheritAttrs: !asAttrs,
     beforeCreate() {
       vm = this
-      if (typeof options === 'function' || !options.props) {
-        this.$options.inheritAttrs = false
-      }
       this.$options.render = typeof options === 'function'
         ? options(proxy<Props>(this), this)
         : options.setup.call(this, proxy<Props>(this, options.props), this)
@@ -82,13 +81,27 @@ function registerHooks(name: string, fn: () => void) {
   vm.$options[name].push(fn)
 }
 
+const isNotUndefind = (val: any) => typeof val !== 'undefined'
+
 function proxy<P>(currentVm: any, props?: any): P {
   return new Proxy({} as any, {
     get: (target, key) => {
-      return (currentVm.$attrs || {})[key]
-        || (currentVm.$options.propsData || {})[key]
-        || ((props || {})[key] || {}).default
-        || (currentVm.$options._props || {})[key]
+      const { _props, propsData } = currentVm.$options
+      if (props) {
+        // 防止propsVal 为 布尔值
+        if (isNotUndefind((currentVm.$props || {})[key])) {
+          return (currentVm.$props || {})[key]
+        }
+        if (isNotUndefind((propsData || {})[key])) {
+          return (propsData || {})[key]
+        }
+        return (props[key] || {}).default
+      } else {
+        if (isNotUndefind((currentVm.$attrs || {})[key])) {
+          return (currentVm.$attrs || {})[key]
+        }
+        return (_props || {})[key]
+      }
     },
     set: (target, key) => {
       throw new Error([key] + ' as a prop is readonly')

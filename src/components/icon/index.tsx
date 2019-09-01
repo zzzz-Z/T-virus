@@ -1,11 +1,14 @@
-import { IconProps, iconProps } from './type';
+import { IconProps } from './type';
 import { createComponent } from '@/createComponent';
 
-interface Event {
-  onClick?(e: any): void
+export const iconProps = {
+  type: { type: String, default: '' },
+  size: [Number, String],
+  color: String,
+  custom: { type: String, default: '' }
 }
 
-export default createComponent<IconProps, Event>({
+const Icon = createComponent<IconProps>({
   props: iconProps,
   setup(props) {
 
@@ -28,4 +31,6 @@ export default createComponent<IconProps, Event>({
     )
   }
 })
+
+export default Icon
 

@@ -1,5 +1,30 @@
-import { InputEvent, InputProps, inputProps } from './type';
+import { InputEvent, InputProps } from './type';
 import { createComponent, reactive, watch } from '@/createComponent';
+
+export const inputProps = {
+  type: { type: String, default: 'text' },
+  value: { type: [String, Number], default: '' },
+  size: { type: String, default: 'default' },
+  placeholder: { type: String, default: '' },
+  maxlength: { type: Number },
+  disabled: { type: Boolean, default: false },
+  icon: String,
+  autosize: { type: [Boolean, Object], default: false },
+  rows: { type: Number, default: 2 },
+  readonly: { type: Boolean, default: false },
+  name: String,
+  number: { type: Boolean, default: false },
+  autofocus: { type: Boolean, default: false },
+  spellcheck: { type: Boolean, default: false },
+  autocomplete: { type: String, default: 'off' },
+  clearable: { type: Boolean, default: false },
+  elementId: { type: String },
+  wrap: { type: String, default: 'soft' },
+  prefix: { type: String, default: '' },
+  suffix: { type: String, default: '' },
+  search: { type: Boolean, default: false },
+  enterButton: { type: [Boolean, String], default: false }
+}
 
 export default createComponent<InputProps, InputEvent>({
   name: 't-input',

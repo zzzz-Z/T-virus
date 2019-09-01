@@ -1,85 +1,4 @@
-export const inputProps = {
-  type: {
-    type: String,
-    default: 'text'
-  },
-  value: {
-    type: [String, Number],
-    default: ''
-  },
-  size: {
-    type: String,
-    default: 'default'
-  },
-  placeholder: {
-    type: String,
-    default: ''
-  },
-  maxlength: {
-    type: Number
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  icon: String,
-  autosize: {
-    type: [Boolean, Object],
-    default: false
-  },
-  rows: {
-    type: Number,
-    default: 2
-  },
-  readonly: {
-    type: Boolean,
-    default: false
-  },
-  name: String,
-  number: {
-    type: Boolean,
-    default: false
-  },
-  autofocus: {
-    type: Boolean,
-    default: false
-  },
-  spellcheck: {
-    type: Boolean,
-    default: false
-  },
-  autocomplete: {
-    type: String,
-    default: 'off'
-  },
-  clearable: {
-    type: Boolean,
-    default: false
-  },
-  elementId: {
-    type: String
-  },
-  wrap: {
-    type: String,
-    default: 'soft'
-  },
-  prefix: {
-    type: String,
-    default: ''
-  },
-  suffix: {
-    type: String,
-    default: ''
-  },
-  search: {
-    type: Boolean,
-    default: false
-  },
-  enterButton: {
-    type: [Boolean, String],
-    default: false
-  }
-}
+import { TsComponent } from '@/createComponent';
 
 export interface InputProps {
   /**
@@ -89,7 +8,7 @@ export interface InputProps {
   type?: 'text' | 'password' | 'textarea' | 'url' | 'email' | 'date' | 'number' | 'tel';
   /**
    * 绑定的值，可使用 v-model 双向绑定
-   * @default 空
+   * @default ''
    */
   value?: string | number;
   /**
@@ -250,3 +169,5 @@ export interface InputEvent {
   onInput?(event: any): void
 
 }
+
+export type Input = TsComponent<InputProps, InputEvent>
