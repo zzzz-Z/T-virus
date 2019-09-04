@@ -43,10 +43,6 @@ export interface ButtonProps {
    */
   icon?: string;
   /**
-   * 设置按钮的自定义图标
-   */
-  customIcon?: string;
-  /**
    * 跳转的链接，支持 vue-router 对象
    */
   to?: string | object;

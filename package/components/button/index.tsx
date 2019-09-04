@@ -9,7 +9,6 @@ export const buttonProps = {
   size: { type: String, default: 'default' },
   htmlType: { type: String, default: 'button' },
   icon: { type: String, default: '' },
-  customIcon: { type: String, default: '' },
   long: { type: Boolean, default: false },
   ghost: { type: Boolean, default: false }
 }
@@ -19,8 +18,6 @@ const Button = createComponent<ButtonProps>({
   props: buttonProps,
   setup(props) {
     const getter = computed({
-      showSlot: () => !!this.$slots.default,
-      showIcon: () => (props.icon || props.customIcon) && !props.loading,
       classs: () => [
         `t-btn`,
         `t-btn-${props.type}`,
@@ -29,23 +26,28 @@ const Button = createComponent<ButtonProps>({
           [`t-btn-${props.shape}`]: !!props.shape,
           [`t-btn-${props.size}`]: props.size !== 'default',
           [`t-btn-loading`]: props.loading,
-          [`t-btn-icon-only`]: !getter.showSlot && (!!props.icon || !!props.customIcon || props.loading),
+          [`t-btn-icon-only`]: props.icon || props.loading,
           [`t-btn-ghost`]: props.ghost
         }
       ]
     })
 
-    return () => (
-      <button
-        disabled={props.disabled}
-        type={props.type}
-        onClick={(e: any) => this.$emit('click', e)}
-        class={getter.classs}>
-        {props.loading && <Icon class='t-load-loop' type='loading' />}
-        {getter.showIcon && <Icon type={props.icon} custom={props.customIcon} />}
-        {getter.showSlot && <span> {this.$slots.default} </span>}
-      </button >
-    )
+    return () => {
+      const icon = props.icon && !props.loading && <Icon type={'user'} />
+      const loading = props.loading && <Icon class='t-load-loop' type='loading' />
+      const defaultSlot = this.$slots.default
+      return (
+        <button
+          disabled={props.disabled}
+          type={props.type}
+          onClick={(e: any) => this.$emit('click', e)}
+          class={getter.classs}>
+          {loading}
+          {icon}
+          {defaultSlot && <span> {defaultSlot} </span>}
+        </button >
+      )
+    }
   }
 })
 
