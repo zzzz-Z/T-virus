@@ -18,9 +18,6 @@ const Button = createComponent<ButtonProps>({
   name: 't-button',
   props: buttonProps,
   setup(props) {
-    watch(() => props.type, (vl) => {
-      console.log(vl);
-    })
     const getter = computed({
       showSlot: () => !!this.$slots.default,
       showIcon: () => (props.icon || props.customIcon) && !props.loading,

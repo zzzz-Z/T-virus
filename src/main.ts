@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import App from './App'
+// import VueCompositionApi from '@vue/composition-api'
+import '../package/styles/index.less'
 
-import '@/styles/index.less'
 Vue.config.productionTip = false
-import './directives'
+
+// Vue.use(VueCompositionApi)
 
 new Vue({
-  render: (h) => h(App),
-}).$mount('#app');
+  render: (h) => h(App)
+}).$mount('#app')
+

@@ -1,22 +1,19 @@
-import { createComponent, reactive, useDefaultProps, watch, computed, onCreated } from './createComponent';
-import Button from './components/button';
-import Input from './components/input';
-import Icon from './components/icon';
+import { createComponent, reactive, useDefaultProps, computed } from './createComponent';
+import Button from '../package/components/button';
+import Input from '../package/components/input';
+import Icon from '../package/components/icon';
 import { useToggle } from './use';
-import Card from './components/card';
+import Card from '../package/components/card';
+import Main from './Test.md';
+
 interface Dprops {
   age: number
   name?: string
 }
 
-
 const ApiDeom = createComponent<Dprops>((props, vm) => {
   useDefaultProps({
     name: 'zcc'
-  })
-  watch(() => props.age, (vl) => {
-    // tslint:disable-next-line:no-console
-    console.log(`props.age is (${vl})  and getter.age is (${getter.age})`);
   })
   const getter = computed({
     age: () => props.age + 1
@@ -25,24 +22,21 @@ const ApiDeom = createComponent<Dprops>((props, vm) => {
   return (h) => (
     <div>
       <Icon type='ios-add-circle' />
+      <Main />
       <h1> defaultProps : {props.name} </h1>
       <h1> props : {props.age} </h1>
       <h1> getter : {getter.age} </h1>
     </div>
   )
 })
-
 export default createComponent((props) => {
-
 
   const state = reactive({
     age: 1,
     type: 'error'
-
   })
 
   const add = () => { state.age++ }
-  const changeType = () => state.type = ''
   const [show, toggle] = useToggle()
 
   return (h) => (
@@ -57,10 +51,13 @@ export default createComponent((props) => {
         <Button
           loading={show.value}
           onClick={add}
-          // icon='folder-add'
           style='display:block;margin:10px'
-          type='error' />
-        <ApiDeom age={state.age} />
+          type='error'>
+        </Button>
+
+
+
+        <ApiDeom age={1} name='name' />
         <Input prefix='md-open' v-model={state.age} style='width:200px' />
       </Card>
     </div>

@@ -1,5 +1,5 @@
 import Vue, { VNode, CreateElement, VueConstructor } from 'vue'
-import { BaseEvent } from '../package/components/mixin';
+import { BaseEvent } from './components/mixin';
 
 let vm: any = null
 interface BaseProps<P> {
@@ -89,7 +89,7 @@ function proxy<P>(currentVm: any, props?: any): P {
       const { _props, propsData } = currentVm.$options
       if (props) {
         // 防止propsVal 为 布尔值
-        if (isNotUndefind((currentVm.$attrs || {})[key])) {
+        if (isNotUndefind((currentVm.$props || {})[key])) {
           return (currentVm.$props || {})[key]
         }
         if (isNotUndefind((propsData || {})[key])) {

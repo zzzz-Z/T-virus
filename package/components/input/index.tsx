@@ -47,7 +47,6 @@ export default createComponent<InputProps, InputEvent>({
       this.$emit(name, e)
     }
     const setCurrentVl = (vl: any) => {
-      console.log(vl);
       if (props.value === state.currentValue) { return }
       state.currentValue = vl
     }
