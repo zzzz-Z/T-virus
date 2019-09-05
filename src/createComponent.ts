@@ -35,13 +35,12 @@ export function computed<O extends any>(options: O) {
 }
 
 export function watch<T>(fn: () => T, cb: (v: T, o: T) => void) {
-  vm._watchers = vm._watchers || []
   return vm.$watch(fn, cb)
 }
 
-export const ref = <T>(v: T) => reactive({ value: v })
-
 export const reactive = <T>(o: T) => Vue.observable(o)
+
+export const ref = <T>(v: T) => reactive({ value: v })
 
 export const onCreated = (fn: () => void) => registerHooks('created', fn)
 
@@ -63,6 +62,7 @@ export function createComponent<Props = {}, Event = {}>(options: componentOption
     inheritAttrs: !asAttrs,
     beforeCreate() {
       vm = this
+      this._watchers = this._watchers || []
       this.$options.render = typeof options === 'function'
         ? options(proxy<Props>(this), this)
         : options.setup.call(this, proxy<Props>(this, options.props), this)
@@ -81,27 +81,13 @@ function registerHooks(name: string, fn: () => void) {
   vm.$options[name].push(fn)
 }
 
-const isNotUndefind = (val: any) => typeof val !== 'undefined'
 
 function proxy<P>(currentVm: any, props?: any): P {
   return new Proxy({} as any, {
     get: (target, key) => {
-      const { _props, propsData } = currentVm.$options
-      if (props) {
-        // 防止propsVal 为 布尔值
-        if (isNotUndefind((currentVm.$attrs || {})[key])) {
-          return (currentVm.$props || {})[key]
-        }
-        if (isNotUndefind((propsData || {})[key])) {
-          return (propsData || {})[key]
-        }
-        return (props[key] || {}).default
-      } else {
-        if (isNotUndefind((currentVm.$attrs || {})[key])) {
-          return (currentVm.$attrs || {})[key]
-        }
-        return (_props || {})[key]
-      }
+      const propVal = (currentVm.$props || {})[key]
+      const attrVal = (currentVm.$attrs || {})[key] || (currentVm.$options._props || {})[key]
+      return props ? propVal : attrVal
     },
     set: (target, key) => {
       throw new Error([key] + ' as a prop is readonly')

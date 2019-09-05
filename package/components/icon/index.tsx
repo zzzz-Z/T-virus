@@ -9,26 +9,27 @@ export const iconProps = {
 }
 
 const Icon = createComponent<IconProps>({
+  name: 't-icon',
   props: iconProps,
   setup(props) {
-
-    const classs = [
-      `t-icon`, {
-        [`t-icon-${props.type}`]: props.type !== '',
-        [`${props.custom}`]: props.custom !== '',
-      }
-    ]
-    const style: any = {}
-    props.size && (style['font-size'] = `${props.size}px`)
-    props.color && (style.color = props.color)
-
-    return () => (
-      <i
-        class={classs}
-        style={style}
-        on-click={(e: any) => this.$emit('click', e)}
-      />
-    )
+    return () => {
+      const classs = [
+        `t-icon`, {
+          [`t-icon-${props.type}`]: props.type !== '',
+          [`${props.custom}`]: props.custom !== '',
+        }
+      ]
+      const style: any = {}
+      props.size && (style['font-size'] = `${props.size}px`)
+      props.color && (style.color = props.color)
+      return (
+        <i
+          class={classs}
+          style={style}
+          on-click={(e: any) => this.$emit('click', e)}
+        />
+      )
+    }
   }
 })
 
