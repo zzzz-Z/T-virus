@@ -46,20 +46,25 @@ export default createComponent<InputProps, InputEvent>({
     const emitEvent = (name: string) => (e: any) => {
       this.$emit(name, e)
     }
+
     const setCurrentVl = (vl: any) => {
+      // tslint:disable-next-line:no-console
       if (props.value === state.currentValue) { return }
       state.currentValue = vl
     }
+
     const handleInput = (e: any) => {
       if (state.isOnComposition) { return; }
       let vl = e.target.value
       if (props.number && vl !== '') {
         vl = Number.isNaN(Number(vl)) ? vl : Number(vl);
       }
+
       this.$emit('input', vl)
       setCurrentVl(vl)
       this.$emit('change', e)
     }
+
     const handleComposition = (event: any) => {
       if (event.type === 'compositionstart') {
         state.isOnComposition = true;
@@ -69,15 +74,6 @@ export default createComponent<InputProps, InputEvent>({
         handleInput(event);
       }
     }
-    const classs = [
-      `${prefixCls}`,
-      {
-        [`${prefixCls}-${props.size}`]: !!props.size,
-        [`${prefixCls}-disabled`]: props.disabled,
-        [`${prefixCls}-with-prefix`]: state.showPrefix,
-        [`${prefixCls}-with-suffix`]: state.showSuffix || (props.search && props.enterButton === false)
-      }
-    ];
 
     return () => (
       <input
@@ -86,7 +82,6 @@ export default createComponent<InputProps, InputEvent>({
         spellcheck={props.spellcheck}
         ref='input'
         type={props.type}
-        class={classs}
         placeholder={props.placeholder}
         maxlength={props.maxlength}
         readonly={props.readonly}
@@ -106,6 +101,15 @@ export default createComponent<InputProps, InputEvent>({
         onFocus={emitEvent('focus')}
         onBlur={emitEvent('blur')}
         onChange={emitEvent('change')}
+        class={[
+          `${prefixCls}`,
+          {
+            [`${prefixCls}-${props.size}`]: !!props.size,
+            [`${prefixCls}-disabled`]: props.disabled,
+            [`${prefixCls}-with-prefix`]: state.showPrefix,
+            [`${prefixCls}-with-suffix`]: state.showSuffix || (props.search && props.enterButton === false)
+          }
+        ]}
       />
     )
   }

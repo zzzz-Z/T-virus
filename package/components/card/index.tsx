@@ -1,4 +1,5 @@
 import { createComponent } from '@/createComponent';
+
 import { CardProps } from './type';
 
 const cardProps = {

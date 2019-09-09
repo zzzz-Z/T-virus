@@ -30,8 +30,9 @@ type componentOptions<P> = {
 } | ((props: Readonly<P>, vm: This<P>) => (h: CreateElement) => VNode)
 
 export function computed<O extends any>(options: O) {
-  vm.$options.computed = options
-  return vm as Readonly<{ [key in keyof O]: ReturnType<O[key]> }> & Record<string, any>;
+  const getter = new Vue({ computed: options as any })
+  // & Record<string, any>  getter中的类型获取不到
+  return getter as Readonly<{ [key in keyof O]: ReturnType<O[key]> }> & Record<string, any>;
 }
 
 export function watch<T>(fn: () => T, cb: (v: T, o: T) => void) {
@@ -81,12 +82,15 @@ function registerHooks(name: string, fn: () => void) {
   vm.$options[name].push(fn)
 }
 
-
 function proxy<P>(currentVm: any, props?: any): P {
   return new Proxy({} as any, {
     get: (target, key) => {
-      const propVal = (currentVm.$props || {})[key]
-      const attrVal = (currentVm.$attrs || {})[key] || (currentVm.$options._props || {})[key]
+      const { _props, propsData } = currentVm.$options
+      const { $props, $attrs } = currentVm
+      const getVal = (a: any = {}, b: any = {}) => typeof a === 'undefined' ? b[key] : a[key]
+
+      const propVal = getVal($props, propsData)
+      const attrVal = getVal($attrs, _props)
       return props ? propVal : attrVal
     },
     set: (target, key) => {

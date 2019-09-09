@@ -10,7 +10,8 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "core-js": "^2.6.5"
+    "core-js": "^2.6.5",
+    "scss-loader": "^0.0.1"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",
