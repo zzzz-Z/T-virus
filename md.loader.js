@@ -8,15 +8,7 @@ module.exports = function (src) {
     linkify: true,
     typographer: true,
     highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return `<pre class="hljs"><code class="${lang}" >` +
-            hljs.highlight(lang, str, true).value +
-            '</code></pre>';
-        } catch (__) {}
-      }
-
-      return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+      return hljs.highlightAuto(str).value
     }
   });
   const html = md.render(src)

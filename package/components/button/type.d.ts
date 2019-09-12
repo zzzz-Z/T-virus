@@ -1,6 +1,5 @@
 import { TsComponent } from '@/createComponent';
 
-
 export interface ButtonProps {
 
   type?: 'default' | 'primary' | 'dashed' | 'text' | 'info' | 'success' | 'warning' | 'error';

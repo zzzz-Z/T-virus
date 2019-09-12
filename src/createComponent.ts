@@ -34,6 +34,10 @@ export function computed<O extends any>(options: O) {
   // & Record<string, any>  getter中的类型获取不到
   return getter as Readonly<{ [key in keyof O]: ReturnType<O[key]> }> & Record<string, any>;
 }
+export function computed1<O extends (...args: any) => any>(options: O) {
+  const getter = new Vue({ computed: { value: options } })
+  return getter as Readonly<{ value: ReturnType<O> }>
+}
 
 export function watch<T>(fn: () => T, cb: (v: T, o: T) => void) {
   return vm.$watch(fn, cb)

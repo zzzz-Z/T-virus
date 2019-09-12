@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import '../package/styles/index.less'
-import 'highlight.js/styles/github.css'
+import '@/assets/md.css'
 import T from '../package/components'
 import CodeBox from '@/components/codeBox.vue'
 import { createComponent } from './createComponent'
