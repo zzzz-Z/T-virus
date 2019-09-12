@@ -96,7 +96,6 @@ const DropDown = createComponent<DropDownProps>({
       if (props.trigger !== 'hover') {
         return false
       }
-      console.log('handleMouseenter');
       if (state.timeout) { clearTimeout(state.timeout) }
       state.timeout = setTimeout(() => {
         state.currentVisible = true

@@ -5,25 +5,21 @@ import Card from './card';
 import Dropdown from './dropdown';
 import Menu from './menu';
 
-const components = [
-  Button,
-  Input,
-  Card,
-  Dropdown,
-  Menu,
-]
 
-const install = (Vue: any) => {
-  components.forEach((component) => {
-    Vue.component(component.name, component);
-  });
-}
-export default {
+const components = {
   Button,
   Input,
   Card,
   Menu,
-  Dropdown,
-  install
+  Dropdown
+}
+
+export default {
+  ...components,
+  install: (Vue: any) => {
+    Array.from(components).forEach((component) => {
+      Vue.component(component.name, component)
+    })
+  }
 }
 
