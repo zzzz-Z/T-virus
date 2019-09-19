@@ -17,7 +17,7 @@ const components = {
 export default {
   ...components,
   install: (Vue: any) => {
-    Array.from(components).forEach((component) => {
+    Object.values(components).forEach((component) => {
       Vue.component(component.name, component)
     })
   }
