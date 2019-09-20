@@ -14,12 +14,13 @@ const components = {
   Dropdown
 }
 
+const install = (Vue: any) => {
+  Object.values(components).forEach((component) => {
+    Vue.component(component.name, component)
+  })
+}
 export default {
   ...components,
-  install: (Vue: any) => {
-    Object.values(components).forEach((component) => {
-      Vue.component(component.name, component)
-    })
-  }
+  install
 }
 
