@@ -1,4 +1,5 @@
 module.exports = {
+  outputDir:'doc',
   css: {
     loaderOptions: {
       less: {

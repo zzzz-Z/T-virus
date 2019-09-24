@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "doc": "npx vuepress dev docs ",
+    "doc": "vue-cli-service build",
     "dev": "vue-cli-service serve",
     "build": "npx rollup -c",
     "lint": "vue-cli-service lint",
