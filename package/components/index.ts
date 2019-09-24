@@ -1,9 +1,9 @@
-import '../styles/index.less';
-import Button from './button';
-import Input from './input';
-import Card from './card';
-import Dropdown from './dropdown';
-import Menu from './menu';
+import '../styles/index.less'
+import Button from './button'
+import Input from './input'
+import Card from './card'
+import Dropdown from './dropdown'
+import Menu from './menu'
 
 
 const components = {
@@ -14,13 +14,20 @@ const components = {
   Dropdown
 }
 
-const install = (Vue: any) => {
-  Object.values(components).forEach((component) => {
-    Vue.component(component.name, component)
-  })
+export {
+  Button,
+  Input,
+  Card,
+  Menu,
+  Dropdown
 }
+
 export default {
   ...components,
-  install
+  install: (Vue: any) => {
+    Object.values(components).forEach((component) => {
+      Vue.component(component.name, component)
+    })
+  }
 }
 

@@ -3,32 +3,32 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from "rollup-plugin-node-resolve";
 import typescript from 'rollup-plugin-typescript';
 import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify'
-import scss from 'rollup-plugin-scss'
+import postcss from 'rollup-plugin-postcss';
 import alias from 'rollup-plugin-alias';
-function resolve (dir) {
-  return path.join(__dirname, dir)
-}
+import path from 'path';
 
 export default {
-  input: 'src/components/index.ts',
+  input: 'package/components/index.ts',
   output: [ {
       format: 'umd',
-      name:'umbrella',
-      file: 'docs/.vuepress/components/umbrella.umd.js'
+      name:'t',
+      file: 'dist/t.umd.js'
     },
     {
       format: 'es',
-      name:'umbrella',
-      file: 'docs/.vuepress/components/umbrella.ed.js'
+      name:'t',
+      file: 'dist/t.es.js'
     }
   ],
   external:['vue'],
   plugins: [
-    // uglify(),
-    alias({'@': resolve('src')}),
-    scss({
-      output: 'docs/.vuepress/components/index.css'
+    alias({'@': resolves('src')}),
+    postcss({
+      // modules: true, // 增加 css-module 功能
+      extensions: ['.less', '.css'],
+      use: [  ['less', {  javascriptEnabled: true  }] ],
+      // 样式输出到 createModuleConfig 创建的模块文件夹下
+      extract: `dist/index.css` 
     }),
     vue(),
     typescript(),
@@ -42,5 +42,7 @@ export default {
   ]
 }
 
-
+function resolves (dir) {
+  return path.join(__dirname, dir)
+}
 
