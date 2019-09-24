@@ -12,6 +12,6 @@ export default createComponent((props) => (h) => {
       </Menu>
     </div>
   )
-}) as any;
+})
 
 

@@ -14,6 +14,6 @@ window.createComponent = createComponent
 Vue.component('code-box', CodeBox)
 
 new Vue({
-  render: (h) => h(App)
+  render: (h) => h(App as any)
 }).$mount('#app')
 
