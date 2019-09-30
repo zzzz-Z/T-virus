@@ -1,6 +1,3 @@
-import { TsComponent } from '@/createComponent';
-
-
 export interface IconProps {
   type?: string
   size?: string | number
@@ -10,5 +7,3 @@ export interface IconProps {
    */
   custom?: string
 }
-
-export type Icon = TsComponent<IconProps>

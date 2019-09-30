@@ -1,5 +1,5 @@
 import { InputEvent, InputProps } from './type';
-import { createComponent, reactive, watch } from '@/createComponent';
+import { createComponent, reactive, watch } from '../../packages/createComponent';
 
 export const inputProps = {
   type: { type: String, default: 'text' },

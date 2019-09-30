@@ -1,5 +1,3 @@
-import { TsComponent } from '@/createComponent';
-
 export interface InputProps {
   /**
    * 输入框类型，可选值为 text、password、textarea、url、email、date、number、tel
@@ -169,5 +167,3 @@ export interface InputEvent {
   onInput?(event: any): void
 
 }
-
-export type Input = TsComponent<InputProps, InputEvent>

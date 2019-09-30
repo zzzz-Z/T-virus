@@ -1,6 +1,5 @@
-import { createComponent } from '@/createComponent';
-
 import { CardProps } from './type';
+import { createComponent } from '../../packages/createComponent';
 
 const cardProps = {
   border: { type: Boolean, default: true },

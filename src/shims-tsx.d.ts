@@ -1,5 +1,5 @@
 import Vue, { VNode } from 'vue'
-import T from '../package/components'
+import T from '../packages'
 
 declare global {
   interface Window  {

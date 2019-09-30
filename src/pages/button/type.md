@@ -1,5 +1,5 @@
-```tsx
-    <Button type='dashed'>dashed</Button>
+```tsx 
+  <Button type='dashed'>dashed</Button>
     <Button type='success'>success</Button>
     <Button type='default'>default</Button>
     <Button type='error'>error</Button>
@@ -14,5 +14,4 @@
       onClick={toggle} >
       loading
     </Button>
-    
 ```

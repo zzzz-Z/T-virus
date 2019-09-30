@@ -1,5 +1,5 @@
 import { IconProps } from './type';
-import { createComponent } from '@/createComponent';
+import { createComponent } from '../../packages/createComponent';
 
 export const iconProps = {
   type: { type: String, default: '' },

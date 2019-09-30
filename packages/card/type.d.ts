@@ -1,5 +1,4 @@
 import { VNode } from 'vue';
-import { TsComponent } from '@/createComponent';
 
 export interface CardProps {
   /**
@@ -30,5 +29,3 @@ export interface CardProps {
    */
   bodyStyle?: object
 }
-
-export type Card = TsComponent<CardProps>

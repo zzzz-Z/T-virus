@@ -1,4 +1,4 @@
-import { createComponent, computed1, reactive, watch, onMounted } from '@/createComponent'
+import { createComponent, computed1, reactive, watch, onMounted } from '../../packages/createComponent'
 import { DropDownProps } from './type'
 import { findComponentUpward } from '@/use'
 

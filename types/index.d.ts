@@ -1,4 +1,2 @@
-import T from '../package/components'
-export * from '../package/components'
-
-export default T
+export * from '../packages'
+export { default as T } from '../packages'

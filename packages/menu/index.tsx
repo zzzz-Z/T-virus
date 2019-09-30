@@ -1,4 +1,4 @@
-import { createComponent, reactive, watch, computed1 } from '@/createComponent';
+import { createComponent, reactive, computed1 } from '../../packages/createComponent';
 import { MenuProps, MenuEvent } from './type';
 
 export const menuProps = {

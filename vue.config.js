@@ -1,26 +1,16 @@
 module.exports = {
-  outputDir:'docs',
-  publicPath:'./',
+  outputDir: 'docs',
+  publicPath: './',
   css: {
     loaderOptions: {
-      less: {
-        javascriptEnabled: true
-      }
+      less: { javascriptEnabled: true }
     }
   },
   configureWebpack: config => {
     config.module.rules.push({
       // 处理markdown文件
       test: /\.md$/,
-      use: [
-        {
-          loader: "vue-loader"
-        },
-        {
-          loader: require.resolve('./md.loader.js')
-        }
-      ],
-    },
-    );
+      use: [{ loader: "vue-loader" }, { loader: require.resolve('./md.loader.js') }]
+    })
   }
 }

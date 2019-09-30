@@ -1,6 +1,6 @@
 import { ButtonProps } from './type';
 import Icon from '../icon';
-import { createComponent, computed } from '@/createComponent';
+import { createComponent, computed } from '../../packages/createComponent';
 export const buttonProps = {
   shape: String,
   loading: Boolean,

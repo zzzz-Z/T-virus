@@ -53,8 +53,6 @@ export const onUnMounted = (fn: () => void) => registerHooks('destroy', fn)
 
 export const onMounted = (fn: (refs: Vue['$refs']) => void) => registerHooks('mounted', fn.bind(null, vm.$refs || {}))
 
-export const ReturnTuple = <T extends any[]>(...arg: T): T => arg
-
 export const useDefaultProps = (o: Record<string, any>) => { vm.$options._props = o }
 
 export const useVm = () => vm as Vue
