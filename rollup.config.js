@@ -3,26 +3,29 @@ import commonjs from 'rollup-plugin-commonjs';
 import resolve from "rollup-plugin-node-resolve";
 import typescript from 'rollup-plugin-typescript';
 import babel from 'rollup-plugin-babel';
+// import {uglify} from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
-import alias from 'rollup-plugin-alias';
+// import alias from 'rollup-plugin-alias';
 import path from 'path';
 
 export default {
   input: 'package/components/index.ts',
   output: [ {
       format: 'umd',
-      name:'t',
-      file: 'dist/t.umd.js'
+      name:'virus',
+      exports:'named',
+      file: 'dist/index.umd.js'
     },
     {
       format: 'es',
-      name:'t',
-      file: 'dist/t.es.js'
+      name:'virus',
+      exports:'named',
+      file: 'dist/index.es.js'
     }
   ],
   external:['vue'],
   plugins: [
-    alias({'@': resolves('src')}),
+    // alias({'@': resolves('src')}),
     postcss({
       // modules: true, // 增加 css-module 功能
       extensions: ['.less', '.css'],
@@ -39,6 +42,7 @@ export default {
     }),
     commonjs(),
     resolve(),
+    // uglify()
   ]
 }
 

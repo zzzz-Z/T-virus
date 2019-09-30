@@ -1,18 +1,14 @@
-import { VNode } from "vue";
+import { VNode } from 'vue';
 
 export interface DropDownEvent {
   /**
-  * 点击菜单项时触发
-  */
+   * 点击菜单项时触发
+   */
   'on-click'?(value: string): void
   /**
    * 菜单显示状态改变时调用
    */
   'on-visible-change'?(value: boolean): void
-  /**
-   * 点击外部关闭下拉菜单时触发
-   */
-  'on-visible-change'?(event: object): void
 }
 
 export interface DropDownProps {
@@ -32,6 +28,7 @@ export interface DropDownProps {
    * left，left-start，left-end，right，right-start，right-end
    * @default bottom
    */
+  // tslint:disable-next-line:max-line-length
   placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
   /**
    * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，建议添加此属性，它将不受父级样式影响，从而达到更好的效果
@@ -39,13 +36,13 @@ export interface DropDownProps {
    */
   transfer?: boolean;
   /**
-   * 
+   *
    */
-  transferClassName?:string
+  transferClassName?: string
   /**
    * @default false
    */
-  stopPropagation?:boolean
+  stopPropagation?: boolean
   /**
    * 开启 transfer 时，给浮层添加额外的 class 名称
    */
@@ -62,6 +59,7 @@ export interface DropDownProps {
   list?: VNode[];
 }
 
+// tslint:disable-next-line:no-empty-interface
 export interface DropdownMenu {
 }
 

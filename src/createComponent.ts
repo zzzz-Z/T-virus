@@ -1,5 +1,5 @@
 import Vue, { VNode, CreateElement, VueConstructor } from 'vue'
-import { BaseEvent } from '../package/components/mixin';
+import { BaseEvent } from '../types/mixin';
 
 let vm: any = null
 interface BaseProps<P> {
