@@ -5,33 +5,26 @@ import typescript from 'rollup-plugin-typescript';
 import babel from 'rollup-plugin-babel';
 // import {uglify} from 'rollup-plugin-uglify';
 import postcss from 'rollup-plugin-postcss';
-// import alias from 'rollup-plugin-alias';
 import path from 'path';
-
+// import ModuleMap from './script/split';
+const pkg = require('./package.json')
+console.log(Object.keys(pkg.dependencies));
 export default {
-  input: 'package/components/index.ts',
-  output: [ {
-      format: 'umd',
-      name:'virus',
-      exports:'named',
-      file: 'dist/index.umd.js'
-    },
-    {
-      format: 'es',
-      name:'virus',
-      exports:'named',
-      file: 'dist/index.es.js'
-    }
-  ],
-  external:['vue'],
+  input: 'packages/index.ts',
+  output: [{
+    format: 'umd',
+    name: 'virus',
+    exports: 'named',
+    file: 'dist/index.js'
+  }],
+  external: ['vue'],
+  // 是否开启代码分割
+  // experimentalCodeSplitting: true,
   plugins: [
-    // alias({'@': resolves('src')}),
     postcss({
-      // modules: true, // 增加 css-module 功能
       extensions: ['.less', '.css'],
-      use: [  ['less', {  javascriptEnabled: true  }] ],
-      // 样式输出到 createModuleConfig 创建的模块文件夹下
-      extract: `dist/index.css` 
+      use: [['less', { javascriptEnabled: true }]],
+      extract: `dist/index.css`
     }),
     vue(),
     typescript(),
@@ -46,7 +39,7 @@ export default {
   ]
 }
 
-function resolves (dir) {
+function resolves(dir) {
   return path.join(__dirname, dir)
 }
 

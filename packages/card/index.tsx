@@ -1,5 +1,5 @@
 import { CardProps } from './type';
-import { createComponent } from '../../packages/createComponent';
+import { createComponent } from '../createComponent'
 
 const cardProps = {
   border: { type: Boolean, default: true },
@@ -10,32 +10,28 @@ const cardProps = {
   extra: [String, Object]
 }
 const Card = createComponent<CardProps>({
-  name: 't-card',
+  name: 'Card',
   props: cardProps,
   setup(props) {
 
-    const prefixCls = 't-card'
     return () => {
       const { title, border, shadow, disHover, extra, bodyStyle } = props
       const TitleSlot = this.$slots.title || title
       const ExtraSlot = this.$slots.extra || extra
       const DefaultSlot = this.$slots.default
       const bodyStyles = { padding: '16px', ...bodyStyle }
-      const classs = [
-        `${prefixCls}`,
-        {
-          [`${prefixCls}-bordered`]: border && !shadow,
-          [`${prefixCls}-dis-hover`]: disHover || shadow,
-          [`${prefixCls}-shadow`]: shadow
-        }
-      ]
 
       return (
-        <div class={classs} >
-          {TitleSlot && <div class={`${prefixCls}-head`}>{TitleSlot} </div>}
-          {ExtraSlot && <div class={`${prefixCls}-extra`}> {ExtraSlot}</div>}
+        <div class={[
+          `t-card`, {
+            [`t-card-bordered`]: border && !shadow,
+            [`t-card-dis-hover`]: disHover || shadow,
+            [`t-card-shadow`]: shadow
+          }]} >
+          {TitleSlot && <div class={`t-card-head`}>{TitleSlot}</div>}
+          {ExtraSlot && <div class={`t-card-extra`}> {ExtraSlot}</div>}
           <div
-            class={`${prefixCls}-body`}
+            class='t-card-body'
             style={bodyStyles} >
             {DefaultSlot}
           </div>

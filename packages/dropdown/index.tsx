@@ -1,165 +1,231 @@
-import { createComponent, computed1, reactive, watch, onMounted } from '../../packages/createComponent'
+import { createComponent, reactive, onMounted, watch, provide } from '../createComponent'
 import { DropDownProps } from './type'
-import { findComponentUpward } from '@/use'
+import { generateId, broadcast } from '../utils/util'
+import clickoutside from '../utils/clickoutside.js';
 
 const dropDownProps = {
   trigger: { type: String, default: 'hover' },
-  placement: { type: String, default: 'bottom' },
-  visible: { type: Boolean, default: false },
-  transfer: { type: Boolean, default: false },
-  transferClassName: { type: String },
-  stopPropagation: { type: Boolean, default: false },
+  type: String,
+  size: { type: String, default: '' },
+  splitButton: Boolean,
+  hideOnClick: { type: Boolean, default: true },
+  placement: { type: String, default: 'bottom-end' },
+  visibleArrow: { default: true },
+  showTimeout: { type: Number, default: 250 },
+  hideTimeout: { type: Number, default: 150 },
+  tabindex: { type: Number, default: 0 }
 }
+
 const DropDown = createComponent<DropDownProps>({
   name: 't-dropDown',
+  directives: { clickoutside },
   props: dropDownProps,
-  setup(props) {
+  setup(props, vm) {
 
-    const prefixCls = 't-dropDown'
+    let triggerElm: any = null
+    const dropdownElm: any = null
+    let menuItems: any[] | null = null
+    let menuItemsArray: any[] | null = null
     const state = reactive({
-      currentVisible: props.visible,
-      timeout: 0
+      timeout: 0,
+      visible: false,
+      focusing: false,
+      listId: `dropdown-menu-${generateId()}`
     })
-    onMounted(() => {
-      this.$on('click', (key: any) => {
-        if (props.stopPropagation) { return }
-        const $parent = hasParent()
-        if ($parent) { $parent.$emit('click', key) }
-      })
 
-      this.$on('hover-click', () => {
-        const $parent = hasParent()
-        if ($parent) {
-          this.$nextTick(() => {
-            if (props.trigger === 'custom') { return false }
-            state.currentVisible = false
-          })
-          $parent.$emit('hover-click')
+    provide(() => ({ dropdown: vm }))
+
+    watch(() => state.visible, (val) => {
+      broadcast.apply(vm, ['t-dropdownMenu', 'visible', val])
+      this.$emit('visible-change', val)
+    })
+
+    watch(() => state.focusing, (val) => {
+      const selfDefine = this.$el.querySelector('.el-dropdown-selfdefine')
+      if (selfDefine) { // 自定义
+        if (val) {
+          selfDefine.className += ' focusing'
         } else {
-          this.$nextTick(() => {
-            if (props.trigger === 'custom') { return false }
-            state.currentVisible = false
-          })
+          selfDefine.className = selfDefine.className.replace('focusing', '')
         }
+      }
+    })
+
+    onMounted(() => {
+      this.$on('menu-item-click', handleMenuItemClick)
+    })
+
+    function removeTabindex() {
+      triggerElm!.setAttribute('tabindex', '-1')
+      menuItemsArray!.forEach((item: Element) => {
+        item.setAttribute('tabindex', '-1')
       })
-
-      this.$on('on-haschild-click', () => {
-        this.$nextTick(() => {
-          if (props.trigger === 'custom') { return false }
-          state.currentVisible = true
-        })
-        const $parent = hasParent()
-        if ($parent) { $parent.$emit('on-haschild-click') }
-      })
-    })
-
-    watch(() => props.visible, (val) => { state.currentVisible = val })
-    watch(() => state.currentVisible, (val) => {
-      // val
-      //   ? (this.$refs.drop as any).update()
-      //   : (this.$refs.drop as any).destroy()
-      // this.$emit('visible-change', val)
-    })
-
-    const transition = computed1(() => {
-      return ['bottom-start', 'bottom', 'bottom-end'].indexOf(props.placement!) > -1
-        ? 'slide-up'
-        : 'fade'
-    })
-
-    const dropdownCls = computed1(() => ({
-      [prefixCls + '-transfer']: props.transfer,
-      [props.transferClassName!]: props.transferClassName
-    }))
-
-    const relClasses = computed1(() => ([`${prefixCls}-rel`, {
-      [`${prefixCls}-rel-user-select-none`]: props.trigger === 'contextMenu'
-    }]))
-
-    const handleClick = () => {
-      if (props.trigger === 'custom') { return false }
-      if (props.trigger !== 'click') {
-        return false
-      }
-      state.currentVisible = !state.currentVisible
     }
-    const handleRightClick = (e: Event) => {
-      e.preventDefault()
-      if (props.trigger === 'custom') { return false }
-      if (props.trigger !== 'contextMenu') {
-        return false
-      }
-      state.currentVisible = !state.currentVisible
+
+    function resetTabindex(ele: Element) { // 下次tab时组件聚焦元素
+      removeTabindex()
+      ele.setAttribute('tabindex', '0') // 下次期望的聚焦元素
     }
-    const handleMouseenter = () => {
-      if (props.trigger === 'custom') { return false }
-      if (props.trigger !== 'hover') {
-        return false
-      }
-      if (state.timeout) { clearTimeout(state.timeout) }
+
+    function show() {
+      if ((triggerElm as any).disabled) { return }
+      clearTimeout(state.timeout)
       state.timeout = setTimeout(() => {
-        state.currentVisible = true
-      }, 250)
+        state.visible = true
+      }, props.trigger === 'click' ? 0 : props.showTimeout)
     }
-    const handleMouseleave = () => {
-      if (props.trigger === 'custom') { return false }
-      if (props.trigger !== 'hover') {
-        return false
+
+    function hide() {
+      if (triggerElm!.disabled) { return }
+      removeTabindex()
+      if (props.tabindex! >= 0) {
+        resetTabindex(triggerElm)
       }
-      if (state.timeout) {
-        clearTimeout(state.timeout)
-        state.timeout = setTimeout(() => {
-          state.currentVisible = false
-        }, 150)
-      }
+      clearTimeout(state.timeout)
+      state.timeout = setTimeout(() => {
+        state.visible = false
+      }, props.trigger === 'click' ? 0 : props.hideTimeout)
     }
-    const onClickoutside = (e: any) => {
-      handleClose()
-      handleRightClose()
-      if (state.currentVisible) { this.$emit('clickoutside', e) }
+
+    function handleClick() {
+      if (triggerElm.disabled) { return }
+      state.visible ? hide() : show
     }
-    const handleClose = () => {
-      if (props.trigger === 'custom') { return false }
-      if (props.trigger !== 'click') {
-        return false
-      }
-      state.currentVisible = false
-    }
-    const handleRightClose = () => {
-      if (props.trigger === 'custom') { return false }
-      if (props.trigger !== 'contextMenu') {
-        return false
-      }
-      state.currentVisible = false
-    }
-    const hasParent = () => {
-      const $parent = findComponentUpward(this, 'Dropdown')
-      if ($parent) {
-        return $parent
-      } else {
-        return false
+
+    function handleTriggerKeyDown(ev: any) {
+      const keyCode = ev.keyCode;
+      if ([38, 40].indexOf(keyCode) > -1) { // up/down
+        removeTabindex();
+        resetTabindex(menuItems![0]);
+        menuItems![0].focus();
+        ev.preventDefault();
+        ev.stopPropagation();
+      } else if (keyCode === 13) { // space enter选中
+        handleClick();
+      } else if ([9, 27].indexOf(keyCode) > -1) { // tab || esc
+        hide();
       }
     }
 
-    return () => (
-      <div
-        class={[prefixCls]}
-        onMouseenter={handleMouseenter}
-        onmouseleave={handleMouseleave}>
-        <div
-          ref='reference'
-          class={relClasses.value}
-          on-click={handleClick}
-          on-contextmenu={handleRightClick}>
-          {this.$slots.default}
+    function handleItemKeyDown(ev: any) {
+      const keyCode = ev.keyCode;
+      const target = ev.target;
+      const currentIndex = menuItemsArray!.indexOf(target);
+      const max = menuItemsArray!.length - 1;
+      let nextIndex;
+      if ([38, 40].indexOf(keyCode) > -1) { // up/down
+        if (keyCode === 38) { // up
+          nextIndex = currentIndex !== 0 ? currentIndex - 1 : 0;
+        } else { // down
+          nextIndex = currentIndex < max ? currentIndex + 1 : max;
+        }
+        removeTabindex();
+        resetTabindex(menuItems![nextIndex]);
+        menuItems![nextIndex].focus();
+        ev.preventDefault();
+        ev.stopPropagation();
+      } else if (keyCode === 13) { // enter选中
+        triggerElmFocus();
+        target.click();
+        if (props.hideOnClick) { // click关闭
+          state.visible = false;
+        }
+      } else if ([9, 27].indexOf(keyCode) > -1) { // tab // esc
+        hide();
+        triggerElmFocus();
+      }
+    }
+
+    function initAria() {
+      dropdownElm!.setAttribute('id', state.listId);
+      triggerElm.setAttribute('aria-haspopup', 'list');
+      triggerElm.setAttribute('aria-controls', state.listId);
+
+      if (!props.splitButton) { // 自定义
+        triggerElm.setAttribute('role', 'button');
+        triggerElm.setAttribute('tabindex', props.tabindex);
+        triggerElm.setAttribute('class', (triggerElm.getAttribute('class') || '') + ' el-dropdown-selfdefine'); // 控制
+      }
+    }
+
+    function initEvent() {
+      triggerElm = props.splitButton
+        ? (vm.$refs.trigger as any).$el
+        : vm.$slots.default![0].elm;
+
+
+      triggerElm.addEventListener('keydown', handleTriggerKeyDown); // triggerElm keydown
+      dropdownElm!.addEventListener('keydown', handleItemKeyDown, true); // item keydown
+      // 控制自定义元素的样式
+      if (!props.splitButton) {
+        triggerElm.addEventListener('focus', () => {
+          state.focusing = true;
+        });
+        triggerElm.addEventListener('blur', () => {
+          state.focusing = false;
+        });
+        triggerElm.addEventListener('click', () => {
+          state.focusing = false;
+        });
+      }
+      if (props.trigger === 'hover') {
+        triggerElm.addEventListener('mouseenter', show);
+        triggerElm.addEventListener('mouseleave', hide);
+        dropdownElm!.addEventListener('mouseenter', show);
+        dropdownElm!.addEventListener('mouseleave', hide);
+      } else if (props.trigger === 'click') {
+        triggerElm.addEventListener('click', handleClick);
+      }
+    }
+
+    function handleMenuItemClick(command: any, instance: any) {
+      if (props.hideOnClick) {
+        state.visible = false
+      }
+      vm.$emit('command', command, instance)
+    }
+
+    function triggerElmFocus() {
+      triggerElm.focus && triggerElm.focus()
+    }
+    function handleMainButtonClick(event: Event) {
+      vm.$emit('click', event)
+      hide()
+    }
+
+    function initDomOperation() {
+      // dropdownElm = popperElm;
+      menuItems = dropdownElm!.querySelectorAll('[tabindex=\'-1\']');
+      menuItemsArray = [].slice.call(menuItems);
+
+      initEvent();
+      initAria();
+    }
+
+
+    return () => {
+      // tslint:disable-next-line: prefer-const
+      const { type, size, splitButton } = props
+      // tslint:disable-next-line:no-shadowed-variable
+      const triggerElm = !splitButton
+        ? this.$slots.default
+        : ''
+      // : (<el-button-group>
+      //   <el-button type={type} size={size} nativeOn-click={handleMainButtonClick}>
+      //     {this.$slots.default}
+      //   </el-button>
+      //   <el-button ref='trigger' type={type} size={size} class='el-dropdown__caret-button'>
+      //     <i class='el-dropdown__icon el-icon-arrow-down'></i>
+      //   </el-button>
+      // </el-button-group>)
+
+      return (
+        <div class='t-dropdown' v-clickoutside={hide}>
+          {triggerElm}
+          {this.$slots.dropdown}
         </div>
-        {/* <transition name='transition-drop'> */}
-          <div v-show={state.currentVisible}>
-            {this.$slots.overlay}
-          </div>
-        {/* </transition> */}
-      </div>
-    )
+      );
+    }
   }
 })
 

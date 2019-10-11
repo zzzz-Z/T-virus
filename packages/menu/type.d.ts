@@ -1,4 +1,4 @@
-import { VNode } from 'vue';
+import { VNode } from 'vue'
 
 export interface MenuEvent {
   /**
@@ -16,68 +16,71 @@ export interface MenuProps {
    * 菜单类型，可选值为 horizontal（水平） 和 vertical（垂直）
    * @default vertical
    */
-  mode?: 'horizontal' | 'vertical';
+  mode?: 'horizontal' | 'vertical'
   /**
    * 主题，可选值为 light、dark、primary，其中 primary 只适用于 mode="horizontal"
    * @default light
    */
-  theme?: 'light' | 'dark' | 'primary';
+  theme?: 'light' | 'dark' | 'primary'
   /**
    * 激活菜单的 name 值
    */
-  activeName?: string | number;
+  activeName?: string | number
   /**
    * 展开的 Submenu 的 name 集合
    */
-  openNames?: string[] | number[];
+  openNames?: Array<string | number>
   /**
    * 是否开启手风琴模式，开启后每次至多展开一个子菜单
    * @default false
    */
-  accordion?: boolean;
+  accordion?: boolean
   /**
    * 导航菜单的宽度，只在 mode="vertical" 时有效，如果使用 Col 等布局，建议设置为 auto
    * @default 240px
    */
-  width?: string;
+  width?: string
 }
 
-export interface MenuItem {
+export interface MenuItemProps {
   /**
    * 菜单项的唯一标识，必填
    */
-  name?: string | number;
+  name?: string | number
   /**
    * 跳转的链接，支持 vue-router 对象
    */
-  to?: string | object;
+  to?: string | object
   /**
    * 路由跳转时，开启 replace 将不会向 history 添加新记录
    * @default false
    */
-  replace?: boolean;
+  replace?: boolean
   /**
    * 相当于 a 链接的 target 属性
    * @default _self
    */
-  target?: '_blank' | '_self' | '_parent' | '_top';
+  target?: '_blank' | '_self' | '_parent' | '_top'
   /**
    * 同 vue-router append
    * @default false
    */
-  append?: boolean;
+  append?: boolean
+  /**
+   * @default false
+   */
+  disabled?: boolean
 
 }
 
-export interface MenuSub {
-  /**
-   * 子菜单的唯一标识，必填
-   */
-  name?: string | number;
-  /**
-   * 子菜单标题 vnode|slot
-   */
-  title: VNode[];
+export interface SubMenuProps {
+  /** 子菜单的唯一标识  */
+  name: string | number
+
+  disabled?: boolean
+
+  /**  子菜单标题 vnode|slot */
+  title?: VNode | string
 
 }
 
@@ -86,5 +89,5 @@ export interface MenuGroup {
    * 分组标题
    * @default 空
    */
-  title?: string;
+  title?: string
 }

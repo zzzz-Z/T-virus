@@ -1,5 +1,5 @@
 import { IconProps } from './type';
-import { createComponent } from '../../packages/createComponent';
+import { createComponent } from '../createComponent'
 
 export const iconProps = {
   type: { type: String, default: '' },
@@ -9,7 +9,7 @@ export const iconProps = {
 }
 
 const Icon = createComponent<IconProps>({
-  name: 't-icon',
+  name: 'Icon',
   props: iconProps,
   setup(props) {
     return () => {

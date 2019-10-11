@@ -1,4 +1,7 @@
 import { VNode } from 'vue';
+import { ButtonProps } from 'packages/button/type';
+import { SizeType, TriggerType } from 'types';
+export type DropdownMenuAlignment = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
 
 export interface DropDownEvent {
   /**
@@ -9,58 +12,62 @@ export interface DropDownEvent {
    * 菜单显示状态改变时调用
    */
   'on-visible-change'?(value: boolean): void
+  /**
+   * 点击外部关闭下拉菜单时触发
+   */
+  'on-clickoutside'?(event: object): this
 }
 
 export interface DropDownProps {
+  /** Menu button type. only works when split-button is true */
+  type?: ButtonProps['type']
+
+  /** Whether a button group is displayed */
+  splitButton?: boolean
+
+  /** menu size, also works on the split button */
+  size?: SizeType
+
+  /** Placement of the menu */
+  placement?: DropdownMenuAlignment
+
+  /** How to trigger */
+  trigger?: TriggerType
+
+  /** visibleArrow */
+  visibleArrow?: boolean
+
+  /** Whether to hide menu after clicking menu-item */
+  hideOnClick?: boolean
+
   /**
-   * 触发方式，可选值为 hover（悬停）click（点击）contextMenu（右键）custom（自定义），使用 custom 时，需配合 visible 一起使用
-   * @default hover
+   * @default 250
    */
-  trigger?: 'hover' | 'click' | 'custom' | 'contextMenu';
+  showTimeout?: number
+
   /**
-   * 手动控制下拉框的显示，在 trigger = 'custom' 时使用
-   * @default false
+   * @default 150
    */
-  visible?: boolean;
+  hideTimeout?: number
+
   /**
-   * 下拉菜单出现的位置，可选值为
-   * top，top-start，top-end，bottom，bottom-start，bottom-end，
-   * left，left-start，left-end，right，right-start，right-end
-   * @default bottom
+   * Dropdown tabindex
+   * @default 0
    */
-  // tslint:disable-next-line:max-line-length
-  placement?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
-  /**
-   * 是否将弹层放置于 body 内，在 Tabs、带有 fixed 的 Table 列内使用时，建议添加此属性，它将不受父级样式影响，从而达到更好的效果
-   * @default false
-   */
-  transfer?: boolean;
-  /**
-   *
-   */
-  transferClassName?: string
-  /**
-   * @default false
-   */
-  stopPropagation?: boolean
-  /**
-   * 开启 transfer 时，给浮层添加额外的 class 名称
-   */
-  'transfer-class-name'?: string;
-  /**
-   * 是否开启 stop-propagation
-   * @default false
-   */
-  'stop-propagation'?: boolean;
-  // slot插槽 || Vnode props
-  /**
-   * 列表内容，一般由 DropdownMenu 承担
-   */
-  list?: VNode[];
+  tabindex?: number
 }
 
 // tslint:disable-next-line:no-empty-interface
 export interface DropdownMenu {
+  /**
+   * @default true
+   */
+  visibleArrow?: boolean
+
+  /**
+   * @default 0
+   */
+  arrowOffset?: number
 }
 
 export interface DropdownItem {

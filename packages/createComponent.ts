@@ -1,5 +1,5 @@
 import Vue, { VNode, CreateElement, VueConstructor } from 'vue'
-import { BaseEvent } from '../types/mixin';
+import { BaseEvent } from '../types';
 
 let vm: any = null
 interface BaseProps<P> {
@@ -15,7 +15,7 @@ interface BaseProps<P> {
     insert?(): void
     destroy?(): void
     prepatch?(): void
-    update?(): void,
+    update?(): void
   }
 }
 type This<T> = Vue & Readonly<T> & { $props: Readonly<T>, $attrs: Readonly<T> }
@@ -23,10 +23,12 @@ type This<T> = Vue & Readonly<T> & { $props: Readonly<T>, $attrs: Readonly<T> }
 export type TsComponent<P = {}, E = {}> = (props: P & E & BaseEvent) => VNode
 
 type componentOptions<P> = {
+  directives?: object
   name?: string
+  inject?: string[]
   props?: string[] | object
   inheritAttrs?: boolean
-  setup: (this: This<P>, props: Readonly<P>, vm: This<P>) => (h: CreateElement) => VNode
+  setup: (this: This<P>, props: Readonly<P>, vm: This<P> & { [k: string]: any }) => (h: CreateElement) => VNode
 } | ((props: Readonly<P>, vm: This<P>) => (h: CreateElement) => VNode)
 
 export function computed<O extends any>(options: O) {
@@ -39,7 +41,7 @@ export function computed1<O extends (...args: any) => any>(options: O) {
   return getter as Readonly<{ value: ReturnType<O> }>
 }
 
-export function watch<T>(fn: () => T, cb: (v: T, o: T) => void) {
+export function watch<T>(fn: string | (() => T), cb: (v: T, o: T) => void, opt?: any) {
   return vm.$watch(fn, cb)
 }
 
@@ -55,6 +57,20 @@ export const onMounted = (fn: (refs: Vue['$refs']) => void) => registerHooks('mo
 
 export const useDefaultProps = (o: Record<string, any>) => { vm.$options._props = o }
 
+export const provide = (o: object | (() => object)) => vm.$options.provide = o
+
+export const inject = <T extends any>(key: string) => {
+  vm.$options.inject = vm.$options.inject || {}
+  vm.$options.inject[key] = { from: key }
+  return new Proxy({}, {
+    get(t, k) {
+      if (k === 'value') {
+        return vm[k]
+      }
+    }
+  }) as { value: T }
+}
+
 export const useVm = () => vm as Vue
 
 export function createComponent<Props = {}, Event = {}>(options: componentOptions<Props>)
@@ -69,7 +85,6 @@ export function createComponent<Props = {}, Event = {}>(options: componentOption
       this.$options.render = typeof options === 'function'
         ? options(proxy<Props>(this), this)
         : options.setup.call(this, proxy<Props>(this, options.props), this)
-
       vm = null
     }
   }
@@ -89,8 +104,7 @@ function proxy<P>(currentVm: any, props?: any): P {
     get: (target, key) => {
       const { _props, propsData } = currentVm.$options
       const { $props, $attrs } = currentVm
-      const getVal = (a: any = {}, b: any = {}) => typeof a === 'undefined' ? b[key] : a[key]
-
+      const getVal = (a: any = {}, b: any = {}) => typeof a[key] === 'undefined' ? b[key] : a[key]
       const propVal = getVal($props, propsData)
       const attrVal = getVal($attrs, _props)
       return props ? propVal : attrVal

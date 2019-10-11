@@ -2,6 +2,7 @@ module.exports = {
   outputDir: 'docs',
   publicPath: './',
   css: {
+    // modules: true,// 开启CSS module
     loaderOptions: {
       less: { javascriptEnabled: true }
     }

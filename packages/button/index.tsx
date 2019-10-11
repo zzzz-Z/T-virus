@@ -1,6 +1,7 @@
 import { ButtonProps } from './type';
 import Icon from '../icon';
-import { createComponent, computed } from '../../packages/createComponent';
+import { createComponent } from '../createComponent'
+
 export const buttonProps = {
   shape: String,
   loading: Boolean,
@@ -14,24 +15,9 @@ export const buttonProps = {
 }
 
 const Button = createComponent<ButtonProps>({
-  name: 't-button',
+  name: 'Button',
   props: buttonProps,
   setup(props) {
-    const getter = computed({
-      classs: () => [
-        `t-btn`,
-        `t-btn-${props.type}`,
-        {
-          [`t-btn-long`]: props.long,
-          [`t-btn-${props.shape}`]: !!props.shape,
-          [`t-btn-${props.size}`]: props.size !== 'default',
-          [`t-btn-loading`]: props.loading,
-          [`t-btn-icon-only`]: props.icon || props.loading,
-          [`t-btn-ghost`]: props.ghost
-        }
-      ]
-    })
-
     return () => {
       const icon = props.icon && !props.loading && <Icon type={'user'} />
       const loading = props.loading && <Icon class='t-load-loop' type='loading' />
@@ -41,7 +27,17 @@ const Button = createComponent<ButtonProps>({
           disabled={props.disabled}
           type={props.type}
           onClick={(e: any) => this.$emit('click', e)}
-          class={getter.classs}>
+          class={[
+            `t-btn`,
+            `t-btn-${props.type}`, {
+              [`t-btn-long`]: props.long,
+              [`t-btn-${props.shape}`]: !!props.shape,
+              [`t-btn-${props.size}`]: props.size !== 'default',
+              [`t-btn-loading`]: props.loading,
+              [`t-btn-icon-only`]: props.icon || props.loading,
+              [`t-btn-ghost`]: props.ghost
+            }
+          ]}>
           {loading}
           {icon}
           {defaultSlot && <span> {defaultSlot} </span>}
