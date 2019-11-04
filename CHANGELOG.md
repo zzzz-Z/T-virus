@@ -5,6 +5,7 @@
 
 * ([#123](https://github.com/Polaris-z/umbrella/issues/123)) ([2b9a9f9](https://github.com/Polaris-z/umbrella/commit/2b9a9f9c37cbd2602c4c73e5bebf4ec1cad71f6f))
 * handle ([a676c13](https://github.com/Polaris-z/umbrella/commit/a676c13e3f833e0c75c9b5ea138cb0b85347830d))
+* **changelog:** 修改文件([#6245](https://github.com/Polaris-z/umbrella/issues/6245)) ([61d4eac](https://github.com/Polaris-z/umbrella/commit/61d4eac299044656776ef7da605a120a3005ac0b))
 
 
 ### Features
