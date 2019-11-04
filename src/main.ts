@@ -15,3 +15,11 @@ new Vue({
   render: (h) => h(App as any)
 }).$mount('#app')
 
+// import Bpp from './a';
+// // tslint:disable-next-line: no-var-requires
+// const { createApp, h } = require('../../vue-next/packages/runtime-dom/dist/runtime-dom.esm-browser.prod');
+
+// (window as any).h = h
+
+// const App = createApp()
+// App.mount({ render: () => h(Bpp) }, '#app')
