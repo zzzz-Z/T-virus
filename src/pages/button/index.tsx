@@ -1,11 +1,10 @@
 import './index.less'
-import { createComponent } from '@/createComponent';
 import Type from './type.md';
 import Api from './api.md';
 import { useToggle } from '@/use';
+import { Button, createComponent } from '@/ui';
 
 export const ButtonDemo = createComponent((props, vm) => {
-  const Button = window.T.Button
   const [loading, toggle] = useToggle()
 
   return (h) => (

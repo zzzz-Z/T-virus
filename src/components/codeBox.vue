@@ -18,8 +18,8 @@
   </section>
 </template>
 <script>
-import close from './icon/close.svg';
-import open from './icon/open.svg';
+import close from '@/assets/icon/close.svg'
+import open from '@/assets/icon/open.svg'
 export default {
   name: 'DemoBox',
   props: ['id', 'title'],
