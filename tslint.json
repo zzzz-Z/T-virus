@@ -9,10 +9,11 @@
     ]
   },
   "rules": {
+    "arrow-parens": false,
     "trailing-comma": false,
-    "semicolon":false,
-    "member-access":false,
-    "no-unused-expression":false,
+    "semicolon": false,
+    "member-access": false,
+    "no-unused-expression": false,
     "indent": [true, "spaces", 2],
     "interface-name": false,
     "no-consecutive-blank-lines": false,

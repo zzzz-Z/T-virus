@@ -1,8 +1,9 @@
-import { ButtonProps } from './type';
-import Icon from '../icon';
-import { createComponent } from '../createComponent'
+import { ButtonProps } from './type'
+import Icon from '../icon'
 
-export const buttonProps = {
+const { createComponent, h } = window.Vue
+
+const buttonProps: any = {
   shape: String,
   loading: Boolean,
   disabled: Boolean,
@@ -14,36 +15,32 @@ export const buttonProps = {
   ghost: { type: Boolean, default: false }
 }
 
-const Button = createComponent<ButtonProps>({
+const Button = createComponent({
   name: 'Button',
   props: buttonProps,
-  setup(props) {
-    return () => {
-      const icon = props.icon && !props.loading && <Icon type={'user'} />
-      const loading = props.loading && <Icon class='t-load-loop' type='loading' />
-      const defaultSlot = this.$slots.default
-      return (
-        <button
-          disabled={props.disabled}
-          type={props.type}
-          onClick={(e: any) => this.$emit('click', e)}
-          class={[
-            `t-btn`,
-            `t-btn-${props.type}`, {
-              [`t-btn-long`]: props.long,
-              [`t-btn-${props.shape}`]: !!props.shape,
-              [`t-btn-${props.size}`]: props.size !== 'default',
-              [`t-btn-loading`]: props.loading,
-              [`t-btn-icon-only`]: props.icon || props.loading,
-              [`t-btn-ghost`]: props.ghost
-            }
-          ]}>
-          {loading}
-          {icon}
-          {defaultSlot && <span> {defaultSlot} </span>}
-        </button >
-      )
-    }
+  setup: (props: ButtonProps, { slots }) => () => {
+    const { type, long, shape, size, loading, icon, ghost } = props
+    const cls = [
+      `t-btn`,
+      `t-btn-${type}`,
+      {
+        [`t-btn-long`]: long,
+        [`t-btn-${shape}`]: !!shape,
+        [`t-btn-${size}`]: size !== 'default',
+        [`t-btn-loading`]: loading,
+        [`t-btn-icon-only`]: icon || loading,
+        [`t-btn-ghost`]: ghost
+      }
+    ]
+    const loadingProps = { type: 'loading', class: 't-load-loop' }
+
+    const defSlot = slots.default && h('span', slots.default())
+    const iconSlot = icon && !loading && h(Icon, { type: icon })
+    const loadingSlot = loading ? h(Icon, loadingProps) : null
+
+    const data = { ...props, class: cls }
+
+    return h('button', data, [iconSlot, loadingSlot, defSlot])
   }
 })
 

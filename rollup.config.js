@@ -8,7 +8,7 @@ import postcss from 'rollup-plugin-postcss';
 import path from 'path';
 // import ModuleMap from './script/split';
 const pkg = require('./package.json')
-console.log(Object.keys(pkg.dependencies));
+
 export default {
   input: 'packages/index.ts',
   output: [{

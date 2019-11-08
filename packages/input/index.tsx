@@ -1,7 +1,15 @@
-import { InputEvent, InputProps } from './type';
-import { createComponent, reactive, watch } from '../createComponent'
+import { InputProps } from './type'
+import omit from 'lodash.omit'
+const {
+  createComponent,
+  reactive,
+  watch,
+  computed,
+  h,
+  getCurrentInstance
+} = window.Vue
 
-export const inputProps = {
+export const inputProps: any = {
   type: { type: String, default: 'text' },
   value: { type: [String, Number], default: '' },
   size: { type: String, default: 'default' },
@@ -26,10 +34,10 @@ export const inputProps = {
   enterButton: { type: [Boolean, String], default: false }
 }
 
-export default createComponent<InputProps, InputEvent>({
+const Input = createComponent({
   name: 'Input',
   props: inputProps,
-  setup(props) {
+  setup(props: InputProps, { emit, attrs }) {
     const prefixCls = 't-input'
     const state = reactive({
       currentValue: props.value,
@@ -41,76 +49,70 @@ export default createComponent<InputProps, InputEvent>({
       showSuffix: false,
       isOnComposition: false
     })
-    watch(() => props.value, (vl) => setCurrentVl(vl))
+    watch(() => props.value, val => setCurrentval(val))
 
-    const emitEvent = (name: string) => (e: any) => {
-      this.$emit(name, e)
-    }
-
-    const setCurrentVl = (vl: any) => {
-      // tslint:disable-next-line:no-console
-      if (props.value === state.currentValue) { return }
-      state.currentValue = vl
-    }
-
-    const handleInput = (e: any) => {
-      if (state.isOnComposition) { return; }
-      let vl = e.target.value
-      if (props.number && vl !== '') {
-        vl = Number.isNaN(Number(vl)) ? vl : Number(vl);
+    const setCurrentval = (val: any) => {
+      if (props.value !== state.currentValue) {
+        state.currentValue = val
       }
-
-      this.$emit('input', vl)
-      setCurrentVl(vl)
-      this.$emit('change', e)
     }
 
+    const onInput = (e: any) => {
+      if (state.isOnComposition) {
+        return
+      }
+      let val = e.target.value
+      if (props.number && val !== '') {
+        val = Number.isNaN(Number(val)) ? val : Number(val)
+      }
+      setCurrentval(val)
+      emit('input', val)
+    }
+
+    const onKeyup = (event: KeyboardEvent) => {
+      event.keyCode === 13 && emit('enter', event)
+      emit('keyup', event)
+    }
+    const onChange = (event: any) => {
+      emit('change', event.target.value)
+    }
     const handleComposition = (event: any) => {
       if (event.type === 'compositionstart') {
-        state.isOnComposition = true;
+        state.isOnComposition = true
       }
       if (event.type === 'compositionend') {
-        state.isOnComposition = false;
-        handleInput(event);
+        state.isOnComposition = false
+        onInput(event)
       }
     }
+    const cls = computed(() => [
+      `${prefixCls}`,
+      {
+        [`${prefixCls}-${props.size}`]: !!props.size,
+        [`${prefixCls}-disabled`]: props.disabled,
+        [`${prefixCls}-with-prefix`]: state.showPrefix,
+        [`${prefixCls}-with-suffix`]:
+          state.showSuffix || (props.search && props.enterButton === false)
+      }
+    ])
 
-    return () => (
-      <input
-        id={props.elementId}
-        autocomplete={props.autocomplete}
-        spellcheck={props.spellcheck}
-        ref='input'
-        type={props.type}
-        placeholder={props.placeholder}
-        maxlength={props.maxlength}
-        readonly={props.readonly}
-        name={props.name}
-        value={props.value}
-        number={props.number}
-        disabled={props.disabled}
-        autofocus={props.autofocus}
-        onCompositionstart={handleComposition}
-        onCompositionupdate={handleComposition}
-        onCompositionend={handleComposition}
-        onInput={handleInput}
-        on-keyup-enter={emitEvent('enter')}
-        on-keyup={emitEvent('keyup')}
-        on-keydown={emitEvent('keydown')}
-        on-keypress={emitEvent('keypress')}
-        onFocus={emitEvent('focus')}
-        onBlur={emitEvent('blur')}
-        onChange={emitEvent('change')}
-        class={[
-          `${prefixCls}`,
-          {
-            [`${prefixCls}-${props.size}`]: !!props.size,
-            [`${prefixCls}-disabled`]: props.disabled,
-            [`${prefixCls}-with-prefix`]: state.showPrefix,
-            [`${prefixCls}-with-suffix`]: state.showSuffix || (props.search && props.enterButton === false)
-          }
-        ]}
-      />
-    )
+    return () =>
+      h('input', {
+        ...attrs,
+        value: props.value,
+        type: props.type,
+        autofocus: props.autocomplete,
+        placeholder: props.placeholder,
+        autocomplete: props.autocomplete,
+        onCompositionstart: handleComposition,
+        onCompositionupdate: handleComposition,
+        onCompositionend: handleComposition,
+        onKeyup,
+        onChange,
+        onInput,
+        class: cls.value
+      })
   }
 })
+
+export default Input
