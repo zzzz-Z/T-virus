@@ -1,5 +1,5 @@
-import { createComponent } from '../createComponent';
 import { addClass, removeClass } from '../utils/util';
+import { createComponent } from 'vue3';
 
 const Transition = {
   beforeEnter(el: any) {
@@ -64,12 +64,12 @@ const Transition = {
     el.style.paddingBottom = el.dataset.oldPaddingBottom;
   }
 };
-const CollapseTransition = createComponent<{ appear?: boolean }>({
+const CollapseTransition = createComponent({
   name: 'CollapseTransition',
-  setup(props, vm) {
+  setup(props: { appear?: boolean }, { slots }) {
     return () => (
       <transition on={Transition} appear={props.appear}>
-        {vm.$slots.default}
+        {slots.default()}
       </transition>
     )
   }

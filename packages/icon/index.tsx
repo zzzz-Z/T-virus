@@ -1,5 +1,13 @@
 import { IconProps } from './type'
-const { createComponent, h } = window.Vue
+import {
+  createComponent,
+  reactive,
+  watch,
+  computed,
+  h,
+  Fragment,
+  getCurrentInstance
+} from 'vue3'
 
 const iconProps = {
   type: { type: String, default: '' },

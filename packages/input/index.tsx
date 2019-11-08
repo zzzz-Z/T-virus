@@ -1,13 +1,14 @@
 import { InputProps } from './type'
-import omit from 'lodash.omit'
-const {
+import {
   createComponent,
   reactive,
   watch,
   computed,
   h,
+  Fragment,
   getCurrentInstance
-} = window.Vue
+} from 'vue3'
+
 
 export const inputProps: any = {
   type: { type: String, default: 'text' },
@@ -21,7 +22,6 @@ export const inputProps: any = {
   rows: { type: Number, default: 2 },
   readonly: { type: Boolean, default: false },
   name: String,
-  number: { type: Boolean, default: false },
   autofocus: { type: Boolean, default: false },
   spellcheck: { type: Boolean, default: false },
   autocomplete: { type: String, default: 'off' },
@@ -38,7 +38,7 @@ const Input = createComponent({
   name: 'Input',
   props: inputProps,
   setup(props: InputProps, { emit, attrs }) {
-    const prefixCls = 't-input'
+    const preCls = 't-input'
     const state = reactive({
       currentValue: props.value,
       prepend: true,
@@ -57,14 +57,11 @@ const Input = createComponent({
       }
     }
 
-    const onInput = (e: any) => {
+    const handleInput = (e: Event) => {
       if (state.isOnComposition) {
         return
       }
-      let val = e.target.value
-      if (props.number && val !== '') {
-        val = Number.isNaN(Number(val)) ? val : Number(val)
-      }
+      const val = (e.target as HTMLInputElement).value
       setCurrentval(val)
       emit('input', val)
     }
@@ -82,23 +79,23 @@ const Input = createComponent({
       }
       if (event.type === 'compositionend') {
         state.isOnComposition = false
-        onInput(event)
+        handleInput(event)
       }
     }
+    console.log(getCurrentInstance());
     const cls = computed(() => [
-      `${prefixCls}`,
+      `${preCls}`,
       {
-        [`${prefixCls}-${props.size}`]: !!props.size,
-        [`${prefixCls}-disabled`]: props.disabled,
-        [`${prefixCls}-with-prefix`]: state.showPrefix,
-        [`${prefixCls}-with-suffix`]:
+        [`${preCls}-${props.size}`]: !!props.size,
+        [`${preCls}-disabled`]: props.disabled,
+        [`${preCls}-with-prefix`]: state.showPrefix,
+        [`${preCls}-with-suffix`]:
           state.showSuffix || (props.search && props.enterButton === false)
       }
     ])
 
     return () =>
-      h('input', {
-        ...attrs,
+      h('div', {}, h('input', {
         value: props.value,
         type: props.type,
         autofocus: props.autocomplete,
@@ -109,9 +106,10 @@ const Input = createComponent({
         onCompositionend: handleComposition,
         onKeyup,
         onChange,
-        onInput,
+        onInput: handleInput,
         class: cls.value
-      })
+      }))
+
   }
 })
 

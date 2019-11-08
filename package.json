@@ -24,7 +24,7 @@
     "vue": "^2.6.10"
   },
   "gitHooks": {
-    "commit-msg": "node verifyCommit.js"
+    "commit-msg": "node ./script/verifyCommit.js"
   },
   "devDependencies": {
     "@types/jest": "^23.1.4",

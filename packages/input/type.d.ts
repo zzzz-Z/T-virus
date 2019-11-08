@@ -6,14 +6,14 @@ export interface InputProps {
    * @default text
    */
   type?:
-    | 'text'
-    | 'password'
-    | 'textarea'
-    | 'url'
-    | 'email'
-    | 'date'
-    | 'number'
-    | 'tel'
+  | 'text'
+  | 'password'
+  | 'textarea'
+  | 'url'
+  | 'email'
+  | 'date'
+  | 'number'
+  | 'tel'
   /**
    * 绑定的值，可使用 v-model 双向绑定
    * @default ''
@@ -82,11 +82,6 @@ export interface InputProps {
    */
   autosize?: boolean | { minRows?: number; maxRows?: number }
   /**
-   * 将用户的输入转换为 number 类型
-   * @default false
-   */
-  number?: boolean
-  /**
    * 自动获取焦点
    * @default false
    */
@@ -108,11 +103,11 @@ export interface InputProps {
   /**
    * 前置内容，仅在 text 类型下有效
    */
-  prepend?: VNode[]
+  preEl?: VNode[]
   /**
    * 后置内容，仅在 text 类型下有效
    */
-  append?: VNode[]
+  afterEl?: VNode[]
   /**
    * 按下回车键时触发
    */

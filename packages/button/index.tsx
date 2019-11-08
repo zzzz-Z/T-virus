@@ -1,7 +1,7 @@
 import { ButtonProps } from './type'
 import Icon from '../icon'
+import { createComponent, h } from 'vue3';
 
-const { createComponent, h } = window.Vue
 
 const buttonProps: any = {
   shape: String,
@@ -33,11 +33,9 @@ const Button = createComponent({
       }
     ]
     const loadingProps = { type: 'loading', class: 't-load-loop' }
-
     const defSlot = slots.default && h('span', slots.default())
     const iconSlot = icon && !loading && h(Icon, { type: icon })
     const loadingSlot = loading ? h(Icon, loadingProps) : null
-
     const data = { ...props, class: cls }
 
     return h('button', data, [iconSlot, loadingSlot, defSlot])

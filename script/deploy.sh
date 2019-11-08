@@ -4,7 +4,7 @@
 set -e
 
 # 构建
-rm -rf dist 
+# rm -rf dist 
 
 npx rollup -c
 
