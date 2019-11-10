@@ -15,10 +15,10 @@ const buttonProps: any = {
   ghost: { type: Boolean, default: false }
 }
 
-const Button = createComponent({
+const Button = createComponent<ButtonProps, {}, {}>({
   name: 'Button',
   props: buttonProps,
-  setup: (props: ButtonProps, { slots }) => () => {
+  setup: (props, { slots }) => () => {
     const { type, long, shape, size, loading, icon, ghost } = props
     const cls = [
       `t-btn`,

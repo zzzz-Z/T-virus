@@ -1,116 +1,104 @@
-import { InputProps } from './type'
-import {
-  createComponent,
-  reactive,
-  watch,
-  computed,
-  h,
-  Fragment,
-  getCurrentInstance
-} from 'vue3'
+import vcInput from './input'
+import { VNode } from 'vue3'
 
-
-export const inputProps: any = {
-  type: { type: String, default: 'text' },
-  value: { type: [String, Number], default: '' },
-  size: { type: String, default: 'default' },
-  placeholder: { type: String, default: '' },
-  maxlength: { type: Number },
-  disabled: { type: Boolean, default: false },
-  icon: String,
-  autosize: { type: [Boolean, Object], default: false },
-  rows: { type: Number, default: 2 },
-  readonly: { type: Boolean, default: false },
-  name: String,
-  autofocus: { type: Boolean, default: false },
-  spellcheck: { type: Boolean, default: false },
-  autocomplete: { type: String, default: 'off' },
-  clearable: { type: Boolean, default: false },
-  elementId: { type: String },
-  wrap: { type: String, default: 'soft' },
-  prefix: { type: String, default: '' },
-  suffix: { type: String, default: '' },
-  search: { type: Boolean, default: false },
-  enterButton: { type: [Boolean, String], default: false }
+export interface InputProps {
+  type?: 'text' | 'password' | 'textarea' | 'url' | 'email' | 'date' | 'number' | 'tel'
+  // 绑定的值，可使用 v-model 双向绑定
+  value?: string | number
+  /** 输入框尺寸，可选值为large、small、default或者不设置 */
+  size?: '' | 'large' | 'small' | 'default'
+  /** 占位文本 */
+  name?: string
+  placeholder?: string
+  /** 是否显示清空按钮 */
+  clearable?: boolean
+  /** 设置输入框为禁用状态 */
+  disabled?: boolean
+  /** 设置输入框为只读 */
+  readonly?: boolean
+  /** 最大输入长度 */
+  maxlength?: number
+  /** 输入框尾部图标，仅在 text 类型下有效 */
+  icon?: string
+  /** 输入框头部图标 */
+  prefix?: string
+  /** 输入框尾部图标 */
+  suffix?: string
+  /** 是否显示为搜索型输入框 */
+  search?: boolean
+  /** 开启 search 时可用，是否有确认按钮，可设为按钮文字 */
+  enterButton?: boolean | string
+  /** 文本域默认行数，仅在 textarea 类型下有效 */
+  rows?: number
+  /** 自适应内容高度，仅在 textarea 类型下有效，可传入对象，如 { minRows: 2, maxRows: 6 } */
+  autosize?: boolean | { minRows?: number; maxRows?: number }
+  /** 自动获取焦点 */
+  autofocus?: boolean
+  /** 原生的自动完成功能，可选值为 off 和 on,off */
+  autocomplete?: string
+  /** 原生的 spellcheck 属性 */
+  spellcheck?: boolean
+  /** 原生的 wrap 属性，可选值为 hard 和 soft，仅在 textarea 下生效 */
+  wrap?: 'hard' | 'soft'
+  /** 前置内容，仅在 text 类型下有效 */
+  preEl?: VNode[]
+  /** 后置内容，仅在 text 类型下有效 */
+  afterEl?: VNode[]
+  /** 按下回车键时触发 */
+  onEnter?(event: KeyboardEvent): void
+  /** 设置 icon 属性后，点击图标时触发 */
+  onClick?(): void
+  /** 数据改变时触发 */
+  onChange?(event: any): void
+  /** 输入框聚焦时触发 */
+  onFocus?(): void
+  /** 输入框失去焦点时触发 */
+  onBlur?(): void
+  /** 原生的 keyup 事件 */
+  onKeyup?(event: KeyboardEvent): void
+  /** 原生的 keydown 事件 */
+  onKeydown?(event: KeyboardEvent): void
+  /** 原生的 keypress 事件 */
+  onKeypress?(event: KeyboardEvent): void
+  /** 开启 search 时可用，点击搜索或按下回车键时触发 */
+  onSearch?(value: string): void
+  /** 开启 clearable 时可用，点击清空按钮时触发 */
+  onClear?(): void
 }
 
-const Input = createComponent({
-  name: 'Input',
-  props: inputProps,
-  setup(props: InputProps, { emit, attrs }) {
-    const preCls = 't-input'
-    const state = reactive({
-      currentValue: props.value,
-      prepend: true,
-      append: true,
-      slotReady: false,
-      textareaStyles: {},
-      showPrefix: false,
-      showSuffix: false,
-      isOnComposition: false
-    })
-    watch(() => props.value, val => setCurrentval(val))
-
-    const setCurrentval = (val: any) => {
-      if (props.value !== state.currentValue) {
-        state.currentValue = val
-      }
-    }
-
-    const handleInput = (e: Event) => {
-      if (state.isOnComposition) {
-        return
-      }
-      const val = (e.target as HTMLInputElement).value
-      setCurrentval(val)
-      emit('input', val)
-    }
-
-    const onKeyup = (event: KeyboardEvent) => {
-      event.keyCode === 13 && emit('enter', event)
-      emit('keyup', event)
-    }
-    const onChange = (event: any) => {
-      emit('change', event.target.value)
-    }
-    const handleComposition = (event: any) => {
-      if (event.type === 'compositionstart') {
-        state.isOnComposition = true
-      }
-      if (event.type === 'compositionend') {
-        state.isOnComposition = false
-        handleInput(event)
-      }
-    }
-    console.log(getCurrentInstance());
-    const cls = computed(() => [
-      `${preCls}`,
-      {
-        [`${preCls}-${props.size}`]: !!props.size,
-        [`${preCls}-disabled`]: props.disabled,
-        [`${preCls}-with-prefix`]: state.showPrefix,
-        [`${preCls}-with-suffix`]:
-          state.showSuffix || (props.search && props.enterButton === false)
-      }
-    ])
-
-    return () =>
-      h('div', {}, h('input', {
-        value: props.value,
-        type: props.type,
-        autofocus: props.autocomplete,
-        placeholder: props.placeholder,
-        autocomplete: props.autocomplete,
-        onCompositionstart: handleComposition,
-        onCompositionupdate: handleComposition,
-        onCompositionend: handleComposition,
-        onKeyup,
-        onChange,
-        onInput: handleInput,
-        class: cls.value
-      }))
-
-  }
-})
+/**
+ * @param props
+ * ``` ts
+ * // 绑定的值，可使用 v-model 双向绑定
+ * value ?: string | number
+ * size ?: '' | 'large' | 'small' | 'default'
+ * name ?: string
+ * placeholder ?: string
+ * type: { type: String, default: 'text' } as any as PropType<string> 'zzzzzz'
+ * value: { type: [String, Number], default: '' },
+ * size: { type: String, default: 'default' },
+ * placeholder: { type: String, default: '' },
+ * maxlength: { type: Number },
+ * disabled: { type: Boolean, default: false },
+ * icon: String,
+ * autosize: { type: [Boolean, Object], default: false },
+ * rows: { type: Number, default: 2 },
+ * readonly: { type: Boolean, default: false },
+ * name: String,
+ * autofocus: { type: Boolean, default: false },
+ * spellcheck: { type: Boolean, default: false },
+ * autocomplete: { type: String, default: 'off' },
+ * clearable: { type: Boolean, default: false },
+ * elementId: { type: String },
+ * wrap: { type: String, default: 'soft' },
+ * prefix: { type: String, default: '' },
+ * suffix: { type: String, default: '' },
+ * search: { type: Boolean, default: false },
+ * enterButton: { type: [Boolean, String], default: false },
+ * afterEl: { type: Object },
+ * preEl: { type: Object }
+ * ```
+ */
+const Input = vcInput
 
 export default Input
