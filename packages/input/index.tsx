@@ -1,8 +1,16 @@
 import vcInput from './input'
-import { VNode } from 'vue3'
+import { VNode, App } from 'vue3'
 
 export interface InputProps {
-  type?: 'text' | 'password' | 'textarea' | 'url' | 'email' | 'date' | 'number' | 'tel'
+  type?:
+    | 'text'
+    | 'password'
+    | 'textarea'
+    | 'url'
+    | 'email'
+    | 'date'
+    | 'number'
+    | 'tel'
   // 绑定的值，可使用 v-model 双向绑定
   value?: string | number
   /** 输入框尺寸，可选值为large、small、default或者不设置 */
@@ -67,19 +75,16 @@ export interface InputProps {
 }
 
 /**
- * @param props
- * ``` ts
- * // 绑定的值，可使用 v-model 双向绑定
- * value ?: string | number
- * size ?: '' | 'large' | 'small' | 'default'
- * name ?: string
- * placeholder ?: string
- * type: { type: String, default: 'text' } as any as PropType<string> 'zzzzzz'
+ * @see [`docs`](https://baidu.com)
+ *
+ * `props`
+ * ```
+ * type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
  * value: { type: [String, Number], default: '' },
  * size: { type: String, default: 'default' },
- * placeholder: { type: String, default: '' },
- * maxlength: { type: Number },
- * disabled: { type: Boolean, default: false },
+ * placeholder: { type: String, default: '' }, // 原生属性
+ * maxlength: Number,
+ * disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
  * icon: String,
  * autosize: { type: [Boolean, Object], default: false },
  * rows: { type: Number, default: 2 },
@@ -88,9 +93,9 @@ export interface InputProps {
  * autofocus: { type: Boolean, default: false },
  * spellcheck: { type: Boolean, default: false },
  * autocomplete: { type: String, default: 'off' },
- * clearable: { type: Boolean, default: false },
+ * clearable: { type: Boolean, default: false }, // 是否显示清空按钮
  * elementId: { type: String },
- * wrap: { type: String, default: 'soft' },
+ * wrap: ({ type: String, default: 'soft' } as any) as PropType<'hard' | 'soft'>,
  * prefix: { type: String, default: '' },
  * suffix: { type: String, default: '' },
  * search: { type: Boolean, default: false },
@@ -98,7 +103,24 @@ export interface InputProps {
  * afterEl: { type: Object },
  * preEl: { type: Object }
  * ```
+ * `event`
+ * ```
+ * onEnter?(event: KeyboardEvent): void//按下回车键时触发
+ * onClick?(): void//设置 icon 属性后，点击图标时触发
+ * onChange?(event: any): void //数据改变时触发
+ * onFocus?(): void//输入框聚焦时触发
+ * onBlur?(): void //输入框失去焦点时触发
+ * onKeyup?(event: KeyboardEvent): void //原生的 keyup 事件
+ * onKeydown?(event: KeyboardEvent): void//原生的 keydown 事件
+ * onKeypress?(event: KeyboardEvent): void //原生的 keypress 事件
+ * onSearch?(value: string): void //开启 search 时可用，点击搜索或按下回车键时触发
+ * onClear?(): void//开启 clearable 时可用，点击清空按钮时触发
+ * ```
  */
 const Input = vcInput
+  // tslint:disable-next-line: whitespace align
+;(Input as any).install = (app: App) => {
+  app.component(Input.name, Input as any)
+}
 
 export default Input

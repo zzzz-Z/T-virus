@@ -1,4 +1,4 @@
-// import { VNode } from 'vue';
+// import { VNode } from 'vue3';
 // import { ButtonProps } from 'packages/button/type';
 // import { SizeType, TriggerType } from 'types';
 // export type DropdownMenuAlignment = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'

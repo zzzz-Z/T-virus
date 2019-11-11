@@ -1,49 +1,24 @@
 import { InputProps } from './index'
-import {
-  createComponent,
-  reactive,
-  watch,
-  computed,
-  h,
-  PropType
-} from 'vue3'
-
+import { createComponent, reactive, watch, computed, h, PropType } from 'vue3'
 
 export const inputProps: any = {
-  type: { type: String, default: 'text' } as any as PropType<
-    |'text'
-    | 'password'
-    | 'textarea'
-    | 'url'
-    | 'email'
-    | 'date'
-    | 'number'
-    | 'tel'
-    >,
-  // 绑定的值，可使用 v-model 双向绑定
+  type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
   value: { type: [String, Number], default: '' },
-  size: { type: String, default: 'default' } as any as PropType<'' | 'large' | 'small' | 'default'>,
-  // 原生属性
-  placeholder: { type: String, default: '' },
+  size: { type: String, default: 'default' },
+  placeholder: { type: String, default: '' }, // 原生属性
   maxlength: Number,
-  // 设置输入框为禁用状态
-  disabled: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
   icon: String,
-  autosize: {
-    type: [Boolean, Object],
-    default: false
-  } as any as PropType<boolean | { minRows?: number; maxRows?: number }>,
+  autosize: { type: [Boolean, Object], default: false },
   rows: { type: Number, default: 2 },
   readonly: { type: Boolean, default: false },
-  // 占位文本
   name: String,
   autofocus: { type: Boolean, default: false },
   spellcheck: { type: Boolean, default: false },
   autocomplete: { type: String, default: 'off' },
-  // 是否显示清空按钮
-  clearable: { type: Boolean, default: false },
+  clearable: { type: Boolean, default: false }, // 是否显示清空按钮
   elementId: { type: String },
-  wrap: { type: String, default: 'soft' } as any as PropType<'hard' | 'soft'> ,
+  wrap: ({ type: String, default: 'soft' } as any) as PropType<'hard' | 'soft'>,
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
   search: { type: Boolean, default: false },
@@ -116,20 +91,23 @@ export default createComponent<InputProps, {}, {}>({
     ])
 
     return () =>
-      h('div', {}, h('input', {
-        value: props.value,
-        type: props.type,
-        autofocus: props.autocomplete,
-        placeholder: props.placeholder,
-        autocomplete: props.autocomplete,
-        onCompositionstart: handleComposition,
-        onCompositionupdate: handleComposition,
-        onCompositionend: handleComposition,
-        onKeyup,
-        onChange,
-        onInput: handleInput,
-        class: cls.value
-      }))
-
+      h(
+        'div',
+        {},
+        h('input', {
+          value: props.value,
+          type: props.type,
+          autofocus: props.autocomplete,
+          placeholder: props.placeholder,
+          autocomplete: props.autocomplete,
+          onCompositionstart: handleComposition,
+          onCompositionupdate: handleComposition,
+          onCompositionend: handleComposition,
+          onKeyup,
+          onChange,
+          onInput: handleInput,
+          class: cls.value
+        })
+      )
   }
 })

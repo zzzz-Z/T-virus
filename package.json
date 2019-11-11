@@ -20,9 +20,6 @@
     "test:unit": "vue-cli-service test:unit",
     "log": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
-  "peerDependencies": {
-    "vue": "^2.6.10"
-  },
   "gitHooks": {
     "commit-msg": "node ./script/verifyCommit.js"
   },
@@ -48,17 +45,9 @@
     "rollup-plugin-vue": "^5.0.1",
     "ts-jest": "^23.0.0",
     "typescript": "^3.4.3",
-    "virus-ui": "^0.1.7",
-    "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "@antv/dom-util": "^2.0.1",
-    "@antv/g6": "^3.1.1",
-    "@antv/matrix-util": "^2.0.2",
-    "@antv/util": "^2.0.5",
-    "less-loader": "^5.0.0",
-    "lodash.omit": "^4.5.0",
-    "vue": "^2.6.10"
+    "less-loader": "^5.0.0"
   }
 }

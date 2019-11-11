@@ -1,4 +1,4 @@
-import { VNode } from 'vue'
+import { VNode } from 'vue3'
 
 export interface MenuEvent {
   /**
@@ -70,7 +70,6 @@ export interface MenuItemProps {
    * @default false
    */
   disabled?: boolean
-
 }
 
 export interface SubMenuProps {
@@ -81,7 +80,6 @@ export interface SubMenuProps {
 
   /**  子菜单标题 vnode|slot */
   title?: VNode | string
-
 }
 
 export interface MenuGroup {
