@@ -48,6 +48,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "at-ui-style": "^1.5.1",
     "less-loader": "^5.0.0"
   }
 }

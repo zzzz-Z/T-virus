@@ -3,14 +3,16 @@ import { VNode, App } from 'vue3'
 
 export interface InputProps {
   type?:
-    | 'text'
-    | 'password'
-    | 'textarea'
-    | 'url'
-    | 'email'
-    | 'date'
-    | 'number'
-    | 'tel'
+  | 'text'
+  | 'password'
+  | 'textarea'
+  | 'url'
+  | 'email'
+  | 'date'
+  | 'number'
+  | 'tel'
+  //输入框状态
+  status?: 'success' | 'error' | 'warning' | 'info'
   // 绑定的值，可使用 v-model 双向绑定
   value?: string | number
   /** 输入框尺寸，可选值为large、small、default或者不设置 */
@@ -119,8 +121,8 @@ export interface InputProps {
  */
 const Input = vcInput
   // tslint:disable-next-line: whitespace align
-;(Input as any).install = (app: App) => {
-  app.component(Input.name, Input as any)
-}
+  ; (Input as any).install = (app: App) => {
+    app.component(Input.name, Input as any)
+  }
 
 export default Input

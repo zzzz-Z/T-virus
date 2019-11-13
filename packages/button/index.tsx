@@ -1,5 +1,4 @@
 import { ButtonProps } from './type'
-import Icon from '../icon'
 import { createComponent, h } from 'vue3';
 
 
@@ -7,36 +6,37 @@ const buttonProps: any = {
   shape: String,
   loading: Boolean,
   disabled: Boolean,
+  size: String,
   type: { type: String, default: 'default' },
-  size: { type: String, default: 'default' },
   htmlType: { type: String, default: 'button' },
   icon: { type: String, default: '' },
-  long: { type: Boolean, default: false },
   ghost: { type: Boolean, default: false }
 }
 
 const Button = createComponent<ButtonProps, {}, {}>({
   name: 'Button',
   props: buttonProps,
-  setup: (props, { slots }) => () => {
-    const { type, long, shape, size, loading, icon, ghost } = props
+  setup: (props, { slots, attrs }) => () => {
+    const { type, size, loading, icon, ghost } = props
     const cls = [
-      `t-btn`,
-      `t-btn-${type}`,
+      attrs.class, `at-btn`,
       {
-        [`t-btn-long`]: long,
-        [`t-btn-${shape}`]: !!shape,
-        [`t-btn-${size}`]: size !== 'default',
-        [`t-btn-loading`]: loading,
-        [`t-btn-icon-only`]: icon || loading,
-        [`t-btn-ghost`]: ghost
+        [`at-btn--${type}`]: type,
+        [`at-btn---${size}`]: size,
+        [`at-btn---loading`]: loading,
+        [`at-btn---icon-only`]: icon || loading,
+        [`at-btn---${type}--hollow`]: ghost
       }
     ]
-    const loadingProps = { type: 'loading', class: 't-load-loop' }
-    const defSlot = slots.default && h('span', slots.default())
-    const iconSlot = icon && !loading && h(Icon, { type: icon })
-    const loadingSlot = loading ? h(Icon, loadingProps) : null
-    const data = { ...props, class: cls }
+    const defSlot = slots.default && h('span', { class: 'at-btn__text' }, slots.default())
+    const iconSlot = icon && !loading && h('i', { class: ['at-btn__icon icon', icon] })
+    const loadingSlot = loading && h('i', { class: 'at-btn__loading icon icon-loader' })
+    const data = {
+      disabled: props.disabled,
+      type: props.htmlType,
+      style: attrs.style,
+      class: cls,
+    }
 
     return h('button', data, [iconSlot, loadingSlot, defSlot])
   }
