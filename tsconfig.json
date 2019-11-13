@@ -17,7 +17,7 @@
     ],
     "paths": {
       "@/*": [
-        "dev/*"
+        "src/*"
       ]
     },
     "lib": [
@@ -28,13 +28,11 @@
     ]
   },
   "include": [
-    "dev/**/*.ts",
-    "dev/**/*.tsx",
-    "dev/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "packages/**/*.ts",
-    "packages/**/*.tsx"
+    "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

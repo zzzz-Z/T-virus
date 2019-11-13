@@ -1,27 +1,22 @@
-import { Button, Input } from 'magi-ui'
-import { createComponent, ref, h } from 'vue3'
+import { Button, Input } from "ui";
+import { createComponent, ref, h, getCurrentInstance, watch } from "vue3";
 
 export default createComponent(() => {
-  const loading = ref(false)
-  const value = ref(1)
-  function cl() {
-    loading.value = !loading.value
-    console.log(value)
-    // value.value += 1
+  const count = ref(1);
+  watch(
+    () => count.value,
+    val => {
+      console.log(val);
+    }
+  );
+  return () => h(Test, { onClick: () => count.value++ });
+});
+
+const div = ref(null);
+const Test = {
+  props: {},
+  setup() {
+    return () =>
+      h("div", [h("div", { ref: div }, "div1"), h("div", "div2"), h(Input)]);
   }
-  return () =>
-    h('div', { style: { padding: '50px' } }, [
-      h(Input, {
-        value: value.value,
-        onChange: e => {
-          ''
-        }
-      }),
-      h(
-        Button,
-        { class: 'zzz', type: 'primary', icon: 'user', onClick: cl },
-        () => 'button'
-      ),
-      h(Button, { type: 'primary', loading: loading.value }, () => 'button')
-    ])
-})
+};
