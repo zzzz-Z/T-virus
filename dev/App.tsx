@@ -29,7 +29,7 @@ export default createComponent(() => {
     const node3 = h(Input, {
       icon: 'x-circle',
       value: model.value,
-      onChange: val => {
+      onChange: (val: any) => {
         console.log(val)
         model.value = val
       }

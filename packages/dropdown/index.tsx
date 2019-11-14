@@ -153,7 +153,6 @@
 //         ? (vm.$refs.trigger as any).$el
 //         : vm.$slots.default![0].elm;
 
-
 //       triggerElm.addEventListener('keydown', handleTriggerKeyDown); // triggerElm keydown
 //       dropdownElm!.addEventListener('keydown', handleItemKeyDown, true); // item keydown
 //       // 控制自定义元素的样式
@@ -201,7 +200,6 @@
 //       initEvent();
 //       initAria();
 //     }
-
 
 //     return () => {
 //       // tslint:disable-next-line: prefer-const
