@@ -1,4 +1,5 @@
-import './styles/index.less'
+import 'at-ui-style/css/at.css'
+
 import * as  components from './components'
 export * from './components'
 

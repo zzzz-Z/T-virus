@@ -7,10 +7,9 @@ export interface ButtonProps {
    */
   ghost?: boolean;
   /**
-   * 按钮大小，可选值为large、small、default或者不设置
-   * @default default
+   * 'large' | 'small' | 'smaller'
    */
-  size?: '' | 'large' | 'small' | 'default';
+  size?: 'large' | 'small' | 'smaller'
   /**
    * 按钮形状，可选值为circle或者不设置
    */
@@ -24,7 +23,7 @@ export interface ButtonProps {
    * 设置button原生的type，可选值为button、submit、reset
    * @default button
    */
-  'html-type'?: 'button' | 'submit' | 'reset';
+  htmlType?: 'button' | 'submit' | 'reset';
   /**
    * 设置按钮为禁用状态
    * @default false

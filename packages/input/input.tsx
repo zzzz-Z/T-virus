@@ -3,8 +3,9 @@ import { createComponent, reactive, watch, computed, h, PropType } from 'vue3'
 
 export const inputProps: any = {
   type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
+  status: String,
   value: { type: [String, Number], default: '' },
-  size: { type: String, default: 'default' },
+  size: String,
   placeholder: { type: String, default: '' }, // 原生属性
   maxlength: Number,
   disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
@@ -27,87 +28,85 @@ export const inputProps: any = {
   preEl: { type: Object }
 }
 
-const preCls = 't-input'
-
 export default createComponent<InputProps, {}, {}>({
   name: 'Input',
+  inheritAttrs: false,
   props: inputProps,
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const state = reactive({
-      currentValue: props.value,
-      prepend: true,
-      append: true,
-      slotReady: false,
-      textareaStyles: {},
-      showPrefix: false,
-      showSuffix: false,
-      isOnComposition: false
+      value: props.value
     })
-    watch(() => props.value, val => setCurrentval(val))
-    const setCurrentval = (val: any) => {
-      if (props.value !== state.currentValue) {
-        state.currentValue = val
+
+    watch(
+      () => props.value,
+      val => {
+        setValue(val)
       }
-      emit('change', val)
+    )
+
+    watch(
+      () => state.value,
+      val => {
+        emit('input', val)
+        emit('change', val)
+      }
+    )
+
+    const setValue = (val: any) => {
+      if (props.value === state.value) return
+      state.value = val
     }
 
-    const handleInput = (e: Event) => {
-      if (state.isOnComposition) {
-        return
-      }
+    const onInput = (e: Event) => {
       const val = (e.target as HTMLInputElement).value
-      setCurrentval(val)
-      emit('input', val)
+      emit('input', val, e)
+      emit('change', val, e)
     }
 
     const onKeyup = (event: KeyboardEvent) => {
       event.keyCode === 13 && emit('enter', event)
-      emit('keyup', event)
     }
 
-    const onChange = (event: any) => {
-      emit('change', event.target.value)
+    const clean = () => {
+      state.value = ''
+      emit('input', '')
     }
-
-    const handleComposition = (event: any) => {
-      if (event.type === 'compositionstart') {
-        state.isOnComposition = true
-      }
-      if (event.type === 'compositionend') {
-        state.isOnComposition = false
-        handleInput(event)
-      }
-    }
-
     const cls = computed(() => [
-      `${preCls}`,
+      'at-input',
+      props.size ? `at-input--${props.size}` : '',
+      props.status ? `at-input--${props.status}` : '',
       {
-        [`${preCls}-${props.size}`]: !!props.size,
-        [`${preCls}-disabled`]: props.disabled,
-        [`${preCls}-with-prefix`]: state.showPrefix,
-        [`${preCls}-with-suffix`]:
-          state.showSuffix || (props.search && props.enterButton === false)
+        'at-input-group': slots.prepend || slots.append,
+        'at-input--disabled': props.disabled,
+        'at-input--prepend': slots.prepend,
+        'at-input--append': slots.append,
+        'at-input--icon': props.icon
       }
     ])
 
-    return () =>
-      h(
-        'div',
-        {},
-        h('input', {
-          value: props.value,
-          type: props.type,
-          autofocus: props.autocomplete,
-          placeholder: props.placeholder,
-          autocomplete: props.autocomplete,
-          onCompositionstart: handleComposition,
-          onCompositionupdate: handleComposition,
-          onCompositionend: handleComposition,
-          onKeyup,
-          onChange,
-          onInput: handleInput,
-          class: cls.value
-        })
-      )
+    const iconCls = computed(() => {
+      const name = props.icon || props.status
+      return [name ? `icon-${name}` : '', 'at-input__icon icon']
+    })
+
+    const prependCls = computed(() => ({
+      class: ['at-input-group__prepend', { 'at-input-group--button': false }]
+    }))
+
+    return () => {
+      const icon = props.icon && h('i', { class: iconCls.value, onClick: clean })
+      const prepend = slots.append && h('div', prependCls, slots.append())
+      const input = h('input', {
+        value: state.value,
+        type: props.type,
+        autofocus: props.autocomplete,
+        placeholder: props.placeholder,
+        autocomplete: props.autocomplete,
+        onKeyup,
+        onInput,
+        class: 'at-input__original'
+      })
+      return h('div', { class: cls.value }, [prepend, input, icon])
+    }
   }
 })

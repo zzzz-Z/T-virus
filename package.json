@@ -4,31 +4,27 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "tolink": "npm link external/vue3 & npm link external/ui",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "tolink": "npm link external/vue3 & npm link external/ui",
+    "lint": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.0.0",
+    "@vue/cli-plugin-typescript": "^4.0.0",
+    "@vue/cli-service": "^4.0.0",
+    "prettier": "~1.14.0",
+    "typescript": "^3.7.0",
+    "vue-template-compiler": "^2.6.10",
     "at-ui-style": "^1.5.1"
   },
-  "devDependencies": {
-    "@types/jest": "^24.0.11",
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-plugin-typescript": "^4.0.0",
-    "@vue/cli-plugin-unit-jest": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "@vue/eslint-config-prettier": "^5.0.0",
-    "@vue/eslint-config-typescript": "^4.0.0",
-    "@vue/test-utils": "1.0.0-beta.29",
-    "eslint": "^5.16.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "eslint-plugin-vue": "^5.0.0",
-    "less": "^3.0.4",
-    "less-loader": "^5.0.0",
-    "prettier": "^1.18.2",
-    "typescript": "~3.5.3",
-    "vue-template-compiler": "^2.6.10"
-  }
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }
