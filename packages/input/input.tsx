@@ -2,30 +2,30 @@ import { InputProps } from './index'
 import { createComponent, reactive, watch, computed, h, PropType } from 'vue3'
 
 export const inputProps: any = {
-  type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
-  status: String,
-  value: { type: [String, Number], default: '' },
-  size: String,
-  placeholder: { type: String, default: '' }, // 原生属性
-  maxlength: Number,
-  disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
+  elementId: String,
   icon: String,
-  autosize: { type: [Boolean, Object], default: false },
-  rows: { type: Number, default: 2 },
-  readonly: { type: Boolean, default: false },
   name: String,
-  autofocus: { type: Boolean, default: false },
-  spellcheck: { type: Boolean, default: false },
-  autocomplete: { type: String, default: 'off' },
-  clearable: { type: Boolean, default: false }, // 是否显示清空按钮
-  elementId: { type: String },
+  status: String,
+  size: String,
+  maxlength: Number,
+  placeholder: String, // 原生属性
   wrap: ({ type: String, default: 'soft' } as any) as PropType<'hard' | 'soft'>,
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
   search: { type: Boolean, default: false },
   enterButton: { type: [Boolean, String], default: false },
   afterEl: { type: Object },
-  preEl: { type: Object }
+  preEl: { type: Object },
+  type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
+  value: { type: [String, Number], default: '' },
+  disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
+  autosize: { type: [Boolean, Object], default: false },
+  rows: { type: Number, default: 2 },
+  readonly: { type: Boolean, default: false },
+  autofocus: { type: Boolean, default: false },
+  spellcheck: { type: Boolean, default: false },
+  autocomplete: { type: String, default: 'off' },
+  clearable: { type: Boolean, default: false } // 是否显示清空按钮
 }
 
 export default createComponent<InputProps, {}, {}>({
@@ -71,6 +71,7 @@ export default createComponent<InputProps, {}, {}>({
       state.value = ''
       emit('input', '')
     }
+
     const cls = computed(() => [
       'at-input',
       props.size ? `at-input--${props.size}` : '',
