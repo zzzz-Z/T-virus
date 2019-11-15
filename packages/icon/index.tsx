@@ -1,16 +1,13 @@
-import { IconProps } from './type'
 import { createComponent, h } from 'vue3'
 
-const iconProps: any = {
-  type: { type: String, default: '' },
-  size: [Number, String],
-  color: String,
-  custom: { type: String, default: '' }
-}
-
-const Icon = createComponent<IconProps, {}, {}>({
+const Icon = createComponent({
   name: 'Icon',
-  props: iconProps,
+  props: {
+    type: { type: String, default: '' },
+    size: [Number, String],
+    color: String,
+    custom: { type: String, default: '' }
+  },
   setup: props => () => {
     const { color, size, type, custom } = props
     const cls = [`t-icon`, { [`t-icon-${type}`]: type !== '', [`${custom}`]: custom !== '' }]

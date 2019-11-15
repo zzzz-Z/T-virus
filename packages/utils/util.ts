@@ -1,4 +1,4 @@
-// import Vue, { VNode } from 'vue3'
+// import vue3, { VNode } from 'vue3'
 // // tslint:disable: only-arrow-functions
 
 // export function generateId() {
@@ -28,7 +28,7 @@
 //   }
 // }
 
-// export function broadcast(this: Vue, componentName: string, eventName: string, params: any) {
+// export function broadcast(this: vue3, componentName: string, eventName: string, params: any) {
 //   this.$children.forEach((child) => {
 //     const name = child.$options.name
 
@@ -40,7 +40,7 @@
 //   })
 // }
 
-// export function dispatch(this: Vue, componentName: string, eventName: string, params: any) {
+// export function dispatch(this: vue3, componentName: string, eventName: string, params: any) {
 //   let parent = this.$parent || this.$root
 //   let name = parent.$options.name
 
@@ -57,8 +57,8 @@
 // }
 
 // // Find components downward
-// export function findComponentsDownward(context: Vue, componentName: string): Vue[] | [] {
-//   return context.$children.reduce((components: Vue[], child) => {
+// export function findComponentsDownward(context: vue3, componentName: string): vue3[] | [] {
+//   return context.$children.reduce((components: vue3[], child) => {
 //     if (child.$options.name === componentName) {
 //       components.push(child)
 //     }
@@ -68,7 +68,7 @@
 // }
 
 // // Find components upward
-// export function findComponentsUpward(context: Vue, componentName: string): Vue[] | [] {
+// export function findComponentsUpward(context: vue3, componentName: string): vue3[] | [] {
 //   const parents = []
 //   const parent = context.$parent
 //   if (parent) {
@@ -82,7 +82,7 @@
 // }
 
 // // Find components upward
-// export function findComponentUpward(context: Vue, componentName: string, componentNames?: string[]) {
+// export function findComponentUpward(context: vue3, componentName: string, componentNames?: string[]) {
 //   componentNames = typeof componentName === 'string'
 //     ? [componentName]
 //     : componentName

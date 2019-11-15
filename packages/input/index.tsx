@@ -112,9 +112,7 @@ export interface InputProps {
  * ```
  */
 const Input = vcInput
-// tslint:disable-next-line: whitespace align
 ;(Input as any).install = (app: App) => {
-  console.log(app)
   app.component('V' + Input.name, Input as any)
 }
 

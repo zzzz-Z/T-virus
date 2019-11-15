@@ -1,8 +1,7 @@
 import app from './App'
 import { createApp } from 'vue3'
-import { Input } from 'ui'
+import UI from 'ui'
 
-console.log(Input)
 createApp()
-  .use(Input as any)
+  .use(UI)
   .mount(app as any, '#app')

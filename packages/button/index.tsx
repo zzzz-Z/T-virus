@@ -18,7 +18,6 @@ const Button = createComponent<ButtonProps, {}, {}>({
   setup: (props, { slots, attrs }) => () => {
     const { type, size, loading, icon, ghost } = props
     const cls = [
-      attrs.class,
       `at-btn`,
       {
         [`at-btn--${type}`]: type,
