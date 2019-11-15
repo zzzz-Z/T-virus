@@ -1,6 +1,6 @@
 // tslint:disable: only-arrow-functions
 
-import Vue from 'vue';
+import vue3 from 'vue3';
 import { on } from './dom.js'
 
 const nodeList = [];
@@ -9,9 +9,9 @@ const ctx = '@@clickoutsideContext';
 let startClick;
 let seed = 0;
 
-!Vue.prototype.$isServer && on(document, 'mousedown', (e) => (startClick = e));
+!vue3.prototype.$isServer && on(document, 'mousedown', (e) => (startClick = e));
 
-!Vue.prototype.$isServer && on(document, 'mouseup', (e) => {
+!vue3.prototype.$isServer && on(document, 'mouseup', (e) => {
   nodeList.forEach((node) => node[ctx].documentHandler(e, startClick));
 });
 
@@ -42,7 +42,7 @@ function createDocumentHandler(el, binding, vnode) {
  * v-clickoutside
  * @desc 点击元素外面才会触发的事件
  * @example
- * ```vue
+ * ```vue3
  * <div v-element-clickoutside="handleClose">
  * ```
  */

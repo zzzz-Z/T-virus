@@ -1,4 +1,4 @@
-// import Vue from 'vue';
+// import vue3 from 'vue3';
 // import { MenuProps, MenuEvent } from './type'
 // import { createComponent, provide, reactive, computed1, onMounted, watch } from '../createComponent'
 // import { broadcast, findComponentsDownward, findComponentsUpward } from '../utils/util';
@@ -70,7 +70,7 @@
 //         })
 //       }
 //       if (index >= 0) {
-//         let currentSubmenu: Vue | null = null;
+//         let currentSubmenu: vue3 | null = null;
 //         findComponentsDownward(vm, 'SubMenu').forEach((item: any) => {
 //           if (item.name === name) {
 //             currentSubmenu = item;
@@ -85,7 +85,7 @@
 //         });
 //       } else {
 //         if (props.accordion) {
-//           let currentSubmenu: Vue | null = null;
+//           let currentSubmenu: vue3 | null = null;
 //           findComponentsDownward(vm, 'SubMenu').forEach((item: any) => {
 //             if (item.name === name) {
 //               currentSubmenu = item;

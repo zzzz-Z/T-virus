@@ -1,7 +1,7 @@
-let transferIndex = 0;
+let transferIndex = 0
 
 function transferIncrease() {
-  transferIndex++;
+  transferIndex++
 }
 
 export { transferIndex, transferIncrease }

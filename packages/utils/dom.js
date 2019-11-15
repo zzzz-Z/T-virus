@@ -1,8 +1,8 @@
 /* istanbul ignore next */
 
-import Vue from 'vue';
+import vue3 from 'vue3';
 
-const isServer = Vue.prototype.$isServer;
+const isServer = vue3.prototype.$isServer;
 const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
 const MOZ_HACK_REGEXP = /^moz([A-Z])/;
 const ieVersion = isServer ? 0 : Number(document.DOCUMENT_NODE);

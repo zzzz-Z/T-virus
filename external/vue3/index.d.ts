@@ -1,2 +1,2 @@
 // @ts-ignore
-export * from '../../../vue-next/packages/vue'
+export * from '../../../vue-next/packages/vue/dist/vue'

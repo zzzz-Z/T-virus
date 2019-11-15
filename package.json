@@ -6,7 +6,7 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "tolink": "npm link external/vue3 & npm link external/ui",
-    "lint": "prettier --write --parser typescript \"packages/**/*.ts?(x)\""
+    "lint": "prettier --write --parser typescript \"packages/**/*.ts?(x)\" \"dev/**/*.ts?(x)\""
   },
   "dependencies": {},
   "devDependencies": {
