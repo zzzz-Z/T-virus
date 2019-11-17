@@ -1,4 +1,4 @@
-import { ComponentInternalInstance, Component } from 'vue3'
+import { ComponentInternalInstance, Component, VNode } from 'vue3'
 export const isArray = Array.isArray
 export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
@@ -16,19 +16,15 @@ export function broadcast(
   eventName: string,
   params?: any
 ) {
-  const { type, component, children, patchFlag } = vc.subTree
+  const { type, subTree } = vc
   const name = isObject(type) && (type as Component).name
-  if (name) {
-    if (name == vcName) {
-      console.log('name')
-    } else if (component) {
-      broadcast(component, vcName, eventName, params)
-    }
-    // vc.emit(eventName, params)
-  } else if (children) {
-    ;(children as any[]).forEach(
-      (childVc: ComponentInternalInstance) => console.log(childVc)
-      //   broadcast(childVc, vcName, eventName, params)
-    )
+  if (name == vcName) {
+    // console.log(vc);
+    vc.emit(eventName)
+  } else {
+    const children = (subTree.children || []) as any[]
+    children.forEach((child: VNode) => {
+      child.component && broadcast(child.component, vcName, eventName)
+    })
   }
 }

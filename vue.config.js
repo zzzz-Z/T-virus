@@ -22,7 +22,6 @@ module.exports = {
       // 处理markdown文件
       test: /\.md$/,
       use: [
-        { loader: "vue-loader" },
         { loader: require.resolve("./script/md.loader.js") }
       ]
     });
