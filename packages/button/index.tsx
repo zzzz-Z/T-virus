@@ -27,9 +27,12 @@ const Button = createComponent<ButtonProps, {}, {}>({
         [`at-btn---${type}--hollow`]: ghost
       }
     ]
-    const defSlot = slots.default && h('span', { class: 'at-btn__text' }, slots.default())
-    const iconSlot = icon && !loading && h('i', { class: ['at-btn__icon icon', icon] })
-    const loadingSlot = loading && h('i', { class: 'at-btn__loading icon icon-loader' })
+    const defSlot =
+      slots.default && h('span', { class: 'at-btn__text' }, slots.default())
+    const iconSlot =
+      icon && !loading && h('i', { class: ['at-btn__icon icon', icon] })
+    const loadingSlot =
+      loading && h('i', { class: 'at-btn__loading icon icon-loader' })
     const data = {
       disabled: props.disabled,
       type: props.htmlType,

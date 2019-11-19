@@ -10,7 +10,10 @@ const Icon = createComponent({
   },
   setup: props => () => {
     const { color, size, type, custom } = props
-    const cls = [`t-icon`, { [`t-icon-${type}`]: type !== '', [`${custom}`]: custom !== '' }]
+    const cls = [
+      `t-icon`,
+      { [`t-icon-${type}`]: type !== '', [`${custom}`]: custom !== '' }
+    ]
     const attrs = {
       ...props,
       class: cls,

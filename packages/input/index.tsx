@@ -2,7 +2,15 @@ import vcInput from './input'
 import { VNode, App } from 'vue3'
 
 export interface InputProps {
-  type?: 'text' | 'password' | 'textarea' | 'url' | 'email' | 'date' | 'number' | 'tel'
+  type?:
+    | 'text'
+    | 'password'
+    | 'textarea'
+    | 'url'
+    | 'email'
+    | 'date'
+    | 'number'
+    | 'tel'
   //输入框状态
   status?: 'success' | 'error' | 'warning' | 'info'
   // 绑定的值，可使用 v-model 双向绑定

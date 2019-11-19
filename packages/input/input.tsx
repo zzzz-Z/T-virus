@@ -106,7 +106,8 @@ export default createComponent<InputProps, {}, {}>({
     }))
 
     return () => {
-      const icon = props.icon && h('i', { class: iconCls.value, onClick: clean })
+      const icon =
+        props.icon && h('i', { class: iconCls.value, onClick: clean })
       const prepend = slots.append && h('div', prependCls, slots.append())
       const input = h('input', {
         value: state.value,
