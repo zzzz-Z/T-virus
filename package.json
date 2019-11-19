@@ -8,7 +8,9 @@
     "linkto": "npm link external/vue3 & npm link external/ui",
     "lint": "prettier --write --parser typescript \"packages/**/*.ts?(x)\" \"dev/**/*.ts?(x)\""
   },
-  "dependencies": {},
+  "dependencies": {
+    "next-vue": "^3.0.0-alpha.6"
+  },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-typescript": "^4.0.0",
@@ -19,10 +21,10 @@
     "markdown-it-anchor": "^5.2.5",
     "markdown-it-container": "^2.0.0",
     "markdown-it-emoji": "^1.4.0",
+    "markdown-it-table-of-contents": "^0.4.4",
     "prettier": "~1.14.0",
     "typescript": "^3.7.0",
-    "vue-template-compiler": "^2.6.10",
-    "markdown-it-table-of-contents": "^0.4.4"
+    "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
     "plugins": {

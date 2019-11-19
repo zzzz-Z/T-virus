@@ -1,61 +1,62 @@
-// import { createComponent, reactive, computed1, onMounted } from '../createComponent'
-// import { dispatch, findComponentUpward, findComponentsUpward } from '../utils/util';
-// import { MenuItemProps } from './type';
+import { createComponent, reactive, computed, onMounted, h, inject } from 'vue3'
+import { MenuItemProps } from './type'
+import { findComponentUpward, findComponentsUpward } from '../utils/util'
+import useEvents from '../utils/useEvents'
 
-// const menuItemProps = {
-//   name: { type: [String, Number], required: true },
-//   disabled: { type: Boolean, default: false }
-// }
-// const MenuItem = createComponent<MenuItemProps>({
-//   name: 'MenuItem',
-//   inject: ['menu'],
-//   props: menuItemProps,
-//   setup(props, vm) {
-//     const state = reactive({
-//       active: false
-//     })
-//     // tslint:disable: variable-name
-//     function handleClickItem(event: Event) {
-//       event.stopPropagation()
-//       if (props.disabled) { return }
-//       findComponentUpward(vm, 'Submenu')
-//         ? dispatch.apply(vm, ['Submenu', 'menu-item-select', props.name])
-//         : vm.menu.$emit('menu-item-select', props.name)
-//     }
+const menuItemProps: any = {
+  name: { type: [String, Number], required: true },
+  disabled: { type: Boolean, default: false }
+}
+const MenuItem = createComponent<MenuItemProps, {}, {}>({
+  name: 'MenuItem',
+  props: menuItemProps,
+  setup(props, { slots }) {
+    const state = reactive({ active: false })
+    const { $on, vm, dispatch } = useEvents()
+    const menu: any = inject('menu')
 
-//     const styles = computed1(() => {
-//       return !!findComponentUpward(vm, 'Submenu')
-//         && vm.menu.mode !== 'horizontal'
-//         ? { paddingLeft: 43 + (findComponentsUpward(this, 'Submenu').length - 1) * 24 + 'px' } :
-//         {}
-//     })
+    function handleClickItem(event: Event) {
+      event.stopPropagation()
+      if (props.disabled) {
+        return
+      }
+      menu.setActiveName(props.name)
+      //   findComponentUpward(vm, 'Submenu')
+      //     ? dispatch('Submenu', 'menuItemSelect', props.name)
+      //     : dispatch('MenuItem', 'menuItemSelect', props.name)
+    }
 
-//     onMounted(() => {
-//       vm.$on('update-active-name', (name: string) => {
-//         if (props.name === name) {
-//           state.active = true;
-//           dispatch.apply(vm, ['Submenu', 'on-update-active-name', name]);
-//         } else {
-//           state.active = false;
-//         }
-//       })
-//     })
+    onMounted(() => {
+      $on('updateActiveName', (name: string) => {
+        if (props.name === name) {
+          state.active = true
+          dispatch('Submenu', 'updateActiveName', name)
+        } else {
+          state.active = false
+        }
+      })
+    })
 
-//     return () => (
-//       <li
-//         on-click={handleClickItem}
-//         // style={styles}
-//         class={[
-//           `t-menu-item`, {
-//             [`t-menu-item-active`]: state.active,
-//             [`t-menu-item-selected`]: state.active,
-//             [`t-menu-item-disabled`]: props.disabled
-//           }
-//         ]} >
-//         {vm.$slots.default}
-//       </li>
-//     )
-//   }
-// })
+    return () =>
+      h(
+        'li',
+        {
+          onClick: handleClickItem,
+          class: [
+            'at-menu__item',
+            {
+              'at-menu__item--active': state.active,
+              'at-menu__item--disabled': props.disabled
+            }
+          ]
+        },
+        h(
+          'div',
+          { class: 'at-menu__item-link' },
+          slots.default && slots.default()
+        )
+      )
+  }
+})
 
-// export default MenuItem
+export default MenuItem

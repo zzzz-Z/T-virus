@@ -1,5 +1,14 @@
 import { InputProps } from './index'
-import { createComponent, reactive, watch, computed, h, PropType } from 'vue3'
+import {
+  createComponent,
+  reactive,
+  watch,
+  computed,
+  h,
+  PropType,
+  onMounted,
+  getCurrentInstance
+} from 'vue3'
 
 export const inputProps: any = {
   elementId: String,
@@ -51,7 +60,9 @@ export default createComponent<InputProps, {}, {}>({
         emit('change', val)
       }
     )
-
+    onMounted(() => {
+      console.log(getCurrentInstance())
+    })
     const setValue = (val: any) => {
       if (props.value === state.value) return
       state.value = val
@@ -74,9 +85,9 @@ export default createComponent<InputProps, {}, {}>({
 
     const cls = computed(() => [
       'at-input',
-      props.size ? `at-input--${props.size}` : '',
-      props.status ? `at-input--${props.status}` : '',
       {
+        [`at-input--${props.status}`]: props.status,
+        [`at-input--${props.size}`]: props.size,
         'at-input-group': slots.prepend || slots.append,
         'at-input--disabled': props.disabled,
         'at-input--prepend': slots.prepend,
@@ -87,7 +98,7 @@ export default createComponent<InputProps, {}, {}>({
 
     const iconCls = computed(() => {
       const name = props.icon || props.status
-      return [name ? `icon-${name}` : '', 'at-input__icon icon']
+      return [{ [`icon-${name}`]: name }, 'at-input__icon icon']
     })
 
     const prependCls = computed(() => ({

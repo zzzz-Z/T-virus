@@ -1,36 +1,24 @@
-// import 'highlight.js/styles/monokai-sublime.css'
-import './md.css'
-import { Button, Input, Card } from 'ui'
-import { createComponent, ref, h, getCurrentInstance, onMounted, computed } from 'vue3'
-import README from './README.md'
-import useEvents from './useEvents'
+import { Button, Input, Menu, MenuItem } from 'ui'
+import { createComponent, h, onMounted, getCurrentInstance } from 'vue3'
 
 export default createComponent(() => {
-  const { on, emit, vm } = useEvents()
-  on('test', () => {
-    console.log(111)
-  })
   onMounted(() => {
-    emit('test')
+    console.log(getCurrentInstance())
   })
   return () => {
-    return h('div', { style: { padding: '50px' } }, [h(README), h(Test)])
+    return h('div', { style: { padding: '50px' } }, [
+      h(
+        Menu,
+        { mode: 'vertical', activeName: 'zcc' },
+        {
+          default: () => [
+            h(MenuItem, { name: 'zcc' }, 'zcc'),
+            h(MenuItem, { name: 'zcc1' }, 'zcc1'),
+            h(MenuItem, { name: 'zcc2' }, 'zcc2'),
+            h(MenuItem, { name: 'zcc3' }, 'zcc3')
+          ]
+        }
+      )
+    ])
   }
 })
-
-const Test = {
-  props: {},
-  setup() {
-    const vm = getCurrentInstance()!
-    const count = ref(1)
-    const el = ref(null)
-    function add() {
-      count.value++
-    }
-
-    vm.sink = {
-      add
-    }
-    return () => h('div', { ref: el }, count.value)
-  }
-}

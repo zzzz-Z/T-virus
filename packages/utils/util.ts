@@ -1,154 +1,173 @@
-// import vue3, { VNode } from 'vue3'
+import { VNode, ComponentInternalInstance, Component } from 'vue3'
 // // tslint:disable: only-arrow-functions
 
-// export function generateId() {
-//   return Math.floor(Math.random() * 10000)
-// }
+export const isArray = Array.isArray
+export const isFunction = (val: unknown): val is Function =>
+  typeof val === 'function'
+export const isString = (val: unknown): val is string => typeof val === 'string'
+export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
+export const isObject = (val: unknown): val is Record<any, any> =>
+  val !== null && typeof val === 'object'
 
-// const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
-// const MOZ_HACK_REGEXP = /^moz([A-Z])/;
+export function isPromise<T = any>(val: unknown): val is Promise<T> {
+  return isObject(val) && isFunction(val.then) && isFunction(val.catch)
+}
 
-// function camelCase(name: string) {
-//   return name.replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
-//     return offset ? letter.toUpperCase() : letter;
-//   }).replace(MOZ_HACK_REGEXP, 'Moz$1');
-// }
-// // getStyle
-// export function getStyle(element: HTMLElement, styleName: string) {
-//   if (!element || !styleName) { return null }
-//   styleName = camelCase(styleName);
-//   if (styleName === 'float') {
-//     styleName = 'cssFloat';
-//   }
-//   try {
-//     const computed = document.defaultView!.getComputedStyle(element, '');
-//     return element.style[styleName as any] || computed ? computed[styleName as any] : null;
-//   } catch (e) {
-//     return element.style[(styleName as any)];
-//   }
-// }
+export function generateId() {
+  return Math.floor(Math.random() * 10000)
+}
 
-// export function broadcast(this: vue3, componentName: string, eventName: string, params: any) {
-//   this.$children.forEach((child) => {
-//     const name = child.$options.name
+const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g
+const MOZ_HACK_REGEXP = /^moz([A-Z])/
 
-//     if (name === componentName) {
-//       (child.$emit as any).apply(child, [eventName].concat(params))
-//     } else {
-//       broadcast.apply(child, ([componentName, eventName] as any).concat([params]))
-//     }
-//   })
-// }
+function camelCase(name: string) {
+  return name
+    .replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
+      return offset ? letter.toUpperCase() : letter
+    })
+    .replace(MOZ_HACK_REGEXP, 'Moz$1')
+}
+// getStyle
+export function getStyle(element: HTMLElement, styleName: string) {
+  if (!element || !styleName) {
+    return null
+  }
+  styleName = camelCase(styleName)
+  if (styleName === 'float') {
+    styleName = 'cssFloat'
+  }
+  try {
+    const computed = document.defaultView!.getComputedStyle(element, '')
+    return element.style[styleName as any] || computed
+      ? computed[styleName as any]
+      : null
+  } catch (e) {
+    return element.style[styleName as any]
+  }
+}
 
-// export function dispatch(this: vue3, componentName: string, eventName: string, params: any) {
-//   let parent = this.$parent || this.$root
-//   let name = parent.$options.name
+// Find components downward
+export function findComponentsDownward(
+  context: ComponentInternalInstance,
+  componentName: string
+): ComponentInternalInstance[] | [] {
+  const childs = (context.subTree.children || []) as VNode[]
 
-//   while (parent && (!name || name !== componentName)) {
-//     parent = parent.$parent
+  return childs.reduce((components: any[], child) => {
+    const { type, component } = child
+    const name = isObject(type) ? (type as Component).name : null
+    if (name && name === componentName) {
+      components.push(child)
+    }
+    const foundChilds = component
+      ? findComponentsDownward(component, componentName)
+      : []
+    return components.concat(foundChilds)
+  }, [])
+}
 
-//     if (parent) {
-//       name = parent.$options.name
-//     }
-//   }
-//   if (parent) {
-//     parent.$emit.apply(parent, ([eventName] as any).concat(params))
-//   }
-// }
+// Find components upward
+export function findComponentUpward(
+  context: ComponentInternalInstance,
+  componentName: string,
+  componentNames?: string[]
+) {
+  componentNames =
+    typeof componentName === 'string' ? [componentName] : componentName
+  let parent = context.parent || context.root
+  let name = parent.type.name
+  while (parent && (!name || componentNames.indexOf(name) < 0)) {
+    parent = parent.parent!
+    if (parent) {
+      name = parent.type.name
+    }
+  }
+  return parent
+}
 
-// // Find components downward
-// export function findComponentsDownward(context: vue3, componentName: string): vue3[] | [] {
-//   return context.$children.reduce((components: vue3[], child) => {
-//     if (child.$options.name === componentName) {
-//       components.push(child)
-//     }
-//     const foundChilds = findComponentsDownward(child, componentName)
-//     return components.concat(foundChilds)
-//   }, [])
-// }
+// Find components upward
+export function findComponentsUpward(
+  context: ComponentInternalInstance,
+  componentName: string
+): ComponentInternalInstance[] | [] {
+  const parents = []
+  const parent = context.parent
+  if (parent) {
+    if (parent.type.name === componentName) {
+      parents.push(parent)
+    }
+    return parents.concat(findComponentsUpward(parent, componentName))
+  } else {
+    return []
+  }
+}
 
-// // Find components upward
-// export function findComponentsUpward(context: vue3, componentName: string): vue3[] | [] {
-//   const parents = []
-//   const parent = context.$parent
-//   if (parent) {
-//     if (parent.$options.name === componentName) {
-//       parents.push(parent)
-//     }
-//     return parents.concat(findComponentsUpward(parent, componentName))
-//   } else {
-//     return []
-//   }
-// }
+const trim = function(str: string) {
+  return (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
+}
 
-// // Find components upward
-// export function findComponentUpward(context: vue3, componentName: string, componentNames?: string[]) {
-//   componentNames = typeof componentName === 'string'
-//     ? [componentName]
-//     : componentName
-//   let parent = context.$parent;
-//   let name = parent.$options.name;
-//   while (parent && (!name || componentNames.indexOf(name) < 0)) {
-//     parent = parent.$parent;
-//     if (parent) { name = parent.$options.name }
-//   }
-//   return parent;
-// }
+export function hasClass(el: Element, cls: string) {
+  if (!el || !cls) {
+    return false
+  }
+  if (cls.indexOf(' ') !== -1) {
+    throw new Error('className should not contain space.')
+  }
+  if (el.classList) {
+    return el.classList.contains(cls)
+  } else {
+    return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1
+  }
+}
+/* istanbul ignore next */
+export function addClass(el: Element, cls: string) {
+  if (!el) {
+    return
+  }
+  let curClass = el.className
+  const classes = (cls || '').split(' ')
 
-// const trim = function(str: string) {
-//   return (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
-// };
+  for (let i = 0, j = classes.length; i < j; i++) {
+    const clsName = classes[i]
+    if (!clsName) {
+      continue
+    }
 
-// export function hasClass(el: Element, cls: string) {
-//   if (!el || !cls) { return false }
-//   if (cls.indexOf(' ') !== -1) { throw new Error('className should not contain space.') }
-//   if (el.classList) {
-//     return el.classList.contains(cls);
-//   } else {
-//     return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-//   }
-// }
-// /* istanbul ignore next */
-// export function addClass(el: Element, cls: string) {
-//   if (!el) { return };
-//   let curClass = el.className;
-//   const classes = (cls || '').split(' ');
+    if (el.classList) {
+      el.classList.add(clsName)
+    } else {
+      if (!hasClass(el, clsName)) {
+        curClass += ' ' + clsName
+      }
+    }
+  }
+  if (!el.classList) {
+    el.className = curClass
+  }
+}
 
-//   for (let i = 0, j = classes.length; i < j; i++) {
-//     const clsName = classes[i];
-//     if (!clsName) { continue };
+export function removeClass(el: Element, cls: string) {
+  if (!el || !cls) {
+    return
+  }
+  const classes = cls.split(' ')
+  let curClass = ' ' + el.className + ' '
 
-//     if (el.classList) {
-//       el.classList.add(clsName);
-//     } else {
-//       if (!hasClass(el, clsName)) {
-//         curClass += ' ' + clsName;
-//       }
-//     }
-//   }
-//   if (!el.classList) {
-//     el.className = curClass;
-//   }
-// }
+  for (let i = 0, j = classes.length; i < j; i++) {
+    const clsName = classes[i]
+    if (!clsName) {
+      continue
+    }
 
-// export function removeClass(el: Element, cls: string) {
-//   if (!el || !cls) { return }
-//   const classes = cls.split(' ')
-//   let curClass = ' ' + el.className + ' ';
-
-//   for (let i = 0, j = classes.length; i < j; i++) {
-//     const clsName = classes[i];
-//     if (!clsName) { continue };
-
-//     if (el.classList) {
-//       el.classList.remove(clsName);
-//     } else {
-//       if (hasClass(el, clsName)) {
-//         curClass = curClass.replace(' ' + clsName + ' ', ' ');
-//       }
-//     }
-//   }
-//   if (!el.classList) {
-//     el.className = trim(curClass);
-//   }
-// }
+    if (el.classList) {
+      el.classList.remove(clsName)
+    } else {
+      if (hasClass(el, clsName)) {
+        curClass = curClass.replace(' ' + clsName + ' ', ' ')
+      }
+    }
+  }
+  if (!el.classList) {
+    el.className = trim(curClass)
+  }
+}

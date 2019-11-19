@@ -1,9 +1,56 @@
-import { getCurrentInstance } from 'vue3'
+import {
+  ComponentInternalInstance,
+  getCurrentInstance,
+  VNode,
+  capitalize
+} from 'vue3'
+import { isObject } from './util'
 
 export default function useEvents() {
   const vm = getCurrentInstance()!
-  const _events = vm.sink._events || {}
-  const on = (event: string, fn: (arg: any) => void) => (_events[event] = fn)
-  const emit = (event: string, ...arg: any[]) => _events[event](...arg)
-  return { on, emit }
+
+  vm.vnode.props = vm.vnode.props || {}
+
+  const $on = (event: string, fn: (arg: any) => void) => {
+    vm.vnode.props![`on${capitalize(event)}`] = fn
+  }
+
+  function $broadcast(
+    vcName: string,
+    eventName: string,
+    params?: any,
+    vc: ComponentInternalInstance = vm
+  ) {
+    const { type, subTree } = vc!
+    const name = isObject(type) ? type.name : null
+    if (name === vcName) {
+      vc.emit(eventName, params)
+    } else {
+      ;(subTree.children as any).forEach(({ component }: VNode) => {
+        component && $broadcast(vcName, eventName, params, component)
+      })
+    }
+  }
+
+  function dispatch(vcName: string, eventName: string, params?: any) {
+    let parent = vm.parent || vm.root
+    let name = vm.type.name
+    while (parent && (!name || name !== vcName)) {
+      parent = parent.parent!
+
+      if (parent) {
+        name = parent.type.name
+      }
+    }
+
+    if (parent) {
+      parent.emit(eventName, params)
+    }
+  }
+  return {
+    $on,
+    vm,
+    dispatch,
+    $broadcast
+  }
 }

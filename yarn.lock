@@ -767,6 +767,41 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@next-vue/compiler-core@^3.0.0-alpha.6":
+  version "3.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@next-vue/compiler-core/-/compiler-core-3.0.0-alpha.6.tgz#d5008ea698222493a409df8a0fe011a600036204"
+  integrity sha512-ndvod1ErZogxsN7KjmSWek+l7F5fNoRy/IYAfPmwRe+SpeVamSoPcF70VjPVVOfWYnkwwj0/Rl9SZ2gmEy82fw==
+  dependencies:
+    acorn "^7.1.0"
+    estree-walker "^0.8.1"
+    source-map "^0.7.3"
+
+"@next-vue/compiler-dom@^3.0.0-alpha.6":
+  version "3.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@next-vue/compiler-dom/-/compiler-dom-3.0.0-alpha.6.tgz#988d0e84ec02cb6d38d317839f1f537c12bd6601"
+  integrity sha512-4jT8Y/vHMEhP8xrIPqg0sPD1TB+rrkneBvpw+S4Uids0btDsIe9Ag4a1nsXpg19HZ/e/JYKjZXuzgwestDCMxQ==
+  dependencies:
+    "@next-vue/compiler-core" "^3.0.0-alpha.6"
+
+"@next-vue/reactivity@^3.0.0-alpha.6":
+  version "3.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@next-vue/reactivity/-/reactivity-3.0.0-alpha.6.tgz#c5dd028abbb8dc8da24ef06bbfe92f61ba81739f"
+  integrity sha512-bt/9nZ5RQ0oBnnuU9478BT8RFFPGUWnG2vIswB32BbqAU+AYPTQdaSaBjGDCR5QpwZWRnMj5ERnszIm2tErf8Q==
+
+"@next-vue/runtime-core@^3.0.0-alpha.6":
+  version "3.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@next-vue/runtime-core/-/runtime-core-3.0.0-alpha.6.tgz#50e2d671909016af401e71f40978ed64499bfb83"
+  integrity sha512-RPBzgV4GaJIDGTOI+eH0tPO1vPVCG3soFzeHaSU7BZ4MGAJ40oJ9nIgLN0DtdaRcROS5j+uHXsGXOjfmd6j0rw==
+  dependencies:
+    "@next-vue/reactivity" "^3.0.0-alpha.6"
+
+"@next-vue/runtime-dom@^3.0.0-alpha.6":
+  version "3.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@next-vue/runtime-dom/-/runtime-dom-3.0.0-alpha.6.tgz#a4c9b19ced5614bc75339991c5f9fdf61627249f"
+  integrity sha512-XWRivC5K76ZWp4WzCF7V4RYHsZ/VmqQS00EL7iZBgbus8D6AKTlqa5P+Jxo2wvPhnmE6bq0EMhNGdYxVApG7og==
+  dependencies:
+    "@next-vue/runtime-core" "^3.0.0-alpha.6"
+
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
@@ -1236,6 +1271,11 @@ acorn@^6.0.7, acorn@^6.1.1, acorn@^6.2.1:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.3.0.tgz#0087509119ffa4fc0a0041d1e93a417e68cb856e"
   integrity sha512-/czfa8BwS88b9gWQVhc8eknunSA2DoJpJyTQkhheIf5E48u1N0R4q/YxxsAeqRrmK9TQ/uYfgLDfZo91UlANIA==
+
+acorn@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
+  integrity sha512-kL5CuoXA/dgxlBbVrflsflzQ3PAas7RYZB52NOm/6839iVYJgKMJ3cQJD+t2i5+qFa8h3MDpEOJiS64E8JLnSQ==
 
 address@^1.1.2:
   version "1.1.2"
@@ -3028,6 +3068,11 @@ estraverse@^4.1.0, estraverse@^4.1.1:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-4.3.0.tgz#398ad3f3c5a24948be7725e83d11a7de28cdbd1d"
   integrity sha512-39nnKffWz8xN1BU/2c79n9nB9HDzo0niYUqx6xyqUnyoAnQyyWpOTdZEeiCch8BBu515t4wp9ZmgVfVhn9EBpw==
+
+estree-walker@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.8.1.tgz#6230ce2ec9a5cb03888afcaf295f97d90aa52b79"
+  integrity sha512-H6cJORkqvrNziu0KX2hqOMAlA2CiuAxHeGJXSIoKA/KLv229Dw806J3II6mKTm5xiDX1At1EXCfsOQPB+tMB+g==
 
 esutils@^2.0.2:
   version "2.0.3"
@@ -5058,6 +5103,14 @@ neo-async@^2.5.0, neo-async@^2.6.0, neo-async@^2.6.1:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
+next-vue@^3.0.0-alpha.6:
+  version "3.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/next-vue/-/next-vue-3.0.0-alpha.6.tgz#316e29709fe7651e29ec0256e171710beb98704c"
+  integrity sha512-grvsyHn1N7sIkWKfWnk4jv2PHXPoPpmKi2RItLrwANBYDNyINIDxmOa5e+und7+Si6/J4S9cWxCgDDM36TLQnQ==
+  dependencies:
+    "@next-vue/compiler-dom" "^3.0.0-alpha.6"
+    "@next-vue/runtime-dom" "^3.0.0-alpha.6"
+
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
@@ -6843,6 +6896,11 @@ source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+source-map@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
+  integrity sha512-CkCj6giN3S+n9qrYiBTX5gystlENnRW5jZeNLHpe6aue+SrHcG5VYwujhW9s4dY31mEGsxBDrHR6oI69fTXsaQ==
 
 spdx-correct@^3.0.0:
   version "3.1.0"
