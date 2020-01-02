@@ -4,9 +4,9 @@ export default defineComponent(() => {
   const vm = getCurrentInstance()
 
   onMounted(() => {
-    console.log(vm)
+    console.log(0 ?? vm)
   })
-
+ 
   return () => {
     return h('div', { style: { padding: '50px' } }, [
       h(
