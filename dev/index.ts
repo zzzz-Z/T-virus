@@ -1,5 +1,5 @@
 import app from './App'
-import { createApp } from 'vue3'
+import { createApp } from 'next-vue'
 import UI from 'ui'
 
 createApp()

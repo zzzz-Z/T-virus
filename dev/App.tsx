@@ -1,10 +1,12 @@
 import { Button, Input, Menu, MenuItem } from 'ui'
-import { createComponent, h, onMounted, getCurrentInstance } from 'vue3'
+import { defineComponent, h, onMounted, getCurrentInstance } from 'next-vue'
+export default defineComponent(() => {
+  const vm = getCurrentInstance()
 
-export default createComponent(() => {
   onMounted(() => {
-    console.log(getCurrentInstance())
+    console.log(vm)
   })
+
   return () => {
     return h('div', { style: { padding: '50px' } }, [
       h(

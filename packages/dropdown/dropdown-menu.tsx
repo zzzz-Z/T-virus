@@ -1,4 +1,4 @@
-// import { createComponent, inject, onMounted } from '../createComponent';
+// import { defineComponent, inject, onMounted } from '../defineComponent';
 // import { DropdownMenu } from './type';
 
 // const dropdownMenuProps = {
@@ -12,7 +12,7 @@
 //   }
 // }
 
-// const DropdownMenu = createComponent<DropdownMenu>({
+// const DropdownMenu = defineComponent<DropdownMenu>({
 //   name: 't-dropdownMenu',
 //   props: dropdownMenuProps,
 //   setup(props, vm) {

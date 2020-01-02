@@ -1,13 +1,13 @@
 import {
   reactive,
-  createComponent,
+  defineComponent,
   provide,
   onMounted,
   watch,
   h,
   nextTick,
   computed
-} from 'vue3'
+} from 'next-vue'
 import { findComponentsDownward } from '../utils/util'
 import useEvents from '../utils/useEvents'
 
@@ -23,7 +23,7 @@ export const menuProps = {
   openNames: Array
 }
 
-const Menu = createComponent({
+const Menu = defineComponent({
   name: 'Menu',
   props: menuProps,
   setup(props, { slots, emit }) {
@@ -31,7 +31,7 @@ const Menu = createComponent({
       currentActiveName: props.activeName,
       openedNames: props.openNames!
     })
-    const { $on, $broadcast, vm } = useEvents()
+    const { $broadcast, vm } = useEvents()
 
     provide('menu', {
       setActiveName

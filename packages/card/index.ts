@@ -1,5 +1,5 @@
 import vcCard from './card'
-import { App } from 'vue3'
+import { App } from 'next-vue'
 
 /**
  *  @see [`docs`](https://baidu.com)

@@ -1,4 +1,11 @@
-import { createComponent, reactive, computed, onMounted, h, inject } from 'vue3'
+import {
+  defineComponent,
+  reactive,
+  computed,
+  onMounted,
+  h,
+  inject
+} from 'next-vue'
 import { MenuItemProps } from './type'
 import { findComponentUpward, findComponentsUpward } from '../utils/util'
 import useEvents from '../utils/useEvents'
@@ -7,7 +14,7 @@ const menuItemProps: any = {
   name: { type: [String, Number], required: true },
   disabled: { type: Boolean, default: false }
 }
-const MenuItem = createComponent<MenuItemProps, {}, {}>({
+const MenuItem = defineComponent<MenuItemProps, {}, {}>({
   name: 'MenuItem',
   props: menuItemProps,
   setup(props, { slots }) {

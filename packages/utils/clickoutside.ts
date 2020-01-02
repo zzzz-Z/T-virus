@@ -1,4 +1,4 @@
-import { DirectiveBinding } from 'vue3'
+import { DirectiveBinding } from 'next-vue'
 
 interface OutEl extends HTMLElement {
   _handler(e: Event): void

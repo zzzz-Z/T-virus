@@ -3,7 +3,7 @@ import {
   getCurrentInstance,
   Component,
   VNode
-} from 'vue3'
+} from 'next-vue'
 
 export const isArray = Array.isArray
 export const isFunction = (val: unknown): val is Function =>

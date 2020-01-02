@@ -1,6 +1,6 @@
 import { InputProps } from './index'
 import {
-  createComponent,
+  defineComponent,
   reactive,
   watch,
   computed,
@@ -8,7 +8,7 @@ import {
   PropType,
   onMounted,
   getCurrentInstance
-} from 'vue3'
+} from 'next-vue'
 
 export const inputProps: any = {
   elementId: String,
@@ -37,7 +37,7 @@ export const inputProps: any = {
   clearable: { type: Boolean, default: false } // 是否显示清空按钮
 }
 
-export default createComponent<InputProps, {}, {}>({
+export default defineComponent<InputProps, {}, {}>({
   name: 'Input',
   inheritAttrs: false,
   props: inputProps,

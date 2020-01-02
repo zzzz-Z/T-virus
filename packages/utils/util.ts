@@ -1,4 +1,4 @@
-import { VNode, ComponentInternalInstance, Component } from 'vue3'
+import { VNode, ComponentInternalInstance, Component } from 'next-vue'
 // // tslint:disable: only-arrow-functions
 
 export const isArray = Array.isArray

@@ -1,9 +1,9 @@
 // import {
-//   createComponent,
+//   defineComponent,
 //   reactive,
 //   watch,
 //   onMounted
-// } from '../createComponent'
+// } from '../defineComponent'
 // import {
 //   getStyle,
 //   findComponentUpward,
@@ -20,7 +20,7 @@
 //   title: { type: [String, Object] }
 // }
 
-// const SubMenu = createComponent<SubMenuProps>({
+// const SubMenu = defineComponent<SubMenuProps>({
 //   name: 'SubMenu',
 //   inject: ['menu', 'updateOpenKeys', 'openNames'],
 //   props: subMenuProps,

@@ -1,5 +1,5 @@
 import { ButtonProps } from './type'
-import { createComponent, h } from 'vue3'
+import { defineComponent, h } from 'next-vue'
 
 const buttonProps: any = {
   shape: String,
@@ -12,7 +12,7 @@ const buttonProps: any = {
   ghost: { type: Boolean, default: false }
 }
 
-const Button = createComponent<ButtonProps, {}, {}>({
+const Button = defineComponent<ButtonProps, {}, {}>({
   name: 'Button',
   props: buttonProps,
   setup: (props, { slots, attrs }) => () => {

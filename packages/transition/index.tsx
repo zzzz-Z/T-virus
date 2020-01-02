@@ -1,5 +1,5 @@
 // import { addClass, removeClass } from '../utils/util'
-// import { createComponent } from 'vue3'
+// import { defineComponent } from 'next-vue'
 
 // const Transition = {
 //   beforeEnter(el: any) {
@@ -68,7 +68,7 @@
 //     el.style.paddingBottom = el.dataset.oldPaddingBottom
 //   }
 // }
-// const CollapseTransition = createComponent({
+// const CollapseTransition = defineComponent({
 //   name: 'CollapseTransition',
 //   setup(props: { appear?: boolean }, { slots }) {
 //     return () => (

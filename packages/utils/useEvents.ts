@@ -3,7 +3,7 @@ import {
   getCurrentInstance,
   VNode,
   capitalize
-} from 'vue3'
+} from 'next-vue'
 import { isObject } from './util'
 
 export default function useEvents() {
@@ -21,7 +21,7 @@ export default function useEvents() {
     params?: any,
     vc: ComponentInternalInstance = vm
   ) {
-    const { type, subTree } = vc!
+    const { type, subTree } = vc
     const name = isObject(type) ? type.name : null
     if (name === vcName) {
       vc.emit(eventName, params)
@@ -33,10 +33,10 @@ export default function useEvents() {
   }
 
   function dispatch(vcName: string, eventName: string, params?: any) {
-    let parent = vm.parent || vm.root
+    let parent = vm.parent
     let name = vm.type.name
     while (parent && (!name || name !== vcName)) {
-      parent = parent.parent!
+      parent = parent.parent
 
       if (parent) {
         name = parent.type.name

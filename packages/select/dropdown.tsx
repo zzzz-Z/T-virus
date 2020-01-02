@@ -1,11 +1,11 @@
-// import { createComponent, reactive } from '../createComponent'
+// import { defineComponent, reactive } from '../defineComponent'
 
 // const dropProps = {
 //   placement: { type: String, default: 'bottom-start' },
 //   className: { type: String },
 //   transfer: { type: Boolean }
 // }
-// const Drop = createComponent({
+// const Drop = defineComponent({
 //   name: 'Drop',
 //   props: dropProps,
 //   setup(props, vm) {

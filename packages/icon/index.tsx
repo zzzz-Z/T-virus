@@ -1,6 +1,6 @@
-import { createComponent, h } from 'vue3'
+import { defineComponent, h } from 'next-vue'
 
-const Icon = createComponent({
+const Icon = defineComponent({
   name: 'Icon',
   props: {
     type: { type: String, default: '' },

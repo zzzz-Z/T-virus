@@ -1,4 +1,4 @@
-// import { createComponent, reactive, onMounted, watch, provide } from '../createComponent'
+// import { defineComponent, reactive, onMounted, watch, provide } from '../defineComponent'
 // import { DropDownProps } from './type'
 // import { generateId, broadcast } from '../utils/util'
 // import clickoutside from '../utils/clickoutside.js';
@@ -16,7 +16,7 @@
 //   tabindex: { type: Number, default: 0 }
 // }
 
-// const DropDown = createComponent<DropDownProps>({
+// const DropDown = defineComponent<DropDownProps>({
 //   name: 't-dropDown',
 //   directives: { clickoutside },
 //   props: dropDownProps,
