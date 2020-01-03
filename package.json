@@ -9,11 +9,13 @@
     "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"dev/**/*.ts?(x)\""
   },
   "dependencies": {
+    "@next-vue/vue-loader": "^0.0.1-alpha.2",
+    "@types/node": "^13.1.2",
     "next-vue": "^3.0.0-alpha.10"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-typescript": "^4.0.0",
     "@vue/cli-service": "^4.0.0",

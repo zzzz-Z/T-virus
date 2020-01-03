@@ -23,12 +23,14 @@ export default function useEvents() {
   ) {
     const { type, subTree } = vc
     const name = isObject(type) ? type.name : null
-    if (name === vcName) {
-      vc.emit(eventName, params)
-    } else {
-      ;(subTree.children as any).forEach(({ component }: VNode) => {
-        component && $broadcast(vcName, eventName, params, component)
-      })
+    if (name) {
+      if (name === vcName) {
+        vc.emit(eventName, params)
+      } else {
+        ;(subTree.children as any).forEach(({ component }: VNode) => {
+          component && $broadcast(vcName, eventName, params, component)
+        })
+      }
     }
   }
 

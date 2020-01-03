@@ -813,6 +813,21 @@
   dependencies:
     "@next-vue/compiler-core" "^3.0.0-alpha.10"
 
+"@next-vue/compiler-sfc@^3.0.0-alpha.10":
+  version "3.0.0-alpha.10"
+  resolved "https://registry.npm.taobao.org/@next-vue/compiler-sfc/download/@next-vue/compiler-sfc-3.0.0-alpha.10.tgz#b83c7abb3dfc41cbaf37c17cdbf17dfac4858d54"
+  integrity sha1-uDx6uz38QcuvN8F82/F9+sSFjVQ=
+  dependencies:
+    "@next-vue/compiler-core" "^3.0.0-alpha.10"
+    "@next-vue/compiler-dom" "^3.0.0-alpha.10"
+    consolidate "^0.15.1"
+    hash-sum "^2.0.0"
+    lru-cache "^5.1.1"
+    merge-source-map "^1.1.0"
+    postcss "^7.0.21"
+    postcss-selector-parser "^6.0.2"
+    source-map "^0.6.1"
+
 "@next-vue/reactivity@^3.0.0-alpha.10":
   version "3.0.0-alpha.10"
   resolved "https://registry.npm.taobao.org/@next-vue/reactivity/download/@next-vue/reactivity-3.0.0-alpha.10.tgz#84df1f6436ee57466b33bdec4c8a18ccc9116441"
@@ -831,6 +846,17 @@
   integrity sha1-/kYZoX6URtsQpgqhAtAJvnBe5oY=
   dependencies:
     "@next-vue/runtime-core" "^3.0.0-alpha.10"
+
+"@next-vue/vue-loader@^0.0.1-alpha.2":
+  version "0.0.1-alpha.2"
+  resolved "https://registry.npm.taobao.org/@next-vue/vue-loader/download/@next-vue/vue-loader-0.0.1-alpha.2.tgz#509912aa1bdcf3bccc112aa31275b519e4d70f29"
+  integrity sha1-UJkSqhvc87zMESqjEnW1GeTXDyk=
+  dependencies:
+    "@next-vue/compiler-sfc" "^3.0.0-alpha.10"
+    hash-sum "^1.0.2"
+    loader-utils "^1.1.0"
+    vue-hot-reload-api "^2.3.0"
+    vue-style-loader "^4.1.0"
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -902,6 +928,11 @@
   version "12.12.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.7.tgz#01e4ea724d9e3bd50d90c11fd5980ba317d8fa11"
   integrity sha512-E6Zn0rffhgd130zbCbAr/JdXfXkoOUFAKNs/rF8qnafSJ8KYaA/j3oz7dcwal+lYjLA7xvdd5J4wdYpCTlP8+w==
+
+"@types/node@^13.1.2":
+  version "13.1.2"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-13.1.2.tgz#fe94285bf5e0782e1a9e5a8c482b1c34465fa385"
+  integrity sha1-/pQoW/XgeC4anlqMSCscNEZfo4U=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -3926,6 +3957,11 @@ hash-sum@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/hash-sum/-/hash-sum-1.0.2.tgz#33b40777754c6432573c120cc3808bbd10d47f04"
   integrity sha1-M7QHd3VMZDJXPBIMw4CLvRDUfwQ=
+
+hash-sum@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/hash-sum/download/hash-sum-2.0.0.tgz#81d01bb5de8ea4a214ad5d6ead1b523460b0b45a"
+  integrity sha1-gdAbtd6OpKIUrV1urRtSNGCwtFo=
 
 hash.js@^1.0.0, hash.js@^1.0.3:
   version "1.1.7"
