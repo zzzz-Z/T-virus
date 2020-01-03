@@ -143,7 +143,6 @@ const Select = defineComponent({
           removeTag(index)
         } else {
           model.push(val)
-          // $broadcast('Dropdown', 'updatePopper')
         }
         if (props.filterable) {
           state.query = ''
