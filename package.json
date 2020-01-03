@@ -3,14 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "dev": "npm link external/ui & vue-cli-service serve",
     "build": "vue-cli-service build",
-    "linkto": "npm link external/ui",
     "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"dev/**/*.ts?(x)\""
   },
   "dependencies": {
-    "@next-vue/vue-loader": "^0.0.1-alpha.2",
-    "@types/node": "^13.1.2",
     "next-vue": "^3.0.0-alpha.10"
   },
   "devDependencies": {
@@ -19,7 +16,6 @@
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-typescript": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
-    "at-ui-style": "^1.5.1",
     "highlight.js": "^9.16.2",
     "lint-staged": "^9.5.0",
     "markdown-it": "^10.0.0",
@@ -29,7 +25,9 @@
     "markdown-it-table-of-contents": "^0.4.4",
     "prettier": "~1.14.0",
     "typescript": "^3.7.3",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0"
   },
   "postcss": {
     "plugins": {

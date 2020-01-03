@@ -23,11 +23,6 @@ module.exports = {
       test: /\.md$/,
       use: [{ loader: require.resolve('./script/md.loader.js') }]
     })
-    config.module.rules.push({
-      // 处理markdown文件
-      test: /\.vue$/,
-      use: [{ loader: require.resolve('./node_modules/@next-vue/vue-loader') }]
-    })
     config.plugins.push(
       new CopyWebpackPlugin([
         {

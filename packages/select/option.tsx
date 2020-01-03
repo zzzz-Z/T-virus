@@ -12,8 +12,6 @@ import {
   VNode
 } from 'next-vue'
 
-import { select as root } from './select'
-
 const Option = defineComponent({
   name: 'Option',
   props: {
@@ -23,8 +21,9 @@ const Option = defineComponent({
   },
   setup(props, { slots }) {
     const vm = getCurrentInstance()!
-    const select: any = inject(root)
+    const select = inject<Record<string, any>>('Select')!
     const state = reactive({
+      id: 0,
       selected: false,
       index: 0,
       isFocus: false,
@@ -50,18 +49,14 @@ const Option = defineComponent({
       state.isFocus = false
     }
 
-    function queryChange(val: string) {
-      // const parsedQuery = val.replace(
-      //   /(\^|\(|\)|\[|\]|\$|\*|\+|\.|\?|\\|\{|\}|\|)/g,
-      //   '\\$1'
-      // )
-      state.hidden = val == props.label
+    function queryChange(val: string, index: number) {
+      state.hidden = val == '' ? false : (props.label as string).indexOf(val) == -1
     }
 
     onMounted(() => {
       if (select) {
-        select.state.optionInstances.push(vm)
         select.state.options.push({
+          el: vm.vnode.el,
           state,
           handleSelect,
           queryChange,
@@ -74,8 +69,8 @@ const Option = defineComponent({
 
     onUnmounted(() => {
       ; (select.state.options as any[]).forEach((option, index) => {
-        if (option._instance === vm) {
-          select.onOptionDestroy(index)
+        if (option.el === vm.vnode.el) {
+          select.state.options.splice(index, 1)
         }
       })
     })
@@ -83,7 +78,7 @@ const Option = defineComponent({
     return () => h(
       'li',
       {
-        style: { position: 'relative' },
+        style: { position: 'relative', display: state.hidden ? 'none' : 'block' },
         class: classs.value,
         onClick: handleSelect,
         onMouseout: blur,

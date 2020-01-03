@@ -15,7 +15,7 @@ Enterprise UI components for Vue3.x
 
 ```bash
 $ yarn
-$ yan dev
+$ yarn dev
 ```
 
 ## License

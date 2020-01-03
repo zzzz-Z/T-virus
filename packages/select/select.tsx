@@ -8,16 +8,12 @@ import {
   onMounted,
   provide,
   withDirectives,
-  VNode
 } from 'next-vue'
-import { findComponentsDownward, isFunction } from '../utils/util'
-import useEvents from '../utils/useEvents'
 import clickoutside from '../utils/clickoutside'
 
 const selectProps = {
   value: { type: [String, Number, Array], default: '' },
   trigger: { type: String, default: 'click' },
-  /** 开启多选 */
   multiple: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
   clearable: { type: Boolean, default: false },
@@ -28,52 +24,53 @@ const selectProps = {
   placement: { type: String, default: 'bottom' }
 }
 
-export const select = Symbol('select')
+type O = Record<string, any>
 
 const Select = defineComponent({
   name: 'Select',
   props: selectProps,
+  inheritAttrs: false,
   setup(props, { emit, slots }) {
-    const { vm, $broadcast } = useEvents()
     const state = reactive({
       visible: false,
-      options: [] as any[],
-      optionInstances: [] as any[],
+      options: [] as O[],
       selectedSingle: '',
-      selectedMultiple: [] as any[],
+      selectedMultiple: [] as O[],
       focusIndex: 0,
       query: '',
       notFound: false,
       model: props.value
     })
-    provide(select, {
-      onOptionDestroy,
-      onOptionSelect,
-      state
-    })
+    onMounted(modelToQuery)
+    provide('Select', { onOptionSelect, state })
     const inputEl = ref<HTMLInputElement | null>(null)
     const popoverEl = ref<HTMLLIElement | null>(null)
-
     const showCloseIcon = computed(
       () => !props.multiple && props.clearable && !showPlaceholder.value
     )
-
     const showPlaceholder = computed(() => {
       const hasArrVal = Array.isArray(state.model) && !state.model.length
       return state.model === '' || hasArrVal
     })
-
-    onMounted(() => {
-      modelToQuery()
-      // updateOptions()
-    })
+    const classs = computed(() => [
+      'at-select',
+      {
+        'at-select--visible': state.visible,
+        'at-select--disabled': props.disabled,
+        'at-select--multiple': props.multiple,
+        'at-select--single': !props.multiple,
+        'at-select--show-clear': showCloseIcon.value,
+        [`at-select--${props.size}`]: !!props.size
+      }
+    ])
 
     watch(
       () => props.value,
       val => {
         state.model = val
         val === '' && (state.query = '')
-      }
+      },
+      { lazy: true }
     )
 
     watch(
@@ -81,10 +78,9 @@ const Select = defineComponent({
       val => {
         emit('input', val)
         modelToQuery()
-        console.log('model change');
         props.multiple ? updateMultipleSelected() : updateSingleSelected()
       },
-      { deep: true }
+      { deep: true, lazy: true }
     )
 
     watch(
@@ -95,48 +91,21 @@ const Select = defineComponent({
             inputEl.value!.focus()
           } else if (props.filterable) {
             inputEl.value!.select()
+            selectFirstOption()
           }
         } else {
           if (props.filterable) {
             inputEl.value!.blur()
-            setTimeout(() => broadcastQuery(''), 300)
           }
-          $broadcast('Dropdown', 'destroyPopper')
         }
-      }
+      },
+      { lazy: true }
     )
 
-    watch(
-      () => state.query,
-      val => {
-        // $broadcast('Option', 'queryChange', val)
-        // let isHidden = true
-        // nextTick(() => {
-        //   console.log(state)
-        //   state.options.forEach(option => {
-        //     if (!option.state.hidden) {
-        //       isHidden = false
-        //     }
-        //   })
-        //   state.notFound = isHidden
-        // })
-        // $broadcast('Dropdown', 'updatePopper')
-      }
-    )
-    function findOption(val: string) {
-      return state.options.find(option => option.props.value == val)
-    }
-    function broadcast(fnName: string, args: any[]) {
-      state.options.forEach(option => {
-        option[fnName](...args)
-      })
-    }
+    watch(() => state.query, selectFirstOption)
     /** option 被选中时触发 */
     function onOptionSelect(val: string | number, label: string) {
-      if (state.model === val) {
-        hideMenu()
-      }
-      else if (props.multiple) {
+      if (props.multiple) {
         let model = state.model as any[]
         const index = model.indexOf(val)
         if (index > -1) {
@@ -148,21 +117,10 @@ const Select = defineComponent({
           state.query = ''
           inputEl.value!.focus()
         }
-      }
-      else {
+      } else {
         state.model = val
         state.query = label
-        // if (props.filterable) {
-        //   state.options.forEach(option => {
-        //     const optVal = option.props.value
-        //     if (optVal === val) {
-        //       state.query =
-        //         typeof option.props.label === 'undefined'
-        //           ? option.state.searchLabel
-        //           : option.props.label
-        //     }
-        //   })
-        // }
+        hideMenu()
       }
     }
 
@@ -174,7 +132,6 @@ const Select = defineComponent({
     function hideMenu() {
       state.visible = false
       state.focusIndex = 0
-      $broadcast('Option', 'selectClose')
     }
 
     function handleKeydown(evt: KeyboardEvent) {
@@ -212,74 +169,21 @@ const Select = defineComponent({
         }
       }
     }
+
     function selectFirstOption() {
-      let firstOption: any
-
-      const options = findComponentsDownward(vm, 'Option')
-      options.forEach((option: any) => {
-        if (!firstOption && !option.hidden) {
-          firstOption = option
-          option.handleSelect()
-        }
-      })
-    }
-
-    function updateOptions() {
-      let options: any[] = []
-      const optionsEle = findComponentsDownward(vm, 'Option')
-      optionsEle.forEach((option: any) => {
-        options.push({
-          value: option.props.value,
-          label:
-            typeof option.props.label === 'undefined'
-              ? option.$el.innerHTML
-              : option.props.label
+      if (props.filterable) {
+        let hasFirst = false
+        state.options.forEach((option, n) => {
+          option.queryChange(state.query)
+          if (!hasFirst && !option.state.hidden) {
+            hasFirst = true
+            option.state.isFocus = true
+            state.focusIndex = n + 1
+          } else {
+            option.state.isFocus = false
+          }
         })
-
-        state.optionInstances.push(option)
-      })
-      state.options = options
-
-      updateSingleSelected(true)
-      updateMultipleSelected(true)
-    }
-
-    function onOptionDestroy(index: number) {
-      state.options.splice(index, 1)
-      state.optionInstances.splice(index, 1)
-    }
-
-    function updateSingleSelected(init = false) {
-      let { model, options } = state
-      const type = typeof model
-      if (type === 'string' || type === 'number') {
-        for (let i = 0; i < options.length; i++) {
-          if (model === options[i].value) {
-            state.selectedSingle = options[i].label
-            break
-          }
-        }
       }
-      toggleSingleSelected(model, init)
-    }
-
-    function updateMultipleSelected(init = false) {
-      if (props.multiple && Array.isArray(state.model)) {
-        const selected = []
-        for (let i = 0; i < state.model.length; i++) {
-          const model = state.model[i]
-
-          for (let j = 0; j < state.options.length; j++) {
-            const { value, label } = state.options[j]
-
-            if (model === value) {
-              selected.push({ value, label })
-            }
-          }
-        }
-        state.selectedMultiple = selected
-      }
-      toggleMultipleSelected(init)
     }
 
     function clearSingleSelect() {
@@ -302,36 +206,63 @@ const Select = defineComponent({
       if (props.filterable && state.visible) {
         inputEl.value!.focus()
       }
-
-      // $broadcast('Dropdown', 'updatePopper')
     }
 
-    function toggleSingleSelected(val: unknown, init = false) {
+    function updateSingleSelected() {
+      let { model, options } = state
+      const type = typeof model
+      if (type === 'string' || type === 'number') {
+        for (let i = 0; i < options.length; i++) {
+          if (model === options[i].value) {
+            state.selectedSingle = options[i].label
+            break
+          }
+        }
+      }
+      toggleSingleSelected(model)
+    }
+
+
+    function updateMultipleSelected() {
+      if (props.multiple && Array.isArray(state.model)) {
+        const selected = []
+        for (let i = 0; i < state.model.length; i++) {
+          const model = state.model[i]
+
+          for (let j = 0; j < state.options.length; j++) {
+            const { value, label } = state.options[j]
+
+            if (model === value) {
+              selected.push({ value, label })
+            }
+          }
+        }
+        state.selectedMultiple = selected
+      }
+      toggleMultipleSelected()
+    }
+
+    function toggleSingleSelected(val: unknown, ) {
       if (props.multiple) return
 
       state.options.forEach(option => {
         const isChecked = option.value === val
         option.state.selected = isChecked
-        option.state.isFocus = isChecked
       })
       hideMenu()
 
-      if (!init) {
-        emit('change', val)
-      }
+      emit('change', val)
     }
-    function toggleMultipleSelected(init = false) {
+
+    function toggleMultipleSelected() {
       if (!props.multiple) return
       const { model, options } = state
       options.forEach(({ value, state: optState }) => {
         const isChecked = (model as any[]).includes(value)
         optState.selected = isChecked
-        optState.isFocus = isChecked
       })
 
-      if (!init) {
-        emit('change', model)
-      }
+      emit('change', model)
     }
 
     function navigateOptions(direction: string) {
@@ -342,7 +273,6 @@ const Select = defineComponent({
         const prev = state.focusIndex - 1
         state.focusIndex = state.focusIndex <= 1 ? state.options.length : prev
       }
-
       let isValid = false
       let hasValidOption = false // avoid infinite loops
 
@@ -372,7 +302,7 @@ const Select = defineComponent({
     function resetScrollTop() {
       const index = state.focusIndex - 1
       const bottomOverflowDistance =
-        state.optionInstances[index].$el.getBoundingClientRect().bottom -
+        state.options[index].el.getBoundingClientRect().bottom -
         popoverEl.value!.getBoundingClientRect().bottom
 
       if (bottomOverflowDistance) {
@@ -380,31 +310,20 @@ const Select = defineComponent({
       }
     }
 
-    function handleFocus() {
+    function focus() {
       inputEl.value!.select()
     }
 
-    function handleBlur() {
-      setTimeout(() => {
-        if (!props.multiple && state.model !== '') {
-          state.options.forEach(option => {
-            if (option.props.value === state.model) {
-              state.query =
-                typeof option.props.label === 'undefined'
-                  ? option.searchLabel
-                  : option.props.label
-            }
-          })
-        } else {
-          state.query = ''
-        }
-      }, 300)
+    function blur() {
+      modelToQuery()
     }
 
-    function handleInputDelete() {
-      const model = state.model as any[]
-      if (props.multiple && model.length && state.query === '') {
-        removeTag(model.length - 1)
+    function handleInputDelete(e: KeyboardEvent) {
+      if (e.keyCode === 8) {
+        const model = state.model as any[]
+        if (props.multiple && model.length && state.query === '') {
+          removeTag(model.length - 1)
+        }
       }
     }
 
@@ -415,25 +334,15 @@ const Select = defineComponent({
         typeof state.model !== 'undefined'
       ) {
         state.options.forEach(option => {
-          if (state.model === option.props.value) {
-            state.query = option.props.label
-              || option.searchLabel
-              || option.props.value
+          if (state.model === option.value) {
+            state.query = option.label
           }
         })
       }
     }
-    function broadcastQuery(val: any) {
-      $broadcast('Option', 'queryChange', val)
-    }
 
-    function renderSelection() {
-      const attrs = {
-        class: 'at-select__selection',
-        onClick: toggleMenu
-      }
-
-      const tags = state.selectedMultiple.map((item, index) => {
+    function renderMultipleTags() {
+      return state.selectedMultiple.map((item, index) => {
         const tagAttrs = {
           class: 'icon icon-x at-tag__close',
           onClick: (e: Event) => {
@@ -446,6 +355,29 @@ const Select = defineComponent({
           h('i', tagAttrs)
         ])
       })
+    }
+
+    function renderInput() {
+      return !props.filterable
+        ? h('span', { class: 'at-select__selected' }, state.query)
+        : h('input', {
+          value: state.query,
+          type: 'text',
+          class: 'at-select__input',
+          placeholder: showPlaceholder.value ? props.placeholder : '',
+          onBlur: blur,
+          onInput: (e: InputEvent) => state.query = (e.target as any).value,
+          onKeydown: handleInputDelete,
+          ref: inputEl
+        })
+    }
+
+    function renderSelection() {
+      const selectionProps = {
+        class: 'at-select__selection',
+        onClick: toggleMenu
+      }
+
       const placeholder = showPlaceholder.value && !props.filterable
         ? h('span', { class: 'at-select__placeholder' }, props.placeholder)
         : null
@@ -457,28 +389,24 @@ const Select = defineComponent({
           clearSingleSelect()
         }
       }
-      const input = !props.filterable
-        ? h('span', { class: 'at-select__selected' }, state.query)
-        : h('input', {
-          value: state.query,
-          type: 'text',
-          class: 'at-select__input',
-          placeholder: showPlaceholder.value ? props.placeholder : '',
-          onBlur: handleBlur,
-          onKeydown: handleInputDelete,
-          ref: inputEl
-        })
+
       const arrow = h('i', { class: 'icon icon-chevron-down at-select__arrow' })
       const clear = showCloseIcon.value ? h('i', clearAttrs) : null
 
-      return h('div', attrs, [tags, placeholder, input, arrow, clear])
+      return h('div', selectionProps, [
+        renderMultipleTags(),
+        placeholder,
+        renderInput(),
+        arrow,
+        clear
+      ])
     }
 
     function renderDropdown() {
       const { placement, notFoundText } = props
       const { notFound, visible } = state
 
-      const attrs = {
+      const dropDwonProps = {
         ref: popoverEl,
         style: { display: visible ? 'block' : 'none' },
         class: [
@@ -491,26 +419,20 @@ const Select = defineComponent({
       const cls = notFound ? 'at-select__not-found' : 'at-select__list'
       const child = notFound ? h('li', notFoundText) : slots.default?.()
 
-      return h('div', attrs, h('ul', { class: cls }, child))
-    }
-
-    return () => {
-      const cls = [
-        'at-select',
-        {
-          'at-select--visible': state.visible,
-          'at-select--disabled': props.disabled,
-          'at-select--multiple': props.multiple,
-          'at-select--single': !props.multiple,
-          'at-select--show-clear': showCloseIcon.value,
-          [`at-select--${props.size}`]: !!props.size
-        }
-      ]
-      return withDirectives(
-        h('div', { class: cls }, [renderSelection(), renderDropdown()]),
-        [[clickoutside, hideMenu]]
+      return h(
+        'div',
+        dropDwonProps,
+        h('ul', { class: cls }, child)
       )
     }
+
+    return () => withDirectives(
+      h('div', {
+        class: classs.value,
+        onKeydown: handleKeydown,
+      }, [renderSelection(), renderDropdown()]),
+      [[clickoutside, hideMenu]]
+    )
   }
 })
 

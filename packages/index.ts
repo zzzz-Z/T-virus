@@ -1,4 +1,4 @@
-import 'at-ui-style/css/at.css'
+import './theme/index.scss'
 import * as components from './components'
 
 export * from './components'
