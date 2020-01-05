@@ -6,8 +6,8 @@ import {
   computed,
   h,
   PropType,
+  ref,
   onMounted,
-  getCurrentInstance
 } from 'next-vue'
 
 export const inputProps: any = {
@@ -23,8 +23,8 @@ export const inputProps: any = {
   suffix: { type: String, default: '' },
   search: { type: Boolean, default: false },
   enterButton: { type: [Boolean, String], default: false },
-  afterEl: { type: Object },
-  preEl: { type: Object },
+  after: [Object, String],
+  pre: [Object, String],
   type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
   value: { type: [String, Number], default: '' },
   disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
@@ -42,14 +42,17 @@ export default defineComponent<InputProps, {}, {}>({
   inheritAttrs: false,
   props: inputProps,
   setup(props, { emit, slots }) {
-    const state = reactive({
-      value: props.value
+    const state = reactive({value: props.value})
+    const inputRef = ref<HTMLInputElement | null>(null)
+    const afterRef = ref<HTMLLIElement | null>(null)
+    onMounted(() => {
+      console.log(afterRef.value?.getBoundingClientRect());
     })
-
     watch(
       () => props.value,
       val => {
-        setValue(val)
+        if (props.value === state.value) return
+        state.value = val
       }
     )
 
@@ -60,13 +63,6 @@ export default defineComponent<InputProps, {}, {}>({
         emit('change', val)
       }
     )
-    onMounted(() => {
-      console.log(getCurrentInstance())
-    })
-    const setValue = (val: any) => {
-      if (props.value === state.value) return
-      state.value = val
-    }
 
     const onInput = (e: Event) => {
       const val = (e.target as HTMLInputElement).value
@@ -83,33 +79,52 @@ export default defineComponent<InputProps, {}, {}>({
       emit('input', '')
     }
 
-    const cls = computed(() => [
+    const cls = computed(() => {
+      const { status, size, pre, after, icon, disabled } = props
+      const prepend = pre || slots.pre  
+      const append = after || slots.after  
+      const group = prepend || append
+      return [
       'v-input',
       {
-        [`v-input--${props.status}`]: props.status,
-        [`v-input--${props.size}`]: props.size,
-        'v-input-group': slots.prepend || slots.append,
-        'v-input--disabled': props.disabled,
-        'v-input--prepend': slots.prepend,
-        'v-input--append': slots.append,
-        'v-input--icon': props.icon
+        [`v-input--${status}`]: status,
+        [`v-input--${size}`]: size,
+        'v-input-group': group,
+        'v-input--disabled': disabled,
+        'v-input--prepend': prepend,
+        'v-input--append': append,
+        'v-input--icon': icon
       }
-    ])
-
-    const iconCls = computed(() => {
-      const name = props.icon || props.status
-      return [{ [`icon-${name}`]: name }, 'v-input__icon icon']
+    ]
     })
 
-    const prependCls = computed(() => ({
-      class: ['v-input-group__prepend', { 'v-input-group--button': false }]
-    }))
+    const icon = () => {
+      const { icon, status } = props
+      const name = icon || status
+      const render = h('i', { class: 'v-input__icon' }, icon || slots.icon?.())
+      switch (typeof icon) {
+        case 'string': return h('i', {
+          class: [{ [`icon-${name}`]: name }, 'v-input__icon icon'],
+          onClick: clean
+        })
+        case 'object': return render
+        default: return slots.icon ? render : null
+      }
+    }
 
-    return () => {
-      const icon =
-        props.icon && h('i', { class: iconCls.value, onClick: clean })
-      const prepend = slots.append && h('div', prependCls, slots.append())
-      const input = h('input', {
+    const after = () => {
+      const node = props.after || slots.after?.()
+      return node ?
+        h('div', {
+          ref:afterRef,
+          class: ['v-input-group__append', { 'v-input-group--button': true }]
+        }, node)
+        : null
+    }
+
+    const input = () => {
+      return h('input', {
+        ref: inputRef,
         value: state.value,
         type: props.type,
         autofocus: props.autocomplete,
@@ -119,7 +134,12 @@ export default defineComponent<InputProps, {}, {}>({
         onInput,
         class: 'v-input__original'
       })
-      return h('div', { class: cls.value }, [prepend, input, icon])
     }
+
+    return () => h(
+      'div',
+      { class: cls.value },
+      [input(), icon(), after()]
+    )
   }
 })

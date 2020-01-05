@@ -29,7 +29,7 @@ export interface InputProps {
   /** 最大输入长度 */
   maxlength?: number
   /** 输入框尾部图标，仅在 text 类型下有效 */
-  icon?: string
+  icon?: VNode | string
   /** 输入框头部图标 */
   prefix?: string
   /** 输入框尾部图标 */
@@ -51,9 +51,9 @@ export interface InputProps {
   /** 原生的 wrap 属性，可选值为 hard 和 soft，仅在 textarea 下生效 */
   wrap?: 'hard' | 'soft'
   /** 前置内容，仅在 text 类型下有效 */
-  preEl?: VNode[]
+  pre?: VNode | string
   /** 后置内容，仅在 text 类型下有效 */
-  afterEl?: VNode[]
+  after?: VNode | string
   /** 按下回车键时触发 */
   onEnter?(event: KeyboardEvent): void
   /** 设置 icon 属性后，点击图标时触发 */

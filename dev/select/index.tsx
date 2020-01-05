@@ -1,4 +1,4 @@
-import { Select, Option, Button } from 'ui'
+import { Select, Option, Button, Input } from 'ui'
 import {
   defineComponent,
   h,
@@ -13,6 +13,7 @@ export default defineComponent({
   setup() {
     const model = reactive([])
     return () => [
+      h(Input, { after: 'zcc', icon: h('i', 'xxx') }),
       h(Button, { size: 'small' }, 'text'),
       h(
         Select,
