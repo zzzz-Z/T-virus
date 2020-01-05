@@ -16,19 +16,19 @@ export default defineComponent({
       const DefSolot = slots.default && slots.default()
       const TitleSlot = title || slots.title?.()
       const ExtraSlot = extra || slots.extra?.()
-      const Body = h('div', { style, class: 'at-card__body' }, DefSolot)
+      const Body = h('div', { style, class: 'v-card__body' }, DefSolot)
       const Header =
         (TitleSlot || ExtraSlot) &&
-        h('div', { class: 'at-card__head' }, [
-          TitleSlot && h('div', { class: 'at-card__title' }, TitleSlot),
-          ExtraSlot && h('div', { class: 'at-card__extra' }, ExtraSlot)
+        h('div', { class: 'v-card__head' }, [
+          TitleSlot && h('div', { class: 'v-card__title' }, TitleSlot),
+          ExtraSlot && h('div', { class: 'v-card__extra' }, ExtraSlot)
         ])
 
       const classs = [
-        `at-card`,
+        `v-card`,
         {
-          'at-card--bordered': border,
-          'at-card--no-hover': disHover
+          'v-card--bordered': border,
+          'v-card--no-hover': disHover
         }
       ]
 

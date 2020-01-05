@@ -4,7 +4,7 @@
 @import '../variables/index.scss';
 @import '../mixins/index.scss';
 
-.at-breadcrumb {
+.v-breadcrumb {
   @include clearfix();
   font-size: $breadcrumb-font-size;
   line-height: 1.5;
@@ -19,7 +19,7 @@
       color: $link-disabled-color;
       cursor: text;
 
-      .at-breadcrumb__separator {
+      .v-breadcrumb__separator {
         display: none;
       }
     }

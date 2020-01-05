@@ -3,13 +3,13 @@
  */
 @import '../variables/index.scss';
 
-.at-card {
+.v-card {
   position: relative;
   border-radius: $card-border-radius;
   background-color: $card-bg-color;
   transition: all .3s;
 
-  &:not(.at-card--no-hover):hover {
+  &:not(.v-card--no-hover):hover {
     border-color: $card-border-color-hover;
     box-shadow: 1px 0 16px 0 $shadow-color;
   }

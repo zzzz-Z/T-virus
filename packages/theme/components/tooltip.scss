@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-tooltip {
+.v-tooltip {
   display: inline-block;
 
   /* element */
@@ -43,7 +43,7 @@
     padding: $tooltip-arrow-size 0;
     margin-top: -2px;
 
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       bottom: 0;
       left: 50%;
       margin-left: -$tooltip-arrow-size;
@@ -52,13 +52,13 @@
     }
   }
   &--top-left {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       left: $tooltip-arrow-size * 3;
       right: initial;
     }
   }
   &--top-right {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       left: initial;
       right: $tooltip-arrow-size * 2;
     }
@@ -73,7 +73,7 @@
     padding: $tooltip-arrow-size 0;
     margin-top: 2px;
 
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: 0;
       left: 50%;
       margin-left: -$tooltip-arrow-size;
@@ -82,13 +82,13 @@
     }
   }
   &--bottom-left {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       left: $tooltip-arrow-size * 3;
       right: initial;
     }
   }
   &--bottom-right {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       left: initial;
       right: $tooltip-arrow-size * 2;
     }
@@ -103,7 +103,7 @@
     padding: 0 $tooltip-arrow-size;
     margin-left: -2px;
 
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: 50%;
       right: 0;
       margin-top: -$tooltip-arrow-size;
@@ -112,13 +112,13 @@
     }
   }
   &--left-top {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: $tooltip-arrow-size * 3;
       bottom: initial;
     }
   }
   &--left-bottom {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: initial;
       bottom: $tooltip-arrow-size * 2;
     }
@@ -133,7 +133,7 @@
     padding: 0 $tooltip-arrow-size;
     margin-left: 2px;
 
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: 50%;
       left: 0;
       margin-top: -$tooltip-arrow-size;
@@ -142,13 +142,13 @@
     }
   }
   &--right-top {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: $tooltip-arrow-size * 3;
       bottom: initial;
     }
   }
   &--right-bottom {
-    .at-tooltip__arrow {
+    .v-tooltip__arrow {
       top: initial;
       bottom: $tooltip-arrow-size * 2;
     }

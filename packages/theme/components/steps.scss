@@ -3,33 +3,33 @@
  */
 @import '../variables/index.scss';
 
-.at-steps {
+.v-steps {
   font-size: 0;
 
   /* modifier */
   &--small {
-    .at-step__label {
+    .v-step__label {
       width: $step-label-size-sm;
       height: $step-label-size-sm;
       font-size: $step-font-size-sm;
       line-height: $step-label-size-sm - 2;
     }
-    .at-step__title {
+    .v-step__title {
       font-size: $step-font-size-sm;
       line-height: $step-label-size-sm;
     }
-    .at-step__line {
+    .v-step__line {
       top: ($step-label-size-sm - 2) / 2;
     }
 
-    &.at-steps--vertical {
-      .at-step__main {
+    &.v-steps--vertical {
+      .v-step__main {
         min-height: $step-main-height-vertical-sm;
       }
     }
   }
   &--vertical {
-    .at-step {
+    .v-step {
       display: block;
 
       /* element */
@@ -41,7 +41,8 @@
         width: 1px;
         height: auto;
 
-        &::before, &::after {
+        &::before,
+        &::after {
           position: absolute;
           top: 0px;
           width: 100%;
@@ -58,29 +59,30 @@
       }
 
       /* modifier */
-      &.at-step--finish {
-        .at-step__line::after {
+      &.v-step--finish {
+        .v-step__line::after {
           height: 100%;
         }
       }
     }
 
-    &.at-steps--small {
-      .at-step__line {
+    &.v-steps--small {
+      .v-step__line {
         left: 8px;
       }
     }
   }
 }
 
-.at-step {
+.v-step {
   position: relative;
   display: inline-block;
   vertical-align: top;
   white-space: nowrap;
 
   /* element */
-  &__head, &__main {
+  &__head,
+  &__main {
     position: relative;
     font-size: $step-font-size;
   }
@@ -99,28 +101,28 @@
     text-align: center;
     border: 1px solid $step-border-color;
     border-radius: 50%;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
-    @at-root.at-step--process &:not(.at-step__icon) {
+    @v-root.v-step--process &:not(.v-step__icon) {
       color: $step-color-active;
       border-color: $step-border-color-active;
       background-color: $step-bg-color-active;
     }
 
-    @at-root.at-step--process &.at-step__icon {
+    @v-root.v-step--process &.v-step__icon {
       color: $step-icon-color-active;
     }
 
-    @at-root.at-step--finish & {
+    @v-root.v-step--finish & {
       color: $step-icon-color-active;
       border-color: $step-border-color-active;
 
-      &.at-step__icon {
+      &.v-step__icon {
         border-color: transparent;
       }
     }
 
-    @at-root.at-step--error & {
+    @v-root.v-step--error & {
       color: $step-icon-color-error;
       border-color: $step-border-color-error;
     }
@@ -133,16 +135,17 @@
     margin: 0 10px;
     height: 1px;
 
-    @at-root.at-step--finish &::after {
+    @v-root.v-step--finish &::after {
       width: 100%;
     }
 
-    @at-root.at-step--next-error &::after {
+    @v-root.v-step--next-error &::after {
       width: 100%;
       background-color: $step-bg-color-error;
     }
 
-    &::before, &::after {
+    &::before,
+    &::after {
       content: '';
       position: absolute;
       left: 0;
@@ -156,7 +159,7 @@
     &::after {
       width: 0;
       background-color: $step-line-color-active;
-      transition: all .3s;
+      transition: all 0.3s;
     }
   }
   &__main {
@@ -179,11 +182,11 @@
     background-color: $step-bg-color;
     overflow: hidden;
 
-    @at-root.at-step--process & {
+    @v-root.v-step--process & {
       color: $step-color-process;
     }
 
-    @at-root.at-step--error & {
+    @v-root.v-step--error & {
       color: $step-color-error;
     }
   }
@@ -192,11 +195,11 @@
     font-size: $step-description-font-size;
     word-wrap: break-word;
 
-    @at-root.at-step--process & {
+    @v-root.v-step--process & {
       color: $step-color-process;
     }
 
-    @at-root.at-step--error & {
+    @v-root.v-step--error & {
       color: $step-color-error;
     }
   }
@@ -205,7 +208,9 @@
     border-color: transparent;
     background-color: $color-white;
   }
-  &__title, &__description, &__icon {
-    transition: all .3s ease-in-out;
+  &__title,
+  &__description,
+  &__icon {
+    transition: all 0.3s ease-in-out;
   }
 }

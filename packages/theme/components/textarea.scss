@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-textarea {
+.v-textarea {
 
   /* element */
   &__original {
@@ -33,7 +33,7 @@
 
   /* modifier */
   &--disabled {
-    .at-textarea__original {
+    .v-textarea__original {
       color: $input-font-color-disabled;
       border-color: $input-border-color-disabled;
       background-color: $input-bg-color-disabled;

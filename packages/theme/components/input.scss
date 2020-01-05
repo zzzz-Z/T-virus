@@ -6,7 +6,7 @@
 /**
  * AtInput
  */
-.at-input {
+.v-input {
   position: relative;
   font-size: 0;
   line-height: 1.5;
@@ -57,7 +57,7 @@
 
   /* Modifier */
   &--disabled {
-    .at-input__original {
+    .v-input__original {
       color: $input-font-color-disabled;
       background-color: $input-bg-color-disabled;
       border-color: $input-border-color-disabled;
@@ -71,7 +71,7 @@
   &--large {
     font-size: $input-font-size-lg;
 
-    .at-input__original {
+    .v-input__original {
       padding: $input-padding-lg;
 
       &::placeholder {
@@ -82,7 +82,7 @@
   &--small {
     font-size: $input-font-size-sm;
 
-    .at-input__original {
+    .v-input__original {
       padding: $input-padding-sm;
 
       &::placeholder {
@@ -91,39 +91,39 @@
     }
   }
   &--success {
-    .at-input__original {
+    .v-input__original {
       border-color: $input-border-color-success;
     }
   }
   &--error {
-    .at-input__original {
+    .v-input__original {
       border-color: $input-border-color-error;
     }
   }
   &--warning {
-    .at-input__original {
+    .v-input__original {
       border-color: $input-border-color-warning;
     }
   }
   &--info {
-    .at-input__original {
+    .v-input__original {
       border-color: $input-border-color-info;
     }
   }
   &--prepend {
-    .at-input__original {
+    .v-input__original {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
     }
   }
   &--append {
-    .at-input__original {
+    .v-input__original {
       border-top-right-radius: 0;
       border-bottom-right-radius: 0;
     }
   }
   &--icon {
-    .at-input__original {
+    .v-input__original {
       padding-right: 32px;
     }
   }
@@ -132,7 +132,7 @@
 /**
  * AtInputGroup
  */
-.at-input-group {
+.v-input-group {
   display: flex;
   line-height: normal;
   border-collapse: separate;

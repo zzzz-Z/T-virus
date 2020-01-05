@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-popover {
+.v-popover {
   display: inline-block;
 
   /* element */
@@ -54,7 +54,7 @@
   &--top-right {
     margin-top: -12px;
 
-    .at-popover__arrow {
+    .v-popover__arrow {
       bottom: 0;
       left: 50%;
       margin-left: -$popover-arrow-size;
@@ -71,12 +71,12 @@
     }
   }
   &--top-left {
-    .at-popover__arrow {
+    .v-popover__arrow {
       left: $popover-arrow-size * 2;
     }
   }
   &--top-right {
-    .at-popover__arrow {
+    .v-popover__arrow {
       left: initial;
       right: $popover-arrow-size * 2;
     }
@@ -90,7 +90,7 @@
   &--bottom-right {
     margin-top: 12px;
 
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: 0;
       left: 50%;
       margin-left: -$popover-arrow-size;
@@ -107,12 +107,12 @@
     }
   }
   &--bottom-left {
-    .at-popover__arrow {
+    .v-popover__arrow {
       left: $popover-arrow-size * 2;
     }
   }
   &--bottom-right {
-    .at-popover__arrow {
+    .v-popover__arrow {
       left: initial;
       right: $popover-arrow-size * 2;
     }
@@ -126,7 +126,7 @@
   &--left-bottom {
     margin-left: -12px;
 
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: 50%;
       right: 0;
       margin-top: -$popover-arrow-size;
@@ -143,12 +143,12 @@
     }
   }
   &--left-top {
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: $popover-arrow-size * 2;
     }
   }
   &--left-bottom {
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: initial;
       bottom: $popover-arrow-size * 2;
     }
@@ -162,7 +162,7 @@
   &--right-bottom {
     margin-left: 12px;
 
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: 50%;
       left: 0;
       margin-top: -$popover-arrow-size;
@@ -179,12 +179,12 @@
     }
   }
   &--right-top {
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: $popover-arrow-size * 2;
     }
   }
   &--right-bottom {
-    .at-popover__arrow {
+    .v-popover__arrow {
       top: initial;
       bottom: $popover-arrow-size * 2;
     }

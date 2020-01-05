@@ -36,7 +36,7 @@ $btn-active-shade-percent: 10%;
   }
 }
 
-.at-btn {
+.v-btn {
   display: inline-block;
   padding: $btn-padding-base;
   font-size: 0;
@@ -59,7 +59,7 @@ $btn-active-shade-percent: 10%;
   }
   &:disabled,
   &:disabled:hover,
-  &:disabled:active, {
+  &:disabled:active {
     cursor: not-allowed;
     color: $btn-disabled-color;
     border-color: $btn-disabled-border;
@@ -121,7 +121,7 @@ $btn-active-shade-percent: 10%;
 
     &:disabled,
     &:disabled:hover,
-    &:disabled:active, {
+    &:disabled:active {
       background: none;
     }
   }
@@ -135,7 +135,7 @@ $btn-active-shade-percent: 10%;
     &--hollow {
       &:disabled,
       &:disabled:hover,
-      &:disabled:active, {
+      &:disabled:active {
         background: none;
       }
     }
@@ -144,15 +144,15 @@ $btn-active-shade-percent: 10%;
     font-size: $btn-font-size-md;
     padding: $btn-padding-md;
 
-    &.at-btn--circle {
+    &.v-btn--circle {
       width: $btn-circle-size-lg;
       height: $btn-circle-size-lg;
 
-      .at-btn__icon {
+      .v-btn__icon {
         font-size: $btn-font-size-lg;
       }
     }
-    .at-btn__text {
+    .v-btn__text {
       font-size: $btn-font-size-md;
     }
   }
@@ -160,15 +160,15 @@ $btn-active-shade-percent: 10%;
     font-size: $btn-font-size-sm;
     padding: $btn-padding-sm;
 
-    &.at-btn--circle {
+    &.v-btn--circle {
       width: $btn-circle-size-sm;
       height: $btn-circle-size-sm;
 
-      .at-btn__icon {
+      .v-btn__icon {
         font-size: $btn-font-size-sm;
       }
     }
-    .at-btn__text {
+    .v-btn__text {
       font-size: $btn-font-size-sm;
     }
   }
@@ -176,15 +176,15 @@ $btn-active-shade-percent: 10%;
     font-size: $btn-font-size-smer;
     padding: $btn-padding-smer;
 
-    &.at-btn--circle {
+    &.v-btn--circle {
       width: $btn-circle-size-smer;
       height: $btn-circle-size-smer;
 
-      .at-btn__icon {
+      .v-btn__icon {
         font-size: $btn-font-size-smer;
       }
     }
-    .at-btn__text {
+    .v-btn__text {
       font-size: $btn-font-size-smer;
     }
   }
@@ -194,7 +194,7 @@ $btn-active-shade-percent: 10%;
     padding: 0;
     border-radius: 50%;
 
-    .at-btn__icon {
+    .v-btn__icon {
       font-size: 14px;
     }
   }
@@ -219,11 +219,11 @@ $btn-active-shade-percent: 10%;
   }
 }
 
-.at-btn-group {
+.v-btn-group {
   font-size: 0;
   display: inline-block;
 
-  .at-btn {
+  .v-btn {
     border-radius: 0;
 
     &:not(:last-child) {

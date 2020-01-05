@@ -50,16 +50,16 @@ const MenuItem = defineComponent<MenuItemProps, {}, {}>({
         {
           onClick: handleClickItem,
           class: [
-            'at-menu__item',
+            'v-menu__item',
             {
-              'at-menu__item--active': state.active,
-              'at-menu__item--disabled': props.disabled
+              'v-menu__item--active': state.active,
+              'v-menu__item--disabled': props.disabled
             }
           ]
         },
         h(
           'div',
-          { class: 'at-menu__item-link' },
+          { class: 'v-menu__item-link' },
           slots.default && slots.default()
         )
       )

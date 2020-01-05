@@ -4,7 +4,7 @@
 @import '../variables/index.scss';
 @import '../mixins/index.scss';
 
-.at-pagination {
+.v-pagination {
   @include clearfix();
   list-style: none;
   font-size: 0;
@@ -34,7 +34,7 @@
     }
   }
   &__item {
-    + .at-pagination__item {
+    + .v-pagination__item {
       margin-left: 4px;
     }
     &--active {
@@ -132,44 +132,44 @@
     }
   }
   &--small {
-    .at-pagination__total,
-    .at-pagination__quickjump,
-    .at-pagination__item,
-    .at-pagination__prev,
-    .at-pagination__next {
+    .v-pagination__total,
+    .v-pagination__quickjump,
+    .v-pagination__item,
+    .v-pagination__prev,
+    .v-pagination__next {
       height: $pagination-item-size-sm;
       font-size: $pagination-item-font-size-sm;
       line-height: $pagination-item-size-sm;
     }
-    .at-pagination__item,
-    .at-pagination__prev,
-    .at-pagination__next {
+    .v-pagination__item,
+    .v-pagination__prev,
+    .v-pagination__next {
       border: none;
       width: $pagination-item-size-sm;
       min-width: $pagination-item-size-sm;
     }
-    .at-pagination__item--jump-prev,
-    .at-pagination__item--jump-next {
+    .v-pagination__item--jump-prev,
+    .v-pagination__item--jump-next {
       &:after {
         font-size: $pagination-item-font-size-sm - 4;
         line-height: $pagination-item-size-sm;
       }
     }
-    .at-pagination__total {
+    .v-pagination__total {
       margin-right: 8px;
     }
-    .at-pagination__sizer {
+    .v-pagination__sizer {
       margin-left: 8px;
 
-      .at-select .at-select__selection {
+      .v-select .v-select__selection {
         height: $pagination-item-size-sm;
         line-height: $pagination-item-size-sm - 2;
       }
     }
-    .at-pagination__quickjump {
+    .v-pagination__quickjump {
       margin-left: 8px;
 
-      .at-input__original {
+      .v-input__original {
         margin: 0 6px;
         height: $pagination-item-size-sm;
         font-size: $pagination-item-font-size-sm;
@@ -179,13 +179,13 @@
   &--simple {
     font-size: $pagination-item-font-size;
 
-    .at-input__original {
+    .v-input__original {
       margin: 0 4px;
       width: $pagination-item-size + 4;
       height: $pagination-item-size;
     }
-    .at-pagination__prev,
-    .at-pagination__next {
+    .v-pagination__prev,
+    .v-pagination__next {
       margin: 0;
       border: none;
       width: $pagination-item-size;
@@ -193,10 +193,10 @@
       height: $pagination-item-size;
       line-height: $pagination-item-size;
     }
-    &.at-pagination--small {
+    &.v-pagination--small {
       font-size: $pagination-item-font-size-sm;
 
-      .at-input__original {
+      .v-input__original {
         width: $pagination-item-size-sm + 6;
         height: $pagination-item-size-sm;
 
@@ -204,14 +204,14 @@
           font-size: $pagination-item-font-size-sm;
         }
       }
-      .at-pagination__prev,
-      .at-pagination__next {
+      .v-pagination__prev,
+      .v-pagination__next {
         width: $pagination-item-size-sm;
         min-width: $pagination-item-size-sm;
         height: $pagination-item-size-sm;
         line-height: $pagination-item-size-sm;
       }
-      .at-pagination__simple-paging {
+      .v-pagination__simple-paging {
         font-size: $pagination-item-font-size-sm;
 
         span {

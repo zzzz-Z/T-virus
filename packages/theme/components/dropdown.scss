@@ -4,7 +4,7 @@
 @import '../variables/index.scss';
 @import '../mixins/index.scss';
 
-.at-dropdown {
+.v-dropdown {
   display: inline-block;
 
   &__popover {
@@ -14,7 +14,7 @@
   }
 }
 
-.at-dropdown-menu {
+.v-dropdown-menu {
   position: relative;
   padding: 0;
   width: inherit;

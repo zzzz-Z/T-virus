@@ -1,15 +1,6 @@
-import {
-  h,
-  defineComponent,
-  reactive,
-  watch,
-  computed,
-  ref,
-  onMounted,
-  provide,
-  withDirectives,
-} from 'next-vue'
+import { computed, defineComponent, h, onMounted, provide, reactive, ref, Transition, VNode, watch, withDirectives } from 'next-vue'
 import clickoutside from '../utils/clickoutside'
+import { vShow } from '../utils/util'
 
 const selectProps = {
   value: { type: [String, Number, Array], default: '' },
@@ -20,27 +11,34 @@ const selectProps = {
   placeholder: { type: String },
   filterable: { type: Boolean, default: false },
   size: { type: String, default: 'normal' },
-  notFoundText: { type: String },
+  notFoundText: { type: String, default: 'notfound' },
   placement: { type: String, default: 'bottom' }
 }
 
-type O = Record<string, any>
+type O = Record<string, any>[]
 
 const Select = defineComponent({
   name: 'Select',
   props: selectProps,
   inheritAttrs: false,
-  setup(props, { emit, slots }) {
+  setup(props, { emit, slots, attrs }) {
     const state = reactive({
       visible: false,
-      options: [] as O[],
+      options: [] as O,
       selectedSingle: '',
-      selectedMultiple: [] as O[],
+      selectedMultiple: [] as O,
       focusIndex: 0,
       query: '',
-      notFound: false,
       model: props.value
     })
+    const notFound = computed(() => {
+      let show = true
+      state.options.find(option => {
+        if (!option.state.hidden) { show = false }
+      })
+      return show
+    })
+
     onMounted(modelToQuery)
     provide('Select', { onOptionSelect, state })
     const inputEl = ref<HTMLInputElement | null>(null)
@@ -53,14 +51,15 @@ const Select = defineComponent({
       return state.model === '' || hasArrVal
     })
     const classs = computed(() => [
-      'at-select',
+      attrs.class,
+      'v-select',
       {
-        'at-select--visible': state.visible,
-        'at-select--disabled': props.disabled,
-        'at-select--multiple': props.multiple,
-        'at-select--single': !props.multiple,
-        'at-select--show-clear': showCloseIcon.value,
-        [`at-select--${props.size}`]: !!props.size
+        'v-select--visible': state.visible,
+        'v-select--disabled': props.disabled,
+        'v-select--multiple': props.multiple,
+        'v-select--single': !props.multiple,
+        'v-select--show-clear': showCloseIcon.value,
+        [`v-select--${props.size}`]: !!props.size
       }
     ])
 
@@ -344,14 +343,14 @@ const Select = defineComponent({
     function renderMultipleTags() {
       return state.selectedMultiple.map((item, index) => {
         const tagAttrs = {
-          class: 'icon icon-x at-tag__close',
+          class: 'icon icon-x v-tag__close',
           onClick: (e: Event) => {
             e.stopPropagation()
             removeTag(index)
           }
         }
-        return h('span', { class: 'at-tag' }, [
-          h('span', { class: 'at-tag__text' }, item.label),
+        return h('span', { class: 'v-tag' }, [
+          h('span', { class: 'v-tag__text' }, item.label),
           h('i', tagAttrs)
         ])
       })
@@ -359,11 +358,11 @@ const Select = defineComponent({
 
     function renderInput() {
       return !props.filterable
-        ? h('span', { class: 'at-select__selected' }, state.query)
+        ? h('span', { class: 'v-select__selected' }, state.query)
         : h('input', {
           value: state.query,
           type: 'text',
-          class: 'at-select__input',
+          class: 'v-select__input',
           placeholder: showPlaceholder.value ? props.placeholder : '',
           onBlur: blur,
           onInput: (e: InputEvent) => state.query = (e.target as any).value,
@@ -374,23 +373,23 @@ const Select = defineComponent({
 
     function renderSelection() {
       const selectionProps = {
-        class: 'at-select__selection',
+        class: 'v-select__selection',
         onClick: toggleMenu
       }
 
       const placeholder = showPlaceholder.value && !props.filterable
-        ? h('span', { class: 'at-select__placeholder' }, props.placeholder)
+        ? h('span', { class: 'v-select__placeholder' }, props.placeholder)
         : null
 
       const clearAttrs = {
-        class: 'icon icon-x at-select__clear',
+        class: 'icon icon-x v-select__clear',
         onClick: (e: Event) => {
           e.stopPropagation()
           clearSingleSelect()
         }
       }
 
-      const arrow = h('i', { class: 'icon icon-chevron-down at-select__arrow' })
+      const arrow = h('i', { class: 'icon icon-chevron-down v-select__arrow' })
       const clear = showCloseIcon.value ? h('i', clearAttrs) : null
 
       return h('div', selectionProps, [
@@ -404,30 +403,32 @@ const Select = defineComponent({
 
     function renderDropdown() {
       const { placement, notFoundText } = props
-      const { notFound, visible } = state
-
+      const { visible } = state
+      const preClass = 'v-select__dropdown'
       const dropDwonProps = {
         ref: popoverEl,
         style: { display: visible ? 'block' : 'none' },
-        class: [
-          'at-select__dropdown',
-          placement
-            ? `at-select__dropdown--${placement}`
-            : 'at-select__dropdown--bottom'
-        ]
+        class: [preClass, placement ? `${preClass}--${placement}` : `${preClass}--bottom`]
       }
-      const cls = notFound ? 'at-select__not-found' : 'at-select__list'
-      const child = notFound ? h('li', notFoundText) : slots.default?.()
+      const childClass = notFound.value ? 'v-select__not-found' : 'v-select__list'
+      const wapper = (child: VNode, show: boolean) => vShow(h('ul', { class: childClass }, child), show)
+      const noOption = wapper(h('li', notFoundText), notFound.value)
+      const hasOption = wapper(h('li', slots.default?.()), !notFound.value)
+
 
       return h(
-        'div',
-        dropDwonProps,
-        h('ul', { class: cls }, child)
-      )
+        Transition,
+        { name: 'slide-up' },
+        () => h(
+          'div',
+          dropDwonProps,
+          [noOption, hasOption]
+        ))
     }
 
     return () => withDirectives(
       h('div', {
+        style: attrs.style,
         class: classs.value,
         onKeydown: handleKeydown,
       }, [renderSelection(), renderDropdown()]),

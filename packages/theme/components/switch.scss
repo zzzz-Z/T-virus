@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-switch {
+.v-switch {
   position: relative;
   display: inline-block;
   min-width: $switch-min-width-base;
@@ -49,7 +49,7 @@
       left: 100%;
       margin-left: -$switch-circle-size-base - 1;
     }
-    .at-switch__text {
+    .v-switch__text {
       padding-left: 6px;
       padding-right: $switch-circle-size-base + 6;
     }
@@ -63,7 +63,7 @@
       background-color: $switch-circle-bg-color-disabled;
       cursor: $cursor-disabled;
     }
-    .at-switch__text {
+    .v-switch__text {
       color: $switch-font-color-disabled;
     }
   }
@@ -75,18 +75,18 @@
       width: $switch-circle-size-sm;
       height: $switch-circle-size-sm;
     }
-    .at-switch__text {
+    .v-switch__text {
       font-size: $switch-font-size-sm;
       padding-left: $switch-circle-size-sm + 4;
       padding-right: 4px;
       line-height: $switch-height-sm - 2;
     }
-    &.at-switch--checked {
+    &.v-switch--checked {
       &::after {
         left: 100%;
         margin-left: -$switch-circle-size-sm - 1;
       }
-      .at-switch__text {
+      .v-switch__text {
         padding-left: 4px;
         padding-right: $switch-circle-size-sm + 4;
       }
@@ -100,18 +100,18 @@
       width: $switch-circle-size-lg;
       height: $switch-circle-size-lg;
     }
-    .at-switch__text {
+    .v-switch__text {
       font-size: $switch-font-size-lg;
       padding-left: $switch-circle-size-lg + 6;
       padding-right: 6px;
       line-height: $switch-height-lg - 2;
     }
-    &.at-switch--checked {
+    &.v-switch--checked {
       &::after {
         left: 100%;
         margin-left: -$switch-circle-size-lg - 1;
       }
-      .at-switch__text {
+      .v-switch__text {
         padding-left: 6px;
         padding-right: $switch-circle-size-lg + 6;
       }

@@ -11,7 +11,7 @@
 /**
  * AtRadio
  */
-.at-radio {
+.v-radio {
   position: relative;
   display: inline-block;
   color: $text-color;
@@ -20,13 +20,13 @@
   user-select: none;
   cursor: pointer;
 
-  + .at-radio {
+  + .v-radio {
     margin-left: 16px;
   }
 
   /* modifier */
   &--checked {
-    .at-radio-button__inner {
+    .v-radio-button__inner {
       color: $color-white;
       border-color: $color-primary;
       background-color: $color-primary;
@@ -51,7 +51,7 @@
     transition: border .2s;
     cursor: pointer;
 
-    &:not(.at-radio--disabled):hover {
+    &:not(.v-radio--disabled):hover {
       border-color: $radio-border-c-hover;
     }
     &::after {
@@ -66,19 +66,19 @@
       transform: translate(-50%, -50%) scale(0);
       transition: transform .2s;
     }
-    &.at-radio--checked {
+    &.v-radio--checked {
       border-color: $radio-border-c-checked;
 
       &::after {
         transform: translate(-50%, -50%) scale(1);
       }
     }
-    &.at-radio--disabled {
+    &.v-radio--disabled {
       border-color: $radio-border-c-disabled;
       background-color: $radio-bg-c-disabled;
       cursor: $cursor-disabled;
 
-      &.at-radio--checked::after {
+      &.v-radio--checked::after {
         background-color: $radio-dot-c-disabled;
       }
     }
@@ -104,7 +104,7 @@
 /**
  * AtRadioButton
  */
-.at-radio-button {
+.v-radio-button {
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -114,29 +114,29 @@
     border-collapse: separate;
   }
   &:first-child {
-    .at-radio-button__inner {
+    .v-radio-button__inner {
       border-radius: $border-radius-base 0 0 $border-radius-base;
     }
   }
   &:last-child {
-    .at-radio-button__inner {
+    .v-radio-button__inner {
       border-radius: 0 $border-radius-base $border-radius-base 0;
     }
   }
 
   /* modifier */
   &--small {
-    .at-radio-button__inner {
+    .v-radio-button__inner {
       @include button-size($btn-padding-sm, $btn-font-size-sm);
     }
   }
   &--normal {
-    .at-radio-button__inner {
+    .v-radio-button__inner {
       @include button-size($btn-padding-base, $btn-font-size-base);
     }
   }
   &--large {
-    .at-radio-button__inner {
+    .v-radio-button__inner {
       @include button-size($btn-padding-md, $btn-font-size-md);
     }
   }
@@ -170,7 +170,7 @@
     z-index: -1;
 
     &:disabled {
-      & + .at-radio-button__inner {
+      & + .v-radio-button__inner {
         color: $btn-disabled-color;
         background-color: $btn-disabled-bg;
         border-color: $btn-default-border;
@@ -180,7 +180,7 @@
   }
 }
 
-.at-radio-group {
+.v-radio-group {
   display: inline-block;
   font-size: 0;
   line-height: 1;

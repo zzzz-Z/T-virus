@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-loading-bar {
+.v-loading-bar {
   position: fixed;
   top: 0;
   left: 0;
@@ -19,12 +19,12 @@
 
   /* modifier */
   &--success {
-    .at-loading-bar__inner {
+    .v-loading-bar__inner {
       background-color: $loading-bar-bg-color-success;
     }
   }
   &--error {
-    .at-loading-bar__inner {
+    .v-loading-bar__inner {
       background-color: $loading-bar-bg-color-error;
     }
   }

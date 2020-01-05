@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-input-number {
+.v-input-number {
   display: inline-block;
   position: relative;
   width: 100%;
@@ -19,7 +19,7 @@
   &:hover:not(&--disabled) {
     border-color: $inputnumber-border-color-hover;
 
-    .at-input-number__handler {
+    .v-input-number__handler {
       opacity: 1;
     }
   }
@@ -76,11 +76,11 @@
     transition: all .3s;
     cursor: pointer;
 
-    &:hover:not(.at-input-number__up--disabled):not(.at-input-number__down--disabled) {
+    &:hover:not(.v-input-number__up--disabled):not(.v-input-number__down--disabled) {
       height: $inputnumber-handler-ele-height-base-hover;
       color: $inputnumber-handler-font-color-hover;
     }
-    &:active:not(.at-input-number__up--disabled):not(.at-input-number__down--disabled) {
+    &:active:not(.v-input-number__up--disabled):not(.v-input-number__down--disabled) {
       background-color: $inputnumber-handler-bg-color-active;
     }
     &--disabled {
@@ -103,19 +103,19 @@
     background-color: $inputnumber-bg-color-disabled;
     cursor: $cursor-disabled;
 
-    .at-input-number__original {
+    .v-input-number__original {
       color: $input-font-color-disabled;
       cursor: $cursor-disabled;
     }
-    .at-input-number__handler {
+    .v-input-number__handler {
       display: none;
     }
   }
   &--small {
     height: $inputnumber-height-sm;
 
-    .at-input-number__up,
-    .at-input-number__down {
+    .v-input-number__up,
+    .v-input-number__down {
       height: $inputnumber-handler-ele-height-sm;
       font-size: $inputnumber-handler-font-size-sm;
 
@@ -127,8 +127,8 @@
   &--large {
     height: $inputnumber-height-lg;
 
-    .at-input-number__up,
-    .at-input-number__down {
+    .v-input-number__up,
+    .v-input-number__down {
       height: $inputnumber-handler-ele-height-lg;
       font-size: $inputnumber-handler-font-size-lg;
 

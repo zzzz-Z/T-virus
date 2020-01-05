@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-alert {
+.v-alert {
   position: relative;
   display: flex;
   width: 100%;
@@ -50,12 +50,12 @@
     border-color: $alert-border-color-success;
     background-color: $alert-bg-color-success;
 
-    .at-alert__message,
-    .at-alert__description,
-    .at-alert__icon {
+    .v-alert__message,
+    .v-alert__description,
+    .v-alert__icon {
       color: $alert-text-color-success;
     }
-    .at-alert__close {
+    .v-alert__close {
       color: $alert-icon-color-success;
     }
   }
@@ -63,12 +63,12 @@
     border-color: $alert-border-color-error;
     background-color: $alert-bg-color-error;
 
-    .at-alert__message,
-    .at-alert__description,
-    .at-alert__icon {
+    .v-alert__message,
+    .v-alert__description,
+    .v-alert__icon {
       color: $alert-text-color-error;
     }
-    .at-alert__close {
+    .v-alert__close {
       color: $alert-icon-color-error;
     }
   }
@@ -76,12 +76,12 @@
     border-color: $alert-border-color-warning;
     background-color: $alert-bg-color-warning;
 
-    .at-alert__message,
-    .at-alert__description,
-    .at-alert__icon {
+    .v-alert__message,
+    .v-alert__description,
+    .v-alert__icon {
       color: $alert-text-color-warning;
     }
-    .at-alert__close {
+    .v-alert__close {
       color: $alert-icon-color-warning;
     }
   }
@@ -89,22 +89,22 @@
     border-color: $alert-border-color-info;
     background-color: $alert-bg-color-info;
 
-    .at-alert__message,
-    .at-alert__description,
-    .at-alert__icon {
+    .v-alert__message,
+    .v-alert__description,
+    .v-alert__icon {
       color: $alert-text-color-info;
     }
-    .at-alert__close {
+    .v-alert__close {
       color: $alert-icon-color-info;
     }
   }
   &--with-description {
     padding: $alert-padding-lg;
 
-    .at-alert__icon {
+    .v-alert__icon {
       font-size: 24px;
     }
-    .at-alert__message {
+    .v-alert__message {
       font-weight: bold;
     }
   }

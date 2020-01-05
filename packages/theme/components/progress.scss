@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-progress {
+.v-progress {
   position: relative;
   line-height: 1;
 
@@ -53,18 +53,18 @@
 
   /* modifier */
   &--success {
-    .at-progress-bar__inner {
+    .v-progress-bar__inner {
       background-color: $progress-bar-bg-color-success;
     }
-    .at-progress__text {
+    .v-progress__text {
       color: $progress-bar-bg-color-success;
     }
   }
   &--error {
-    .at-progress-bar__inner {
+    .v-progress-bar__inner {
       background-color: $progress-bar-bg-color-error;
     }
-    .at-progress__text {
+    .v-progress__text {
       color: $progress-bar-bg-color-error;
     }
   }

@@ -7,7 +7,7 @@
 /**
  * AtSelect
  */
-.at-select {
+.v-select {
   position: relative;
   display: inline-block;
   width: 100%;
@@ -17,11 +17,11 @@
   line-height: 1.5;
   vertical-align: middle;
 
-  .at-select__input {
+  .v-select__input {
+    width: 0;
     border: none;
     flex: auto;
     outline: none;
-    margin: 0 24px 0 8px;
     background-color: transparent;
 
     &::placeholder {
@@ -44,17 +44,17 @@
     border: 1px solid $border-color-base;
     border-radius: $border-radius-base;
     background-color: $color-white;
-    transition: all .3s;
+    transition: all 0.3s;
     cursor: pointer;
     overflow: hidden;
 
     &:hover {
       border-color: $select-border-c-hover;
 
-      .at-select__arrow {
+      .v-select__arrow {
         display: inline-block;
       }
-      .at-select__clear {
+      .v-select__clear {
         display: inline-block;
       }
     }
@@ -71,7 +71,7 @@
     margin-top: -5px;
     font-size: 10px;
     cursor: pointer;
-    transition: transform .3s;
+    transition: transform 0.3s;
   }
   &__clear {
     display: none;
@@ -96,29 +96,36 @@
     overflow-y: auto;
     z-index: $zindex-dropdown;
 
-    .at-select__list {
+    .v-select__list {
       list-style: none;
       padding: 0;
       font-size: 0;
     }
-    .at-select__not-found {
+    .v-select__not-found {
       padding: $dropdown-option-padding-base;
     }
-    .at-select__option {
+    .v-select__option {
       @include ellipsis();
       width: 100%;
+      position: relative;
       padding: $dropdown-option-padding-base;
       font-size: $select-dropdown-font-size-base;
       line-height: 1.5;
       text-align: left;
       white-space: nowrap;
-      transition: all .3s;
+      transition: all 0.3s;
       overflow: hidden;
       cursor: pointer;
 
       &--selected {
         font-weight: bold;
         background-color: $dropdown-option-bg-c-selected;
+        .icon-check {
+          position: absolute;
+          right: 8px;
+          color: #1890ff;
+          top: 10px;
+        }
       }
       &:hover,
       &--focus {
@@ -144,19 +151,19 @@
 
   /* modifier */
   &--visible {
-    .at-select__arrow {
+    .v-select__arrow {
       transform: rotate(180deg);
     }
   }
   &--show-clear {
-    .at-select__selection:hover {
-      .at-select__arrow {
+    .v-select__selection:hover {
+      .v-select__arrow {
         opacity: 0;
       }
     }
   }
   &--disabled {
-    .at-select__selection {
+    .v-select__selection {
       cursor: $cursor-disabled;
       border-color: $select-border-c-disabled;
       background-color: $select-selection-bg-color-disabled;
@@ -165,38 +172,38 @@
         border-color: $select-border-c-disabled;
       }
     }
-    .at-select__placeholder,
-    .at-select__selected {
+    .v-select__placeholder,
+    .v-select__selected {
       color: $input-placeholder-color-disabled;
     }
   }
   &--multiple {
-    .at-tag {
+    .v-tag {
       margin: 2px 2px 2px 0;
     }
-    .at-tag__text {
+    .v-tag__text {
       font-size: 10px;
     }
   }
   &--small {
     font-size: $select-font-size-sm;
 
-    .at-select__selection {
+    .v-select__selection {
       height: $select-selection-height-sm;
       line-height: $select-selection-height-sm;
     }
-    .at-select__dropdown .at-select__option {
+    .v-select__dropdown .v-select__option {
       font-size: $select-dropdown-font-size-sm;
     }
   }
   &--large {
     font-size: $select-font-size-lg;
 
-    .at-select__selection {
+    .v-select__selection {
       height: $select-selection-height-lg;
       line-height: $select-selection-height-lg - 2;
     }
-    .at-select__dropdown .at-select__option {
+    .v-select__dropdown .v-select__option {
       font-size: $select-dropdown-font-size-lg;
     }
   }
@@ -205,7 +212,7 @@
 /**
  * AtOptionGroup
  */
-.at-option-group {
+.v-option-group {
   padding: 0;
 
   &__label {
@@ -217,7 +224,7 @@
     line-height: 1;
     white-space: nowrap;
     overflow: hidden;
-    transition: all .3s;
+    transition: all 0.3s;
     cursor: initial;
   }
   &__list {

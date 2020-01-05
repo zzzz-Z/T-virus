@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-badge {
+.v-badge {
   position: relative;
   display: inline-block;
   // vertical-align: middle;
@@ -25,7 +25,7 @@
 
   /* modifier */
   &--alone {
-    .at-badge__content {
+    .v-badge__content {
       top: 0;
     }
   }
@@ -42,17 +42,17 @@
     top: (-$badge-dot-size / 2) + 1;
   }
   &--success {
-    .at-badge__content {
+    .v-badge__content {
       background-color: $badge-bg-color-success;
     }
   }
   &--warning {
-    .at-badge__content {
+    .v-badge__content {
       background-color: $badge-bg-color-warning;
     }
   }
   &--info {
-    .at-badge__content {
+    .v-badge__content {
       background-color: $badge-bg-color-info;
     }
   }

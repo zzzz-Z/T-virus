@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-collapse {
+.v-collapse {
   border: 1px solid $collapse-border-color;
   border-radius: $collapse-border-radius;
   overflow: hidden;
@@ -17,18 +17,18 @@
     }
 
     &--active {
-      > .at-collapse__header {
-        .at-collapse__icon {
+      > .v-collapse__header {
+        .v-collapse__icon {
           transform: rotate(90deg)
         }
       }
     }
     &--disabled {
-      .at-collapse__header {
+      .v-collapse__header {
         color: $collapse-header-text-color-disabled;
         cursor: not-allowed;
       }
-      .at-collapse__icon {
+      .v-collapse__icon {
         color: $collapse-header-text-color-disabled;
       }
     }
@@ -65,10 +65,10 @@
   &--simple {
     border: none;
 
-    .at-collapse__item {
+    .v-collapse__item {
       border-bottom: none;
     }
-    .at-collapse__header {
+    .v-collapse__header {
       border-bottom: 1px solid $collapse-border-color;
       background-color: transparent;
     }

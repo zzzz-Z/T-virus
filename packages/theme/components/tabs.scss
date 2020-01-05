@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-tabs {
+.v-tabs {
   overflow: hidden;
 
   /* element */
@@ -75,30 +75,30 @@
 
   /* modifier */
   &--small {
-    .at-tabs__header {
+    .v-tabs__header {
       margin-bottom: 12px;
     }
-    .at-tabs__nav {
+    .v-tabs__nav {
       height: $tabs-nav-height-sm;
     }
-    .at-tabs-nav__item {
+    .v-tabs-nav__item {
       margin-right: 16px;
       padding: $tabs-nav-item-padding-sm;
       line-height: $tabs-nav-height-sm;
       font-size: $tabs-nav-font-size-sm;
     }
-    .at-tabs__extra {
+    .v-tabs__extra {
       margin-top: 3px;
     }
   }
   &--card {
-    &.at-tabs--small {
-      .at-tabs-nav__item {
+    &.v-tabs--small {
+      .v-tabs-nav__item {
         line-height: $tabs-nav-height-sm - 2;
       }
     }
 
-    .at-tabs-nav__item {
+    .v-tabs-nav__item {
       margin: 0 2px 0 0;
       line-height: $tabs-nav-height - 2;
       border: 1px solid $tabs-border-color;
@@ -117,13 +117,13 @@
     }
   }
   &--scroll {
-    .at-tabs__nav {
+    .v-tabs__nav {
       padding: 0 $tabs-navigation-btn-width;
     }
   }
 }
 
-.at-tabs-nav {
+.v-tabs-nav {
   display: inline-block;
   white-space: nowrap;
   transition: transform .3s;
@@ -183,7 +183,7 @@
     }
     &--closable {
       &:hover {
-        .at-tabs-nav__close {
+        .v-tabs-nav__close {
           opacity: 1;
         }
       }

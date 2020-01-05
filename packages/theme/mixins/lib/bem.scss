@@ -49,7 +49,7 @@ $bem-modifier-separator: '--';
   @if _bem-selector-has-modifier($selector) {
     $block: _bem-get-block-name($selector);
 
-    @at-root {
+    @v-root {
       #{$selector} {
         @each $element in $elements {
           .#{$block + $bem-element-separator + $element} {
@@ -59,7 +59,7 @@ $bem-modifier-separator: '--';
       }
     }
   } @else {
-    @at-root {
+    @v-root {
       @each $element in $elements {
         #{$selector + $bem-element-separator + $element} {
           @content;
@@ -70,7 +70,7 @@ $bem-modifier-separator: '--';
 }
 
 @mixin m($modifier) {
-  @at-root {
+  @v-root {
     #{&}#{$bem-modifier-separator + $modifier} {
       @content;
     }

@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-message {
+.v-message {
   display: inline-block;
   padding: $message-padding;
   font-size: $message-font-size;
@@ -30,19 +30,19 @@
   }
 
   /* modifier */
-  &--success .at-message__icon {
+  &--success .v-message__icon {
     color: $message-icon-color-success;
   }
-  &--error .at-message__icon {
+  &--error .v-message__icon {
     color: $message-icon-color-error;
   }
-  &--warning .at-message__icon {
+  &--warning .v-message__icon {
     color: $message-icon-color-warning;
   }
-  &--info .at-message__icon {
+  &--info .v-message__icon {
     color: $message-icon-color-info;
   }
-  &--loading .at-message__icon {
+  &--loading .v-message__icon {
     color: $message-icon-color-loading;
     animation: icon-loading 2s linear infinite both;
   }

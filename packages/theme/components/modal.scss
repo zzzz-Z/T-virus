@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-modal {
+.v-modal {
   position: relative;
   top: $modal-initial-top;
   width: auto;
@@ -45,7 +45,7 @@
     line-height: 1.5;
     border-bottom: 1px solid $modal-section-border-color;
 
-    p, .at-modal__title {
+    p, .v-modal__title {
       @include ellipsis();
       vertical-align: middle;
     }
@@ -76,7 +76,7 @@
     vertical-align: middle;
   }
   &__input {
-    .at-input__original {
+    .v-input__original {
       margin-top: 8px;
       width: 100%;
     }
@@ -86,7 +86,7 @@
     border-top: 1px solid $modal-section-border-color;
     text-align: right;
 
-    .at-btn + .at-btn {
+    .v-btn + .v-btn {
       margin-left: 8px;
     }
   }
@@ -96,35 +96,35 @@
     display: none !important;
   }
   &--confirm {
-    .at-modal__header {
+    .v-modal__header {
       padding: 16px 16px 4px 56px;
       border: none;
     }
-    .at-modal__body {
+    .v-modal__body {
       padding: 8px 16px 8px 56px;
     }
-    .at-modal__footer {
+    .v-modal__footer {
       padding: 16px;
       border: none;
     }
 
     &-success {
-      .at-modal__icon {
+      .v-modal__icon {
         color: $modal-icon-color-success;
       }
     }
     &-error {
-      .at-modal__icon {
+      .v-modal__icon {
         color: $modal-icon-color-error;
       }
     }
     &-warning {
-      .at-modal__icon {
+      .v-modal__icon {
         color: $modal-icon-color-warning;
       }
     }
     &-info {
-      .at-modal__icon {
+      .v-modal__icon {
         color: $modal-icon-color-info;
       }
     }

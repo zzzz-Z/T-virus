@@ -71,7 +71,7 @@ const Menu = defineComponent({
     const attrs = computed(() => {
       const style: any = {}
       const { theme, mode, width } = props
-      const klass = ['at-menu', `at-menu--${theme}`, `at-menu--${mode}`]
+      const klass = ['v-menu', `v-menu--${theme}`, `v-menu--${mode}`]
       mode === 'inline' || (mode === 'vertical' && (style.width = width))
       return {
         class: klass,

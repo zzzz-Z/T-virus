@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-checkbox {
+.v-checkbox {
   position: relative;
   display: inline-block;
   font-size: 0;
@@ -12,13 +12,13 @@
   user-select: none;
   cursor: pointer;
 
-  & + .at-checkbox {
+  & + .v-checkbox {
     margin-left: 16px;
   }
 
   /* modifier */
   &--checked {
-    .at-checkbox__inner {
+    .v-checkbox__inner {
       border-color: $checkbox-border-c-checked;
       background-color: $checkbox-border-c-checked;
 
@@ -28,7 +28,7 @@
     }
   }
   &--disabled {
-    .at-checkbox__inner {
+    .v-checkbox__inner {
       border-color: $checkbox-border-c-disabled;
       background-color: $checkbox-bg-c-disabled;
       cursor: $cursor-disabled;
@@ -41,7 +41,7 @@
         cursor: $cursor-disabled;
       }
     }
-    .at-checkbox__label {
+    .v-checkbox__label {
       color: $checkbox-label-c-disabled;
       cursor: $cursor-disabled;
     }

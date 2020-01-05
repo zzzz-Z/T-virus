@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-rate {
+.v-rate {
   font-size: 0;
 
   /* element */
@@ -28,12 +28,12 @@
     }
 
     &--on {
-      .at-rate__icon {
+      .v-rate__icon {
         color: $rate-icon-color-on;
       }
     }
     &--half {
-      .at-rate__left {
+      .v-rate__left {
         color: $rate-icon-color-on;
       }
     }
@@ -64,10 +64,10 @@
 
   /* modifier */
   &--disabled {
-    &.at-rate__list {
+    &.v-rate__list {
       cursor: initial;
     }
-    .at-rate__item {
+    .v-rate__item {
       cursor: initial;
 
       &:hover {

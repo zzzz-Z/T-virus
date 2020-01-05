@@ -31,7 +31,7 @@ const Option = defineComponent({
       disabled: props.disabled
     })
     const option = ref<HTMLLIElement | null>(null)
-    const prefix = 'at-select__option'
+    const prefix = 'v-select__option'
     const classs = computed(() => ({
       [prefix]: true,
       [prefix + '--disabled']: props.disabled,
@@ -78,7 +78,7 @@ const Option = defineComponent({
     return () => h(
       'li',
       {
-        style: { position: 'relative', display: state.hidden ? 'none' : 'block' },
+        style: { display: state.hidden ? 'none' : 'block' },
         class: classs.value,
         onClick: handleSelect,
         onMouseout: blur,
@@ -86,15 +86,7 @@ const Option = defineComponent({
       },
       [
         slots.default?.() || props.label,
-        state.selected ? h('i', {
-          class: 'icon icon-check',
-          style: {
-            position: 'absolute',
-            right: '8px',
-            color: '#1890ff',
-            top: '10px',
-          }
-        }) : null
+        state.selected ? h('i', { class: 'icon icon-check'}) : null
       ]
     )
   }

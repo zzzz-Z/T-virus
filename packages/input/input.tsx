@@ -84,25 +84,25 @@ export default defineComponent<InputProps, {}, {}>({
     }
 
     const cls = computed(() => [
-      'at-input',
+      'v-input',
       {
-        [`at-input--${props.status}`]: props.status,
-        [`at-input--${props.size}`]: props.size,
-        'at-input-group': slots.prepend || slots.append,
-        'at-input--disabled': props.disabled,
-        'at-input--prepend': slots.prepend,
-        'at-input--append': slots.append,
-        'at-input--icon': props.icon
+        [`v-input--${props.status}`]: props.status,
+        [`v-input--${props.size}`]: props.size,
+        'v-input-group': slots.prepend || slots.append,
+        'v-input--disabled': props.disabled,
+        'v-input--prepend': slots.prepend,
+        'v-input--append': slots.append,
+        'v-input--icon': props.icon
       }
     ])
 
     const iconCls = computed(() => {
       const name = props.icon || props.status
-      return [{ [`icon-${name}`]: name }, 'at-input__icon icon']
+      return [{ [`icon-${name}`]: name }, 'v-input__icon icon']
     })
 
     const prependCls = computed(() => ({
-      class: ['at-input-group__prepend', { 'at-input-group--button': false }]
+      class: ['v-input-group__prepend', { 'v-input-group--button': false }]
     }))
 
     return () => {
@@ -117,7 +117,7 @@ export default defineComponent<InputProps, {}, {}>({
         autocomplete: props.autocomplete,
         onKeyup,
         onInput,
-        class: 'at-input__original'
+        class: 'v-input__original'
       })
       return h('div', { class: cls.value }, [prepend, input, icon])
     }

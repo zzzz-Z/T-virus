@@ -2,38 +2,38 @@
  * Timeline
  */
 
-.at-timeline {
+.v-timeline {
   /* element */
   &__item {
     position: relative;
     padding: 0 0 12px;
 
     &--default {
-      .at-timeline__dot {
+      .v-timeline__dot {
         color: $timeline-dot-color;
         border-color: $timeline-dot-color;
       }
     }
     &--success {
-      .at-timeline__dot {
+      .v-timeline__dot {
         color: $timeline-dot-color-success;
         border-color: $timeline-dot-color-success;
       }
     }
     &--error {
-      .at-timeline__dot {
+      .v-timeline__dot {
         color: $timeline-dot-color-error;
         border-color: $timeline-dot-color-error;
       }
     }
     &--warning {
-      .at-timeline__dot {
+      .v-timeline__dot {
         color: $timeline-dot-color-warning;
         border-color: $timeline-dot-color-warning;
       }
     }
     &--custom {
-      .at-timeline__dot {
+      .v-timeline__dot {
         top: -2px;
         left: -4px;
         width: $timeline-custom-dot-size;
@@ -49,10 +49,10 @@
       }
     }
     &--last {
-      .at-timeline__tail {
+      .v-timeline__tail {
         display: none
       }
-      .at-timeline__content {
+      .v-timeline__content {
         min-height: $timeline-item-last-min-height;
       }
     }
@@ -83,13 +83,13 @@
 
   /* modifier */
   &--pending {
-    .at-timeline__item--pending {
-      .at-timeline__tail {
+    .v-timeline__item--pending {
+      .v-timeline__tail {
         display: none
       }
     }
-    .at-timeline__item--last {
-      .at-timeline__tail {
+    .v-timeline__item--last {
+      .v-timeline__tail {
         display: inline-block;
         border-left-style: dotted;
       }

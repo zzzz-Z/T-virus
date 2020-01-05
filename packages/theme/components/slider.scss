@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-slider {
+.v-slider {
   position: relative;
 
   /* element */
@@ -41,14 +41,14 @@
     user-select: none;
 
     &:hover,
-    &.at-slider__dot-wrapper--hover {
+    &.v-slider__dot-wrapper--hover {
       cursor: grab;
     }
-    &.at-slider__dot-wrapper--drag {
+    &.v-slider__dot-wrapper--drag {
       cursor: grabbing;
     }
     /* tooltip */
-    .at-tooltip {
+    .v-tooltip {
       display: block;
       height: 100%;
       line-height: 1;
@@ -61,7 +61,7 @@
         vertical-align: middle;
       }
     }
-    .at-tooltip__trigger {
+    .v-tooltip__trigger {
       vertical-align: middle;
     }
   }
@@ -91,10 +91,10 @@
 
   /* modifier */
   &--disabled {
-    .at-slider__bar {
+    .v-slider__bar {
       background-color: $slider-bar-bg-color-disabled;
     }
-    .at-slider__dot {
+    .v-slider__dot {
       background-color: $slider-dot-color-disabled;
     }
   }

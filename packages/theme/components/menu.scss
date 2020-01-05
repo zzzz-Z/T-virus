@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-menu {
+.v-menu {
   position: relative;
   display: block;
   margin: 0;
@@ -31,7 +31,7 @@
     i {
       margin-right: 8px;
     }
-    .at-menu__item-link {
+    .v-menu__item-link {
       padding: $menu-item-padding;
       width: 100%;
     }
@@ -39,7 +39,7 @@
     &--disabled {
       cursor: not-allowed;
 
-      .at-menu__item-link {
+      .v-menu__item-link {
         color: $menu-text-color-disabled;
         cursor: not-allowed;
         pointer-events: none;
@@ -84,13 +84,13 @@
       margin-right: 8px;
     }
   }
-  .at-dropdown__popover {
+  .v-dropdown__popover {
     width: 100%;
   }
-  .at-dropdown-menu {
+  .v-dropdown-menu {
     max-height: none;
 
-    .at-menu__item {
+    .v-menu__item {
       @include ellipsis();
       display: block;
       font-size: $menu-dropdown-item-font-size;
@@ -114,11 +114,11 @@
 
   &--horizontal,
   &--vertical {
-    .at-menu__item-group-list .at-menu__item {
+    .v-menu__item-group-list .v-menu__item {
       float: none;
 
-      &.at-menu__item--active .at-menu__item-link,
-      .at-menu__item-link.router-link-active {
+      &.v-menu__item--active .v-menu__item-link,
+      .v-menu__item-link.router-link-active {
         color: $menu-item-text-color-active;
         font-weight: bold;
         // background-color: $menu-item-bg-color-active;
@@ -137,14 +137,14 @@
     line-height: $menu-height-horizontal;
     border-bottom: 1px solid $menu-border-color;
 
-    .at-menu__item,
-    .at-menu__submenu {
+    .v-menu__item,
+    .v-menu__submenu {
       position: relative;
       float: left;
     }
-    .at-menu__item {
-      &.at-menu__item--active {
-        .at-menu__item-link {
+    .v-menu__item {
+      &.v-menu__item--active {
+        .v-menu__item-link {
           color: $menu-item-text-color-active;
 
           a {
@@ -156,7 +156,7 @@
         }
       }
       &--disabled {
-        .at-menu__item-link {
+        .v-menu__item-link {
           color: $menu-text-color-disabled;
 
           &:hover {
@@ -165,7 +165,7 @@
         }
       }
     }
-    .at-menu__item-link {
+    .v-menu__item-link {
       display: inline-block;
       padding: $menu-item-padding-base;
 
@@ -190,10 +190,10 @@
         }
       }
     }
-    > .at-menu__submenu {
+    > .v-menu__submenu {
       &:hover,
-      &.at-menu__submenu--active {
-        > .at-menu__submenu-title {
+      &.v-menu__submenu--active {
+        > .v-menu__submenu-title {
           color: $menu-item-text-color-active;
         }
         &::after {
@@ -201,7 +201,7 @@
         }
       }
     }
-    .at-menu__submenu {
+    .v-menu__submenu {
       &::after {
         content: '';
         position: absolute;
@@ -214,14 +214,14 @@
         transform: scaleX(0);
         transition: all .15s;
       }
-      .at-menu__submenu-title {
+      .v-menu__submenu-title {
         padding: $menu-item-padding-base;
       }
-      .at-menu__item {
+      .v-menu__item {
         display: block;
         float: none;
 
-        .at-menu__item-link {
+        .v-menu__item-link {
           padding: $menu-submenu-padding;
           padding-left: 16px;
 
@@ -230,14 +230,14 @@
           }
         }
       }
-      .at-menu__submenu {
+      .v-menu__submenu {
         display: block;
         float: none;
         height: inherit;
         font-size: $menu-dropdown-item-font-size;
         line-height: 1.5;
 
-        .at-menu__submenu-title {
+        .v-menu__submenu-title {
           padding: $menu-submenu-padding;
           padding-right: 16px;
 
@@ -249,7 +249,7 @@
             transform: rotate(-90deg);
           }
         }
-        &.at-menu__submenu--active {
+        &.v-menu__submenu--active {
           &::after {
             transform: scaleX(0);
           }
@@ -257,15 +257,15 @@
       }
 
       &:hover,
-      &.at-menu__submenu--active {
-        > .at-menu__submenu-title {
+      &.v-menu__submenu--active {
+        > .v-menu__submenu-title {
           color: $menu-item-text-color-active;
         }
       }
       &--disabled {
         &:hover,
-        &.at-menu__submenu--active {
-          .at-menu__submenu-title {
+        &.v-menu__submenu--active {
+          .v-menu__submenu-title {
             color: $menu-text-color-disabled;
             cursor: not-allowed;
           }
@@ -282,13 +282,13 @@
     position: relative;
     border-right: 1px solid $menu-border-color;
 
-    .at-menu__item,
-    .at-menu__submenu {
+    .v-menu__item,
+    .v-menu__submenu {
       position: relative;
       display: block;
     }
-    > .at-menu__item.at-menu__item--active {
-      > .at-menu__item-link {
+    > .v-menu__item.v-menu__item--active {
+      > .v-menu__item-link {
         background-color: $menu-item-bg-color-active-inline;
 
         &::after {
@@ -296,16 +296,16 @@
         }
       }
     }
-    > .at-menu__submenu {
+    > .v-menu__submenu {
       &:hover {
         &::after {
           opacity: 1;
         }
-        > .at-menu__submenu-title {
+        > .v-menu__submenu-title {
           color: $menu-item-text-color-active;
         }
       }
-      &.at-menu__submenu--active {
+      &.v-menu__submenu--active {
         background-color: $menu-item-bg-color-active-inline;
 
         &::after {
@@ -313,8 +313,8 @@
         }
       }
     }
-    > .at-menu__item {
-      > .at-menu__item-link {
+    > .v-menu__item {
+      > .v-menu__item-link {
         &:hover {
           color: $menu-item-text-color-active;
 
@@ -324,9 +324,9 @@
         }
       }
     }
-    .at-menu__item {
-      &.at-menu__item--active {
-        .at-menu__item-link {
+    .v-menu__item {
+      &.v-menu__item--active {
+        .v-menu__item-link {
           color: $menu-item-text-color-active;
 
           a {
@@ -342,7 +342,7 @@
             color: $menu-text-color-disabled;
           }
         }
-        .at-menu__item-link.router-link-active {
+        .v-menu__item-link.router-link-active {
           color: $menu-item-text-color-active;
 
           &:hover {
@@ -351,7 +351,7 @@
         }
       }
     }
-    .at-menu__item-link {
+    .v-menu__item-link {
       padding: $menu-submenu-padding;
       padding-left: 32px;
 
@@ -382,7 +382,7 @@
         }
       }
     }
-    .at-menu__submenu {
+    .v-menu__submenu {
       font-size: $menu-font-size;
 
       &::after {
@@ -400,7 +400,7 @@
         transition: opacity .2s;
         opacity: 0;
       }
-      .at-menu__submenu-title {
+      .v-menu__submenu-title {
         padding: $menu-submenu-padding;
         padding-left: 32px;
 
@@ -412,34 +412,34 @@
           transform: rotate(-90deg);
         }
       }
-      .at-menu__submenu {
+      .v-menu__submenu {
         font-size: $menu-dropdown-item-font-size;
 
-        .at-menu__submenu-title {
+        .v-menu__submenu-title {
           padding-left: 24px;
         }
       }
-      .at-menu__item-link {
+      .v-menu__item-link {
         padding-left: 24px;
       }
 
       &:hover,
-      &.at-menu__submenu--active {
-        > .at-menu__submenu-title {
+      &.v-menu__submenu--active {
+        > .v-menu__submenu-title {
           color: $menu-item-text-color-active;
         }
       }
-      &.at-menu__submenu--disabled {
+      &.v-menu__submenu--disabled {
         &:hover,
-        &.at-menu__submenu--active {
-          > .at-menu__submenu-title {
+        &.v-menu__submenu--active {
+          > .v-menu__submenu-title {
             color: $menu-text-color-disabled;
             cursor: not-allowed;
           }
         }
       }
     }
-    .at-menu__item-group-title {
+    .v-menu__item-group-title {
       padding-left: 16px;
       font-weight: bold;
     }
@@ -450,23 +450,23 @@
     position: relative;
     border-right: 1px solid $menu-border-color;
 
-    .at-menu__item,
-    .at-menu__submenu {
+    .v-menu__item,
+    .v-menu__submenu {
       position: relative;
       display: block;
       padding-left: 0;
       transition: all .3s, color 0s;
     }
-    .at-menu__item {
+    .v-menu__item {
       &:hover {
         color: $menu-item-text-color-active;
 
-        > .at-menu__item-link {
+        > .v-menu__item-link {
           color: $menu-item-text-color-active;
         }
       }
-      &.at-menu__item--active {
-        .at-menu__item-link {
+      &.v-menu__item--active {
+        .v-menu__item-link {
           color: $menu-item-text-color-active;
           background-color: $menu-item-bg-color-active-inline;
 
@@ -476,8 +476,8 @@
         }
       }
       &--disabled {
-        &.at-menu__item--active {
-          .at-menu__item-link {
+        &.v-menu__item--active {
+          .v-menu__item-link {
             color: $menu-text-color-disabled;
             background-color: transparent;
 
@@ -488,39 +488,39 @@
         }
       }
     }
-    .at-menu__submenu {
+    .v-menu__submenu {
       font-size: $menu-font-size;
 
-      &.at-menu__submenu--active {
-        > .at-menu__submenu-title {
+      &.v-menu__submenu--active {
+        > .v-menu__submenu-title {
           color: $menu-item-text-color-active;
         }
       }
-      &.at-menu__submenu--disabled {
+      &.v-menu__submenu--disabled {
         &:hover,
-        &.at-menu__submenu--active {
-          > .at-menu__submenu-title {
+        &.v-menu__submenu--active {
+          > .v-menu__submenu-title {
             color: $menu-text-color-disabled;
             cursor: not-allowed;
           }
         }
       }
-      &.at-menu__submenu--opened {
-        .at-menu__submenu-title {
+      &.v-menu__submenu--opened {
+        .v-menu__submenu-title {
           font-weight: bold;
 
         }
-        .at-menu__submenu-icon {
+        .v-menu__submenu-icon {
           transform: rotate(-180deg);
         }
       }
 
-      > .at-menu__submenu-title {
+      > .v-menu__submenu-title {
         &:hover {
           color: $menu-item-text-color-active;
         }
       }
-      .at-menu__submenu-title {
+      .v-menu__submenu-title {
         padding: $menu-item-padding-inline;
         padding-left: 32px;
 
@@ -531,18 +531,18 @@
           margin-top: -$menu-icon-size / 2;
         }
       }
-      .at-menu__submenu-icon {
+      .v-menu__submenu-icon {
         color: $menu-icon-color-inline;
         transition: transform .3s;
       }
-      .at-menu__submenu {
+      .v-menu__submenu {
         font-size: $menu-font-size;
       }
-      .at-menu__item-link {
+      .v-menu__item-link {
         padding-left: 48px;
       }
     }
-    .at-menu__item-link {
+    .v-menu__item-link {
       padding: $menu-item-padding-inline;
       padding-left: 32px;
       transition: all .3s;
@@ -571,10 +571,10 @@
         }
       }
     }
-    .at-menu {
+    .v-menu {
       margin: 8px 0;
     }
-    .at-menu__item-group-title {
+    .v-menu__item-group-title {
       padding-left: 40px;
       font-weight: bold;
     }
@@ -585,15 +585,15 @@
     color: $menu-text-color-dark;
     background-color: $menu-bg-color-dark;
 
-    .at-menu {
+    .v-menu {
       color: $menu-text-color-dark;
       background-color: $menu-bg-color-dark;
     }
-    .at-menu__item {
+    .v-menu__item {
       a {
         color: $menu-text-color-dark;
       }
-      .at-menu__item-link {
+      .v-menu__item-link {
         &::after {
           width: 4px;
           border-radius: 0;
@@ -603,8 +603,8 @@
       }
 
       &:hover,
-      &.at-menu__item--active {
-        .at-menu__item-link {
+      &.v-menu__item--active {
+        .v-menu__item-link {
           color: $menu-text-color-dark-hover;
           background-color: $menu-bg-color-dark-hover;
 
@@ -617,24 +617,24 @@
         opacity: 0.5;
 
         &:hover,
-        &.at-menu__item--active {
-          .at-menu__item-link {
+        &.v-menu__item--active {
+          .v-menu__item-link {
             color: $menu-text-color-disabled;
             background-color: transparent;
           }
         }
       }
     }
-    .at-menu__submenu {
+    .v-menu__submenu {
       &:hover,
-      &.at-menu__submenu--active {
-        .at-menu__submenu-title {
+      &.v-menu__submenu--active {
+        .v-menu__submenu-title {
           color: $menu-text-color-dark-hover;
           font-weight: bold;
         }
       }
-      &.at-menu__submenu--disabled {
-        .at-menu__submenu-title {
+      &.v-menu__submenu--disabled {
+        .v-menu__submenu-title {
           opacity: .5;
           font-weight: normal;
           cursor: not-allowed;
@@ -642,35 +642,35 @@
       }
     }
 
-    &.at-menu--horizontal {
+    &.v-menu--horizontal {
       border: none;
 
-      .at-menu__item,
-      .at-menu__submenu {
+      .v-menu__item,
+      .v-menu__submenu {
         &:hover,
-        &.at-menu__item--active,
-        &.at-menu__submenu--active {
+        &.v-menu__item--active,
+        &.v-menu__submenu--active {
           &::after {
             width: 100%;
             height: 4px;
           }
         }
       }
-      .at-menu__submenu {
-        &.at-menu__submenu--disabled {
+      .v-menu__submenu {
+        &.v-menu__submenu--disabled {
           &:hover,
-          &.at-menu__item--active {
-            .at-menu__submenu-title {
+          &.v-menu__item--active {
+            .v-menu__submenu-title {
               color: $menu-text-color-disabled;
             }
           }
         }
-        .at-menu__item {
+        .v-menu__item {
           color: $menu-text-color;
 
           &:hover,
-          &.at-menu__item--active {
-            .at-menu__item-link {
+          &.v-menu__item--active {
+            .v-menu__item-link {
               color: $menu-item-text-color-active;
               background-color: transparent;
 
@@ -685,9 +685,9 @@
         }
       }
     }
-    &.at-menu--vertical {
-      .at-menu__submenu {
-        &.at-menu__submenu--active {
+    &.v-menu--vertical {
+      .v-menu__submenu {
+        &.v-menu__submenu--active {
           background-color: transparent;
 
           &::after {
@@ -699,12 +699,12 @@
             opacity: 1;
           }
         }
-        .at-menu__item {
+        .v-menu__item {
           color: $menu-text-color;
 
           &:hover,
-          &.at-menu__item--active {
-            .at-menu__item-link {
+          &.v-menu__item--active {
+            .v-menu__item-link {
               color: $menu-item-text-color-active;
               background-color: transparent;
 
@@ -713,8 +713,8 @@
               }
             }
           }
-          &.at-menu__item--disabled {
-            .at-menu__item-link {
+          &.v-menu__item--disabled {
+            .v-menu__item-link {
               color: $menu-text-color-disabled;
             }
           }

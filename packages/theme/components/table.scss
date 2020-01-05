@@ -3,7 +3,7 @@
  */
 @import '../variables/index.scss';
 
-.at-table {
+.v-table {
   position: relative;
   color: $table-text-color;
   font-size: $table-font-size;
@@ -22,7 +22,7 @@
       vertical-align: middle;
       border-bottom: 1px solid $table-border-color;
 
-      &.at-table__cell--nodata {
+      &.v-table__cell--nodata {
         text-align: center;
       }
     }
@@ -44,7 +44,7 @@
       white-space: nowrap;
     }
 
-    .at-table__column-sorter {
+    .v-table__column-sorter {
       display: inline-block;
       vertical-align: middle;
       height: $table-sorter-height;
@@ -63,12 +63,12 @@
         }
       }
       &.sort-desc {
-        .at-table__column-sorter-down {
+        .v-table__column-sorter-down {
           color: $table-text-color;
         }
       }
       &.sort-asc {
-        .at-table__column-sorter-up {
+        .v-table__column-sorter-up {
           color: $table-text-color;
         }
       }
@@ -88,7 +88,7 @@
     margin: 16px 0;
     height: $table-footer-height;
 
-    .at-pagination {
+    .v-pagination {
       float: right;
 
       &__total {
@@ -102,10 +102,10 @@
 
   /* modifier */
   &--fixHeight {
-    .at-table__content {
+    .v-table__content {
       border-bottom-width: 1px;
     }
-    .at-table__header {
+    .v-table__header {
       position: absolute;
       top: 0;
       left: 0;
@@ -116,17 +116,17 @@
         border-bottom: none;
       }
     }
-    .at-table__body {
+    .v-table__body {
       overflow: scroll;
     }
-    .at-table__tbody {
+    .v-table__tbody {
       > tr:last-child td {
         border-bottom: none;
       }
     }
   }
   &--stripe {
-    .at-table__tbody {
+    .v-table__tbody {
       & > tr {
         &:nth-child(2n) {
           background-color: $table-tr-bg-color-stripe;
@@ -138,11 +138,11 @@
     }
   }
   &--border {
-    .at-table__content {
+    .v-table__content {
       border-right: none;
     }
-    .at-table__thead,
-    .at-table__tbody {
+    .v-table__thead,
+    .v-table__tbody {
       th, td {
         border-right: 1px solid $table-border-color;
       }
@@ -165,8 +165,8 @@
         height: $table-cell-height-small;
       }
     }
-    .at-table__thead {
-      .at-table__column-sorter {
+    .v-table__thead {
+      .v-table__column-sorter {
         width: $table-sorter-width-small;
         height: $table-sorter-height-small;
 

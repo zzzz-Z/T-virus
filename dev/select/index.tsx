@@ -1,4 +1,4 @@
-import { Select, Option } from 'ui'
+import { Select, Option, Button } from 'ui'
 import {
   defineComponent,
   h,
@@ -8,13 +8,17 @@ import {
   reactive,
   watch
 } from 'next-vue'
+
 export default defineComponent({
   setup() {
     const model = reactive([])
-    return () =>
+    return () => [
+      h(Button, { size: 'small' }, 'text'),
       h(
         Select,
         {
+          style: { width: '300px' },
+          class: ['xx', 'zz'],
           placeholder: '测试placeholder',
           clearable: true,
           filterable: true,
@@ -32,5 +36,6 @@ export default defineComponent({
           h(Option, { value: 3, label: '测试3.111' })
         ]
       )
+    ]
   }
 })
