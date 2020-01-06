@@ -5,10 +5,10 @@ import {
   watch,
   computed,
   h,
-  PropType,
   ref,
   onMounted,
 } from 'next-vue'
+import { withVif } from '../utils/directives'
 
 export const inputProps: any = {
   elementId: String,
@@ -17,37 +17,40 @@ export const inputProps: any = {
   status: String,
   size: String,
   maxlength: Number,
-  placeholder: String, // 原生属性
-  wrap: ({ type: String, default: 'soft' } as any) as PropType<'hard' | 'soft'>,
+  placeholder: String,
   prefix: { type: String, default: '' },
   suffix: { type: String, default: '' },
   search: { type: Boolean, default: false },
-  enterButton: { type: [Boolean, String], default: false },
-  after: [Object, String],
-  pre: [Object, String],
-  type: { type: String, default: 'text' }, // 绑定的值，可使用 v-model 双向绑定
+  append: [Object, String],
+  prepend: [Object, String],
+  type: { type: String, default: 'text' },
   value: { type: [String, Number], default: '' },
-  disabled: { type: Boolean, default: false }, // 设置输入框为禁用状态
+  disabled: { type: Boolean, default: false },
   autosize: { type: [Boolean, Object], default: false },
   rows: { type: Number, default: 2 },
   readonly: { type: Boolean, default: false },
   autofocus: { type: Boolean, default: false },
   spellcheck: { type: Boolean, default: false },
   autocomplete: { type: String, default: 'off' },
-  clearable: { type: Boolean, default: false } // 是否显示清空按钮
+  clearable: { type: Boolean, default: false }
 }
 
 export default defineComponent<InputProps, {}, {}>({
   name: 'Input',
   inheritAttrs: false,
   props: inputProps,
-  setup(props, { emit, slots }) {
-    const state = reactive({value: props.value})
-    const inputRef = ref<HTMLInputElement | null>(null)
-    const afterRef = ref<HTMLLIElement | null>(null)
-    onMounted(() => {
-      console.log(afterRef.value?.getBoundingClientRect());
+  setup(props, { emit, slots, attrs }) {
+    const state = reactive({
+      value: props.value,
+      prefix: { width: 0, offset: 0 },
+      suffix: { width: 0, offset: 0 },
     })
+    const inputRef = ref<HTMLInputElement | null>(null)
+    const appendRef = ref<HTMLLIElement | null>(null)
+    const prependRef = ref<HTMLLIElement | null>(null)
+    const prefixRef = ref<HTMLLIElement | null>(null)
+    const suffixRef = ref<HTMLLIElement | null>(null)
+
     watch(
       () => props.value,
       val => {
@@ -80,46 +83,49 @@ export default defineComponent<InputProps, {}, {}>({
     }
 
     const cls = computed(() => {
-      const { status, size, pre, after, icon, disabled } = props
-      const prepend = pre || slots.pre  
-      const append = after || slots.after  
-      const group = prepend || append
+      const { status, size, prepend, append, disabled } = props
+      const _prepend = prepend || slots.prepend
+      const _append = append || slots.append
+      const group = _prepend || _append
       return [
-      'v-input',
-      {
-        [`v-input--${status}`]: status,
-        [`v-input--${size}`]: size,
-        'v-input-group': group,
-        'v-input--disabled': disabled,
-        'v-input--prepend': prepend,
-        'v-input--append': append,
-        'v-input--icon': icon
-      }
-    ]
+        attrs.class,
+        'v-input',
+        {
+          [`v-input--${status}`]: status,
+          [`v-input--${size}`]: size,
+          'v-input-group': group,
+          'v-input--disabled': disabled,
+          'v-input--prepend': _prepend,
+          'v-input--append': _append
+        }
+      ]
+    })
+  
+    watch(() => {
+      state.prefix.offset = prependRef.value!.offsetWidth
+      state.prefix.width = prefixRef.value!.offsetWidth
+      state.suffix.offset = appendRef.value!.offsetWidth
+      state.suffix.width = suffixRef.value!.offsetWidth
     })
 
-    const icon = () => {
-      const { icon, status } = props
-      const name = icon || status
-      const render = h('i', { class: 'v-input__icon' }, icon || slots.icon?.())
-      switch (typeof icon) {
-        case 'string': return h('i', {
-          class: [{ [`icon-${name}`]: name }, 'v-input__icon icon'],
-          onClick: clean
-        })
-        case 'object': return render
-        default: return slots.icon ? render : null
-      }
+    const render = (type: 'append' | 'prepend') => {
+      const node = props[type] || slots[type]?.()
+      return withVif(
+        h('div', {
+          ref: type === 'append' ? appendRef : prependRef,
+          class: ['v-input-group__' + type, { 'v-input-group--button': node }]
+        }, node),
+        node
+      )
     }
 
-    const after = () => {
-      const node = props.after || slots.after?.()
-      return node ?
-        h('div', {
-          ref:afterRef,
-          class: ['v-input-group__append', { 'v-input-group--button': true }]
-        }, node)
-        : null
+    const renderFix = (type: 'prefix' | 'suffix') => {
+      const isPrefix = type === 'prefix'
+      return h('span', {
+        ref: isPrefix ? prefixRef : suffixRef,
+        style: { [isPrefix ? 'left' : 'right']: state[type].offset + 'px' },
+        class: 'v-input--' + type
+      }, props[type] || slots[type]?.())
     }
 
     const input = () => {
@@ -132,14 +138,23 @@ export default defineComponent<InputProps, {}, {}>({
         autocomplete: props.autocomplete,
         onKeyup,
         onInput,
-        class: 'v-input__original'
+        class: 'v-input__original',
+        style: {
+          'padding-left': state.prefix.width + 'px',
+          'padding-right': state.suffix.width + 'px',
+        }
       })
     }
 
     return () => h(
       'div',
-      { class: cls.value },
-      [input(), icon(), after()]
+      { class: cls.value, style: attrs.style },
+      [
+        render('prepend'),
+        renderFix('prefix'),
+        input(),
+        renderFix('suffix'),
+        render('append')]
     )
   }
 })

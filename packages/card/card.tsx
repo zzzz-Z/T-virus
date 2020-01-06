@@ -1,4 +1,5 @@
 import { defineComponent, PropType, VNode, h } from 'next-vue'
+import { withVif } from '../utils/directives'
 
 export default defineComponent({
   name: 'Card',
@@ -13,26 +14,30 @@ export default defineComponent({
   setup(props, { slots }) {
     return () => {
       const { border, title, disHover, extra, bodyStyle: style } = props
-      const DefSolot = slots.default && slots.default()
       const TitleSlot = title || slots.title?.()
       const ExtraSlot = extra || slots.extra?.()
-      const Body = h('div', { style, class: 'v-card__body' }, DefSolot)
-      const Header =
-        (TitleSlot || ExtraSlot) &&
+      const Body = h('div', {
+        style,
+        class: 'v-card__body'
+      },
+        slots.default?.()
+      )
+      const Header = withVif(
         h('div', { class: 'v-card__head' }, [
-          TitleSlot && h('div', { class: 'v-card__title' }, TitleSlot),
-          ExtraSlot && h('div', { class: 'v-card__extra' }, ExtraSlot)
-        ])
+          withVif(h('div', { class: 'v-card__title' }, TitleSlot), TitleSlot),
+          withVif(h('div', { class: 'v-card__title' }, ExtraSlot), ExtraSlot),
+        ]),
+        TitleSlot || ExtraSlot
+      )
 
-      const classs = [
-        `v-card`,
-        {
-          'v-card--bordered': border,
-          'v-card--no-hover': disHover
-        }
-      ]
-
-      return h('div', { class: classs }, [Header, Body])
+      return h(
+        'div', {
+        class: [
+          `v-card`,
+          { 'v-card--bordered': border, 'v-card--no-hover': disHover }
+        ]
+      }, [Header, Body]
+      )
     }
   }
 })

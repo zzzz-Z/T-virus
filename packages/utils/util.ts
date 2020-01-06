@@ -171,16 +171,3 @@ export function removeClass(el: Element, cls: string) {
     el.className = trim(curClass)
   }
 }
-
-export function vShow(node: VNode, show: boolean) {
-  node.props = node.props || {}
-  node.props.style = {
-    ...node.props.style,
-    display: show ? 'block' : 'none'
-  }
-  return node
-}
-
-export function vIf(vc: VNode, bol: boolean) {
-  return bol ? vc : null
-}

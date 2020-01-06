@@ -1,6 +1,5 @@
-import { computed, defineComponent, h, onMounted, provide, reactive, ref, Transition, VNode, watch, withDirectives } from 'next-vue'
-import clickoutside from '../utils/clickoutside'
-import { vShow } from '../utils/util'
+import { computed, defineComponent, h, onMounted, provide, reactive, ref, Transition, VNode, watch, withDirectives, TransitionGroup } from 'next-vue'
+import { withVshow, withClickoutside, withVif } from '../utils/directives'
 
 const selectProps = {
   value: { type: [String, Number, Array], default: '' },
@@ -341,19 +340,22 @@ const Select = defineComponent({
     }
 
     function renderMultipleTags() {
-      return state.selectedMultiple.map((item, index) => {
-        const tagAttrs = {
-          class: 'icon icon-x v-tag__close',
-          onClick: (e: Event) => {
-            e.stopPropagation()
-            removeTag(index)
-          }
-        }
-        return h('span', { class: 'v-tag' }, [
-          h('span', { class: 'v-tag__text' }, item.label),
-          h('i', tagAttrs)
-        ])
-      })
+      return h(
+        TransitionGroup,
+        { tag: 'span', name: 'slide-up' },
+        () => state.selectedMultiple.map((item, index) => {
+          return h('span', { class: 'v-tag' }, [
+            h('span', { class: 'v-tag__text' }, item.label),
+            h('i', {
+              class: 'icon icon-x v-tag__close',
+              onClick: (e: Event) => {
+                e.stopPropagation()
+                removeTag(index)
+              }
+            })
+          ])
+        })
+      )
     }
 
     function renderInput() {
@@ -377,20 +379,23 @@ const Select = defineComponent({
         onClick: toggleMenu
       }
 
-      const placeholder = showPlaceholder.value && !props.filterable
-        ? h('span', { class: 'v-select__placeholder' }, props.placeholder)
-        : null
+      const placeholder = withVif(
+        h('span', { class: 'v-select__placeholder' }, props.placeholder),
+        showPlaceholder.value && !props.filterable
+      )
 
-      const clearAttrs = {
-        class: 'icon icon-x v-select__clear',
-        onClick: (e: Event) => {
-          e.stopPropagation()
-          clearSingleSelect()
-        }
-      }
-
+      const clear = withVif(
+        h('i', {
+          class: 'icon icon-x v-select__clear',
+          onClick: (e: Event) => {
+            e.stopPropagation()
+            clearSingleSelect()
+          }
+        }),
+        showCloseIcon.value
+      )
+      
       const arrow = h('i', { class: 'icon icon-chevron-down v-select__arrow' })
-      const clear = showCloseIcon.value ? h('i', clearAttrs) : null
 
       return h('div', selectionProps, [
         renderMultipleTags(),
@@ -403,36 +408,32 @@ const Select = defineComponent({
 
     function renderDropdown() {
       const { placement, notFoundText } = props
-      const { visible } = state
       const preClass = 'v-select__dropdown'
-      const dropDwonProps = {
-        ref: popoverEl,
-        style: { display: visible ? 'block' : 'none' },
-        class: [preClass, placement ? `${preClass}--${placement}` : `${preClass}--bottom`]
-      }
       const childClass = notFound.value ? 'v-select__not-found' : 'v-select__list'
-      const wapper = (child: VNode, show: boolean) => vShow(h('ul', { class: childClass }, child), show)
+      const wapper = (child: VNode, show: boolean) => withVshow(h('ul', { class: childClass }, child), show)
       const noOption = wapper(h('li', notFoundText), notFound.value)
       const hasOption = wapper(h('li', slots.default?.()), !notFound.value)
-
-
+      const dropDwonProps = {
+        ref: popoverEl,
+        class: [preClass, placement ? `${preClass}--${placement}` : `${preClass}--bottom`]
+      }
       return h(
         Transition,
         { name: 'slide-up' },
-        () => h(
-          'div',
-          dropDwonProps,
-          [noOption, hasOption]
-        ))
+        () => withVshow(
+          h('div', dropDwonProps, [noOption, hasOption]),
+          state.visible
+        )
+      )
     }
 
-    return () => withDirectives(
+    return () => withClickoutside(
       h('div', {
         style: attrs.style,
         class: classs.value,
         onKeydown: handleKeydown,
       }, [renderSelection(), renderDropdown()]),
-      [[clickoutside, hideMenu]]
+      hideMenu
     )
   }
 })

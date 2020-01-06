@@ -1,42 +1,23 @@
-import { Select, Option, Button, Input, Radio, RadioGroup } from 'ui'
-import { defineComponent, h, reactive, Transition } from 'next-vue'
-import { withVif, withVModel } from '../../packages/utils/directives'
+import { Select, Option, Button, Input } from 'ui'
+import './index.scss'
+import { defineComponent, h, reactive, Transition, onMounted } from 'next-vue'
+import { withVif } from '../../packages/utils/directives'
 
 export default defineComponent({
   setup() {
     const model = reactive([])
     const state = reactive({
-      show: true,
-      radio: 1
+      show: false
     })
 
     return () => [
-      h(RadioGroup, {
-        value: state.radio,
-        onInput: val => {
-          state.radio = val
-          console.log(val);
-        }
-      },
-        () => [
-          h(Radio, { label: 1 }, () => '选项一'),
-          h(Radio, { label: 2 }, () => '选项2'),
-        ]),
       h(
         Button,
         { size: 'small', onClick: () => (state.show = !state.show) },
         () => 'click'
       ),
       h(Transition, { name: 'slide-up' }, () =>
-        withVif(
-          h(Input, {
-            prefix: 'pre',
-            prepend: h('a', 'pre'),
-            suffix: 'suf',
-            append: 'append'
-          }),
-          state.show
-        )
+        withVif(h('div', 111), state.show)
       ),
       h(
         Select,

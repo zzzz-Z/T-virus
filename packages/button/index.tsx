@@ -1,5 +1,6 @@
 import { ButtonProps } from './type'
 import { defineComponent, h } from 'next-vue'
+import { withVif } from '../utils/directives'
 
 const buttonProps: any = {
   shape: String,
@@ -17,12 +18,18 @@ const Button = defineComponent<ButtonProps, {}, {}>({
   props: buttonProps,
   setup: (props, { slots, attrs }) => () => {
     const { type, size, loading, icon, ghost } = props
-    const defSlot =
-      slots.default && h('span', { class: 'v-btn__text' }, slots.default())
-    const iconSlot =
-      icon && !loading && h('i', { class: ['v-btn__icon icon', icon] })
-    const loadingSlot =
-      loading && h('i', { class: 'v-btn__loading icon icon-loader' })
+    const defSlot = withVif(
+      h('span', { class: 'v-btn__text' }, slots.default()),
+      slots.default
+    )
+    const iconSlot = withVif(
+      h('i', { class: ['v-btn__icon icon', icon] }),
+      icon && !loading
+    )
+    const loadingSlot = withVif(
+      h('i', { class: 'v-btn__loading icon icon-loader' }),
+      loading
+    )
 
     return h(
       'button',

@@ -22,7 +22,7 @@
     background-color: $input-bg-color;
     border: 1px solid $border-color-base;
     border-radius: $border-radius-base;
-    transition: border .2s;
+    transition: border 0.2s;
     outline: none;
 
     &::placeholder {
@@ -56,6 +56,30 @@
   }
 
   /* Modifier */
+  &--prefix {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: $input-group-font-color;
+    font-size: $input-font-size-base;
+  }
+
+  &--suffix {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 5px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: $input-group-font-color;
+    font-size: $input-font-size-base;
+  }
+
   &--disabled {
     .v-input__original {
       color: $input-font-color-disabled;
@@ -166,7 +190,7 @@
   &--button {
     display: flex;
     align-items: center;
-    transition: backgroud .2s;
+    transition: backgroud 0.2s;
     user-select: none;
     cursor: pointer;
 
