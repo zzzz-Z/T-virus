@@ -7,7 +7,7 @@ export default {
   ...components,
   install: (App: any) => {
     Object.values(components).forEach(component => {
-      App.component('V' + component.name, component)
+      App.component(component.name, component)
     })
   }
 }

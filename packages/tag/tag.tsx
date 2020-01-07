@@ -31,7 +31,9 @@ export default defineComponent({
 
     const render = () => h(
       Transition, { name: 'fade' },
-      () => h('span', { style: colorStyle.value, class: ['v-tag', colorCls.value] },
+      () => h(
+        'span',
+        { style: colorStyle.value, class: ['v-tag', colorCls.value] },
         [
           h('span', { class: 'v-tag__text' }, slots.default?.()),
           withVif(
