@@ -9,7 +9,10 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Switch,
-  Alert
+  Alert,
+  Badge,
+  Col,
+  Row
 } from 'ui'
 import { defineComponent, h, reactive, Transition } from 'next-vue'
 import { withVif } from '../../packages/utils/directives'
@@ -21,7 +24,14 @@ export default defineComponent({
       show: true,
       radio: 1
     })
-    return () => [
+    const rows = (nodes: any[]) => () =>
+      h(Row, { gutter: 5 }, () =>
+        nodes.map(node =>
+          h(Col, { span: 24, style: { 'margin-bottom': '20px' } }, () => node)
+        )
+      )
+    return rows([
+      h(Badge, { value: 1, dot: false }, () => h(Button, () => 'ZCC')),
       h(Alert, {
         message: 'zcc',
         closable: true,
@@ -97,6 +107,6 @@ export default defineComponent({
           h(Option, { value: 3, label: '测试3.111' })
         ]
       )
-    ]
+    ])
   }
 })
