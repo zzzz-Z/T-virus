@@ -1,4 +1,4 @@
-import { h, defineComponent, reactive } from 'next-vue';
+import { h, defineComponent, reactive, watch } from 'next-vue';
 
 export default defineComponent({
   name: 'VSwitch',
@@ -10,19 +10,19 @@ export default defineComponent({
     unCheckedText: [String, Object]
   },
   setup(props, { emit, slots }) {
-    const state = reactive({
-      checkStatus: props.value
-    })
+    const state = reactive({ checkStatus: props.value })
 
+    watch(() => props.value, val => {
+      state.checkStatus = val
+    })
+    
     const toggle = () => {
       if (props.disabled) return
       state.checkStatus = !state.checkStatus
       emit('change', state.checkStatus)
+      emit('input', state.checkStatus)
     }
 
-    const checkedText = () => {
-      props.checkedText || slots.checkedText?.()
-    }
     return () => h(
       'span',
       {

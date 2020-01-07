@@ -30,8 +30,8 @@ export default defineComponent({
           }
         },
         () => [
-          h(Radio, { label: 1 }, () => '选项一'),
-          h(Radio, { label: 2 }, () => '选项2')
+          h(Radio, { value: 1 }, () => '选项一'),
+          h(Radio, { value: 2 }, () => '选项2')
         ]
       ),
       h(

@@ -23,17 +23,12 @@ export default defineComponent({
     const radios = reactive<any[]>([])
     provide('group', {
       radios,
-      input: (val: string | number) => {
+      props,
+      setModel: (val: string | number) => {
+        emit('change', val)
         emit('input', val)
       }
     })
-    watch(
-      () => props.value,
-      val => {
-        emit('input', val)
-        radios.forEach(setVal => setVal(val))
-      }
-    )
 
     return () => h(
       'div',

@@ -5,7 +5,7 @@ import {
   h,
   inject,
   onMounted,
-  getCurrentInstance,
+  computed,
 } from 'next-vue'
 
 const prefix = 'v-radio'
@@ -13,7 +13,6 @@ const prefix = 'v-radio'
 export const radioProps = {
   value: [String, Number],
   name: String,
-  label: { type: [String, Number], required: true },
   disabled: Boolean
 }
 
@@ -22,40 +21,41 @@ export default defineComponent({
   inheritAttrs: false,
   props: radioProps,
   setup(props, { emit, slots, attrs }) {
-    const group = inject<any>('group')
     const state = reactive({
       value: props.value,
       focus: false,
       isGroup: false,
+      checked: false
     })
-    const vm = getCurrentInstance()
-    onMounted(() => {
-      group.radios.push((val: string | number) => state.value = val)
+    const group = inject<any>('group')
+    const setModel = (val: any) => state.value = val
+    const focus = (val: boolean) => state.focus = val
+    const change = (e: InputEvent) => state.value = (e.target as HTMLInputElement).value
+    const click = (e:Event) => {
+      e.stopPropagation()
+      console.log(111);
+      state.checked = !state.checked
+    }
+    onMounted(() => group.radios.push(setModel))
+    watch(() => group.props.value, val => {
+      state.checked = val === state.value
+      console.log(state.checked);
     })
-
-    watch(
-      () => props.value,
-      val => state.value = val
-    )
-
     watch(
       () => state.value,
       val => {
-        emit('input', val)
-        group.input(val)
-      }
+        emit('change', val)
+        group.setModel(val)
+      },
+      { lazy: true }
     )
-
-
-    function focus(focus: boolean) {
-      state.focus = focus
-    }
 
     return () => h(
       'label',
       {
         style: attrs.style,
         class: [prefix, attrs.class],
+        onClick: click
       },
       [
         h('span', { class: prefix + '__input' },
@@ -65,7 +65,7 @@ export default defineComponent({
                 prefix + '__inner',
                 {
                   [prefix + '--focus']: props.disabled,
-                  [prefix + '--checked']: state.value == props.label,
+                  [prefix + '--checked']: state.checked,
                   [prefix + '--focus']: props.disabled,
                 }
               ]
@@ -74,12 +74,12 @@ export default defineComponent({
               type: "radio",
               'aria-hidden': true,
               class: prefix + "__original",
+              checked: state.checked,
               name: props.name,
-              value: props.label,
+              value: props.value,
               disabled: props.disabled,
               onFocus: () => focus(true),
               onBlur: () => focus(false),
-              onChange: (e: InputEvent) => state.value = (e.target as any).value
             })
           ]
         ),
