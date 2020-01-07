@@ -1,4 +1,4 @@
-import { Select, Option, Button, Input, Radio, RadioGroup, Tag, Breadcrumb, BreadcrumbItem } from 'ui'
+import { Select, Option, Button, Input, Radio, RadioGroup, Tag, Breadcrumb, BreadcrumbItem, Switch } from 'ui'
 import { defineComponent, h, reactive, Transition } from 'next-vue'
 import { withVif, withVModel } from '../../packages/utils/directives'
 
@@ -10,6 +10,7 @@ export default defineComponent({
       radio: 1
     })
     return () => [
+      h(Switch, { checkedText: '开', unCheckedText: 'close' }),
       h(Breadcrumb, {}, {
         default: () => [
           h(BreadcrumbItem, () => 'zcc'),
