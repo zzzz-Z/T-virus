@@ -61,7 +61,9 @@ export default defineComponent({
         closable || !!closeText
       )
 
-      const renderContent = h('div', { class: prefix + '__content' }, [
+      const renderContent = h(
+        'div',
+        { class: prefix + '__content' }, [
         withVif(h('p', { class: prefix + '__message' }, message), message),
         withVif(
           h('p', { class: prefix + '__description' }, description),
@@ -79,18 +81,16 @@ export default defineComponent({
         ]
       }
 
-      return withVif(
-        h(Transition, { name: 'fade' }, () =>
-          withVshow(
-            h('div', alertProps, [
-              h('i', iconProps),
-              renderContent,
-              renderClose
-            ]),
-            state.show
-          )
-        ),
-        state.show
+      return h(
+        Transition, { name: 'fade' }, () =>
+        withVshow(
+          h('div', alertProps, [
+            h('i', iconProps),
+            renderContent,
+            renderClose
+          ]),
+          state.show
+        )
       )
     }
   }
