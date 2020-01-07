@@ -1,5 +1,6 @@
-import { computed, defineComponent, h, onMounted, provide, reactive, ref, Transition, VNode, watch, withDirectives, TransitionGroup } from 'next-vue'
+import { computed, defineComponent, h, onMounted, reactive, ref, Transition, VNode, watch } from 'next-vue'
 import { withVshow, withClickoutside, withVif } from '../utils/directives'
+import getChilds from '../utils/getChilds'
 
 const selectProps = {
   value: { type: [String, Number, Array], default: '' },
@@ -14,7 +15,7 @@ const selectProps = {
   placement: { type: String, default: 'bottom' }
 }
 
-type O = Record<string, any>[]
+type O = Record<string, any>
 
 const Select = defineComponent({
   name: 'Select',
@@ -23,23 +24,23 @@ const Select = defineComponent({
   setup(props, { emit, slots, attrs }) {
     const state = reactive({
       visible: false,
-      options: [] as O,
       selectedSingle: '',
-      selectedMultiple: [] as O,
+      selectedMultiple: [] as O[],
       focusIndex: 0,
       query: '',
       model: props.value
     })
+    const options = getChilds<O>('select',{onOptionSelect, state})
     const notFound = computed(() => {
       let show = true
-      state.options.find(option => {
+      options.find(option => {
         if (!option.state.hidden) { show = false }
       })
       return show
     })
-
+   
     onMounted(modelToQuery)
-    provide('Select', { onOptionSelect, state })
+    
     const inputEl = ref<HTMLInputElement | null>(null)
     const popoverEl = ref<HTMLLIElement | null>(null)
     const showCloseIcon = computed(
@@ -154,7 +155,7 @@ const Select = defineComponent({
 
           let hasFocus = false
 
-          state.options.forEach(option => {
+          options.forEach(option => {
             if (option.state.isFocus) {
               hasFocus = true
               option.handleSelect()
@@ -171,7 +172,7 @@ const Select = defineComponent({
     function selectFirstOption() {
       if (props.filterable) {
         let hasFirst = false
-        state.options.forEach((option, n) => {
+        options.forEach((option, n) => {
           option.queryChange(state.query)
           if (!hasFirst && !option.state.hidden) {
             hasFirst = true
@@ -186,7 +187,7 @@ const Select = defineComponent({
 
     function clearSingleSelect() {
       if (showCloseIcon.value) {
-        state.options.forEach((option: any) => {
+        options.forEach((option: any) => {
           option.state.selected = false
           option.state.isFocus = false
         })
@@ -207,7 +208,7 @@ const Select = defineComponent({
     }
 
     function updateSingleSelected() {
-      let { model, options } = state
+      let { model } = state
       const type = typeof model
       if (type === 'string' || type === 'number') {
         for (let i = 0; i < options.length; i++) {
@@ -227,8 +228,8 @@ const Select = defineComponent({
         for (let i = 0; i < state.model.length; i++) {
           const model = state.model[i]
 
-          for (let j = 0; j < state.options.length; j++) {
-            const { value, label } = state.options[j]
+          for (let j = 0; j < options.length; j++) {
+            const { value, label } = options[j]
 
             if (model === value) {
               selected.push({ value, label })
@@ -240,10 +241,10 @@ const Select = defineComponent({
       toggleMultipleSelected()
     }
 
-    function toggleSingleSelected(val: unknown, ) {
+    function toggleSingleSelected(val: unknown ) {
       if (props.multiple) return
 
-      state.options.forEach(option => {
+      options.forEach(option => {
         const isChecked = option.value === val
         option.state.selected = isChecked
       })
@@ -254,7 +255,7 @@ const Select = defineComponent({
 
     function toggleMultipleSelected() {
       if (!props.multiple) return
-      const { model, options } = state
+      const { model } = state
       options.forEach(({ value, state: optState }) => {
         const isChecked = (model as any[]).includes(value)
         optState.selected = isChecked
@@ -266,15 +267,15 @@ const Select = defineComponent({
     function navigateOptions(direction: string) {
       if (direction === 'next') {
         const next = state.focusIndex + 1
-        state.focusIndex = state.focusIndex === state.options.length ? 1 : next
+        state.focusIndex = state.focusIndex === options.length ? 1 : next
       } else if (direction === 'prev') {
         const prev = state.focusIndex - 1
-        state.focusIndex = state.focusIndex <= 1 ? state.options.length : prev
+        state.focusIndex = state.focusIndex <= 1 ? options.length : prev
       }
       let isValid = false
       let hasValidOption = false // avoid infinite loops
 
-      state.options.forEach((option, idx) => {
+      options.forEach((option, idx) => {
         if (idx + 1 === state.focusIndex) {
           isValid = !option.state.disabled && !option.state.hidden
 
@@ -300,7 +301,7 @@ const Select = defineComponent({
     function resetScrollTop() {
       const index = state.focusIndex - 1
       const bottomOverflowDistance =
-        state.options[index].el.getBoundingClientRect().bottom -
+        options[index].el.getBoundingClientRect().bottom -
         popoverEl.value!.getBoundingClientRect().bottom
 
       if (bottomOverflowDistance) {
@@ -331,7 +332,7 @@ const Select = defineComponent({
         props.filterable &&
         typeof state.model !== 'undefined'
       ) {
-        state.options.forEach(option => {
+        options.forEach(option => {
           if (state.model === option.value) {
             state.query = option.label
           }
@@ -340,10 +341,7 @@ const Select = defineComponent({
     }
 
     function renderMultipleTags() {
-      return h(
-        TransitionGroup,
-        { tag: 'span', name: 'slide-up' },
-        () => state.selectedMultiple.map((item, index) => {
+      return state.selectedMultiple.map((item, index) => {
           return h('span', { class: 'v-tag' }, [
             h('span', { class: 'v-tag__text' }, item.label),
             h('i', {
@@ -355,7 +353,6 @@ const Select = defineComponent({
             })
           ])
         })
-      )
     }
 
     function renderInput() {

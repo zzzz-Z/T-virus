@@ -3,15 +3,16 @@ import {
   defineComponent,
   reactive,
   computed,
-  onMounted,
   inject,
-  onUnmounted,
   getCurrentInstance,
   ref,
   PropType,
   VNode
 } from 'next-vue'
-
+import getParent from '../utils/getParent';
+interface Parent {
+  onOptionSelect:(...args:any[])=>void
+}
 const Option = defineComponent({
   name: 'Option',
   props: {
@@ -21,7 +22,7 @@ const Option = defineComponent({
   },
   setup(props, { slots }) {
     const vm = getCurrentInstance()!
-    const select = inject<Record<string, any>>('Select')!
+    const select = inject<Record<string, any>>('select')!
     const state = reactive({
       id: 0,
       selected: false,
@@ -40,9 +41,20 @@ const Option = defineComponent({
     })
     )
 
+    const parent = getParent<Parent>(
+      'select', {
+        state,
+        handleSelect,
+        queryChange,
+        blur,
+        value: props.value,
+        label: props.label
+      }
+    )
+
     function handleSelect() {
       if (props.disabled) return false
-      select.onOptionSelect(props.value, props.label)
+      parent?.onOptionSelect(props.value, props.label)
     }
 
     function blur() {
@@ -52,28 +64,6 @@ const Option = defineComponent({
     function queryChange(val: string, index: number) {
       state.hidden = val == '' ? false : (props.label as string).indexOf(val) == -1
     }
-
-    onMounted(() => {
-      if (select) {
-        select.state.options.push({
-          el: vm.vnode.el,
-          state,
-          handleSelect,
-          queryChange,
-          blur,
-          value: props.value,
-          label: props.label
-        })
-      }
-    })
-
-    onUnmounted(() => {
-      ; (select.state.options as any[]).forEach((option, index) => {
-        if (option.el === vm.vnode.el) {
-          select.state.options.splice(index, 1)
-        }
-      })
-    })
 
     return () => h(
       'li',
@@ -86,7 +76,7 @@ const Option = defineComponent({
       },
       [
         slots.default?.() || props.label,
-        state.selected ? h('i', { class: 'icon icon-check'}) : null
+        state.selected ? h('i', { class: 'icon icon-check' }) : null
       ]
     )
   }

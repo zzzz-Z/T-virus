@@ -4,7 +4,7 @@ import { withVif } from '../utils/directives';
 const colorArr = ['default', 'primary', 'success', 'error', 'warning', 'info']
 
 export default defineComponent({
-  name: 'Tag',
+  name: 'VTag',
   props: {
     name: [String, Number],
     color: { type: String, default: 'default' },
