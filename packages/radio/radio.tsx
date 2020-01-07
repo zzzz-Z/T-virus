@@ -30,14 +30,14 @@ export default defineComponent({
     })
     const vm = getCurrentInstance()
     onMounted(() => {
-      group.radios.push((val) => state.value = val)
+      group.radios.push((val: string | number) => state.value = val)
     })
 
     watch(
       () => props.value,
       val => state.value = val
     )
-    
+
     watch(
       () => state.value,
       val => {
@@ -46,7 +46,7 @@ export default defineComponent({
       }
     )
 
-  
+
     function focus(focus: boolean) {
       state.focus = focus
     }

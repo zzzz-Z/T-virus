@@ -1,4 +1,4 @@
-import { Select, Option, Button, Input, Radio, RadioGroup } from 'ui'
+import { Select, Option, Button, Input, Radio, RadioGroup, Tag } from 'ui'
 import { defineComponent, h, reactive, Transition } from 'next-vue'
 import { withVif, withVModel } from '../../packages/utils/directives'
 
@@ -9,19 +9,26 @@ export default defineComponent({
       show: true,
       radio: 1
     })
-
     return () => [
-      h(RadioGroup, {
-        value: state.radio,
-        onInput: val => {
-          state.radio = val
-          console.log(val);
+      h(Tag, {
+        name: 'zcc', closable: true, onClose: () => {
+          console.log('close');
         }
-      },
+      }, () => 111),
+      h(
+        RadioGroup,
+        {
+          value: state.radio,
+          onInput: (val: any) => {
+            state.radio = val
+            console.log(val)
+          }
+        },
         () => [
           h(Radio, { label: 1 }, () => '选项一'),
-          h(Radio, { label: 2 }, () => '选项2'),
-        ]),
+          h(Radio, { label: 2 }, () => '选项2')
+        ]
+      ),
       h(
         Button,
         { size: 'small', onClick: () => (state.show = !state.show) },

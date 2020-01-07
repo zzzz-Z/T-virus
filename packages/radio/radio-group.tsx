@@ -23,7 +23,7 @@ export default defineComponent({
     const radios = reactive<any[]>([])
     provide('group', {
       radios,
-      input: val => {
+      input: (val: string | number) => {
         emit('input', val)
       }
     })
