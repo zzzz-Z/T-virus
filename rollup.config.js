@@ -13,7 +13,7 @@ export default {
       format: 'umd',
       name: 'virus',
       exports: 'named',
-      file: '../example/ui/index.js'
+      file: 'dist/index.js'
     }
   ],
   external: [],
@@ -23,7 +23,7 @@ export default {
     sass({
       output: false,
       output: true,
-      output: '../example/ui/index.css',
+      output: 'dist/index.css',
     }),
     commonjs(),
     resolve(),

@@ -13,9 +13,9 @@ import {
   Badge,
   Col,
   Row
-} from '../../../packages'
+} from 'packages'
 import { defineComponent, h, reactive, Transition } from 'vue'
-import { withVif } from '../../../packages/utils/directives'
+import { withVif } from 'packages/utils/directives'
 
 export default defineComponent({
   setup() {
