@@ -78,7 +78,11 @@ export default defineComponent({
       ),
       h(
         Button,
-        { size: 'small', loading: true, onClick: () => (state.show = !state.show) },
+        {
+          size: 'small',
+          loading: true,
+          onClick: () => (state.show = !state.show)
+        },
         () => 'click'
       ),
       h(Transition, { name: 'slide-up' }, () =>

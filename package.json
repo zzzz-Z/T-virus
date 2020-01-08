@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "parcel  example/index.html",
     "build": "npx rollup -c",
-    "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"dev/**/*.ts?(x)\""
+    "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"example/**/*.ts?(x)\""
   },
   "dependencies": {
     "parcel-plugin-markdown": "^0.4.2",
