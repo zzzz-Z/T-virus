@@ -1,5 +1,6 @@
-import { h, defineComponent, Transition, computed, reactive } from 'next-vue'
-import { withVif, withVshow } from '../utils/directives'
+import { h, defineComponent } from 'vue'
+import { withVshow } from '../utils/directives'
+import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
   name: 'VBadge',
@@ -25,7 +26,7 @@ export default defineComponent({
       default: 'error'
     }
   },
-  setup(props, { slots, emit }) {
+  setup(props, { slots }) {
     const prefix = 'v-badge'
 
     return () => {
@@ -59,7 +60,7 @@ export default defineComponent({
       }
 
       return h('span', badgeProps, [
-        slots.default?.(),
+        runSlot(slots.default),
         withVshow(h('sup', contentProps, dot ? '' : content), show)
       ])
     }

@@ -1,5 +1,5 @@
 import vcTAlert from './alert'
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 const Alert = vcTAlert
 ;(Alert as any).install = (app: App) => {

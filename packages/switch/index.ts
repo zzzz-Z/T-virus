@@ -1,5 +1,5 @@
 import vcSwitch from './switch'
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 const Switch = vcSwitch
 ;(Switch as any).install = (app: App) => {

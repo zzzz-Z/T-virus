@@ -1,5 +1,5 @@
 import vcCol from './col'
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 const Col = vcCol
 ;(Col as any).install = (app: App) => {

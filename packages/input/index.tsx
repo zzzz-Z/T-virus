@@ -1,5 +1,5 @@
 import vcInput from './input'
-import { VNode, App } from 'next-vue'
+import { VNode, App } from 'vue'
 
 export interface InputProps {
   type?:

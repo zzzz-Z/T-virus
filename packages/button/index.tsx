@@ -1,5 +1,5 @@
 import { ButtonProps } from './type'
-import { defineComponent, h } from 'next-vue'
+import { defineComponent, h } from 'vue'
 import { withVif } from '../utils/directives'
 
 const buttonProps: any = {

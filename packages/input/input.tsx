@@ -6,9 +6,10 @@ import {
   computed,
   h,
   ref,
-  onMounted,
-} from 'next-vue'
+  onMounted
+} from 'vue'
 import { withVif } from '../utils/directives'
+import { runSlot } from '../utils/runSlot'
 
 export const inputProps: any = {
   elementId: String,
@@ -43,7 +44,7 @@ export default defineComponent<InputProps, {}, {}>({
     const state = reactive({
       value: props.value,
       prefix: { width: 0, offset: 0 },
-      suffix: { width: 0, offset: 0 },
+      suffix: { width: 0, offset: 0 }
     })
     const inputRef = ref<HTMLInputElement | null>(null)
     const appendRef = ref<HTMLLIElement | null>(null)
@@ -100,7 +101,7 @@ export default defineComponent<InputProps, {}, {}>({
         }
       ]
     })
-  
+
     watch(() => {
       state.prefix.offset = prependRef.value!.offsetWidth
       state.prefix.width = prefixRef.value!.offsetWidth
@@ -109,23 +110,31 @@ export default defineComponent<InputProps, {}, {}>({
     })
 
     const render = (type: 'append' | 'prepend') => {
-      const node = props[type] || slots[type]?.()
+      const node = props[type] || runSlot(slots[type])
       return withVif(
-        h('div', {
-          ref: type === 'append' ? appendRef : prependRef,
-          class: ['v-input-group__' + type, { 'v-input-group--button': node }]
-        }, node),
+        h(
+          'div',
+          {
+            ref: type === 'append' ? appendRef : prependRef,
+            class: ['v-input-group__' + type, { 'v-input-group--button': node }]
+          },
+          node
+        ),
         node
       )
     }
 
     const renderFix = (type: 'prefix' | 'suffix') => {
       const isPrefix = type === 'prefix'
-      return h('span', {
-        ref: isPrefix ? prefixRef : suffixRef,
-        style: { [isPrefix ? 'left' : 'right']: state[type].offset + 'px' },
-        class: 'v-input--' + type
-      }, props[type] || slots[type]?.())
+      return h(
+        'span',
+        {
+          ref: isPrefix ? prefixRef : suffixRef,
+          style: { [isPrefix ? 'left' : 'right']: state[type].offset + 'px' },
+          class: 'v-input--' + type
+        },
+        props[type] || runSlot(slots[type])
+      )
     }
 
     const input = () => {
@@ -141,20 +150,18 @@ export default defineComponent<InputProps, {}, {}>({
         class: 'v-input__original',
         style: {
           'padding-left': state.prefix.width + 'px',
-          'padding-right': state.suffix.width + 'px',
+          'padding-right': state.suffix.width + 'px'
         }
       })
     }
 
-    return () => h(
-      'div',
-      { class: cls.value, style: attrs.style },
-      [
+    return () =>
+      h('div', { class: cls.value, style: attrs.style }, [
         render('prepend'),
         renderFix('prefix'),
         input(),
         renderFix('suffix'),
-        render('append')]
-    )
+        render('append')
+      ])
   }
 })

@@ -1,5 +1,5 @@
 import vcBadge from './badge'
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 const Badge = vcBadge
 ;(Badge as any).install = (app: App) => {

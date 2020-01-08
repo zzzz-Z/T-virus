@@ -1,5 +1,6 @@
-import { defineComponent, PropType, VNode, h } from 'next-vue'
+import { defineComponent, PropType, VNode, h } from 'vue'
 import { withVif } from '../utils/directives'
+import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
   name: 'Card',
@@ -14,29 +15,30 @@ export default defineComponent({
   setup(props, { slots }) {
     return () => {
       const { border, title, disHover, extra, bodyStyle: style } = props
-      const TitleSlot = title || slots.title?.()
-      const ExtraSlot = extra || slots.extra?.()
-      const Body = h('div', {
-        style,
-        class: 'v-card__body'
-      },
-        slots.default?.()
+      const TitleSlot = title || runSlot(slots.title)
+      const ExtraSlot = extra || runSlot(slots.extra)
+      const Body = h(
+        'div',
+        { style, class: 'v-card__body' },
+        runSlot(slots.default)
       )
       const Header = withVif(
         h('div', { class: 'v-card__head' }, [
           withVif(h('div', { class: 'v-card__title' }, TitleSlot), TitleSlot),
-          withVif(h('div', { class: 'v-card__title' }, ExtraSlot), ExtraSlot),
+          withVif(h('div', { class: 'v-card__title' }, ExtraSlot), ExtraSlot)
         ]),
         TitleSlot || ExtraSlot
       )
 
       return h(
-        'div', {
-        class: [
-          `v-card`,
-          { 'v-card--bordered': border, 'v-card--no-hover': disHover }
-        ]
-      }, [Header, Body]
+        'div',
+        {
+          class: [
+            `v-card`,
+            { 'v-card--bordered': border, 'v-card--no-hover': disHover }
+          ]
+        },
+        [Header, Body]
       )
     }
   }

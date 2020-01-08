@@ -1,4 +1,5 @@
-import { defineComponent, computed, inject, h } from 'next-vue'
+import { defineComponent, computed, inject, h } from 'vue'
+import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
   name: 'VCol',
@@ -21,24 +22,22 @@ export default defineComponent({
     xl: [Number, Object]
   },
   setup(props, { slots }) {
-    const parent = inject<Record<string,any>>('row')
+    const parent = inject<Record<string, any>>('row')
 
     return () => {
-      let classList:string[] = []
-      let style: Record<string,any> = {}
-      const gutter = parent?.gutter || 0
+      let classList: string[] = []
+      let style: Record<string, any> = {}
+      const gutter = parent ? parent.gutter : 0
 
       if (gutter) {
         style.paddingLeft = gutter / 2 + 'px'
         style.paddingRight = style.paddingLeft
       }
 
-      ;['span', 'offset', 'pull', 'push'].forEach((prop) => {
+      ;['span', 'offset', 'pull', 'push'].forEach(prop => {
         const n = (props as any)[prop]
         if (n || n === 0) {
-          classList.push(
-            prop !== 'span' ? `v-col-${prop}-${n}` : `v-col-${n}`
-          )
+          classList.push(prop !== 'span' ? `v-col-${prop}-${n}` : `v-col-${n}`)
         }
       })
       ;['xs', 'sm', 'md', 'lg', 'xl'].forEach(size => {
@@ -59,7 +58,7 @@ export default defineComponent({
       return h(
         props.tag,
         { class: ['v-col', classList], style },
-        slots.default?.()
+        runSlot(slots.default)
       )
     }
   }

@@ -1,5 +1,6 @@
-import { h, defineComponent, Transition, computed, reactive } from 'next-vue';
-import { withVif } from '../utils/directives';
+import { h, defineComponent, Transition, computed, reactive } from 'vue'
+import { withVif } from '../utils/directives'
+import { runSlot } from '../utils/runSlot'
 
 const colorArr = ['default', 'primary', 'success', 'error', 'warning', 'info']
 
@@ -29,20 +30,20 @@ export default defineComponent({
       emit('close', props.name)
     }
 
-    const render = () => h(
-      Transition, { name: 'fade' },
-      () => h(
-        'span',
-        { style: colorStyle.value, class: ['v-tag', colorCls.value] },
-        [
-          h('span', { class: 'v-tag__text' }, slots.default?.()),
-          withVif(
-            h('i', { onClick: close, class: 'icon icon-x v-tag__close' }),
-            props.closable
-          )
-        ]
+    const render = () =>
+      h(Transition, { name: 'fade' }, () =>
+        h(
+          'span',
+          { style: colorStyle.value, class: ['v-tag', colorCls.value] },
+          [
+            h('span', { class: 'v-tag__text' }, runSlot(slots.default)),
+            withVif(
+              h('i', { onClick: close, class: 'icon icon-x v-tag__close' }),
+              props.closable
+            )
+          ]
+        )
       )
-    )
 
     return () => withVif(render(), state.show)
   }

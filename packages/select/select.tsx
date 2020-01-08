@@ -1,6 +1,17 @@
-import { computed, defineComponent, h, onMounted, reactive, ref, Transition, VNode, watch } from 'next-vue'
+import {
+  computed,
+  defineComponent,
+  h,
+  onMounted,
+  reactive,
+  ref,
+  Transition,
+  VNode,
+  watch
+} from 'vue'
 import { withVshow, withClickoutside, withVif } from '../utils/directives'
 import getChilds from '../utils/getChilds'
+import { runSlot } from '../utils/runSlot'
 
 const selectProps = {
   value: { type: [String, Number, Array], default: '' },
@@ -30,17 +41,19 @@ const Select = defineComponent({
       query: '',
       model: props.value
     })
-    const options = getChilds<O>('select',{onOptionSelect, state})
+    const options = getChilds<O>('select', { onOptionSelect, state })
     const notFound = computed(() => {
       let show = true
       options.find(option => {
-        if (!option.state.hidden) { show = false }
+        if (!option.state.hidden) {
+          show = false
+        }
       })
       return show
     })
-   
+
     onMounted(modelToQuery)
-    
+
     const inputEl = ref<HTMLInputElement | null>(null)
     const popoverEl = ref<HTMLLIElement | null>(null)
     const showCloseIcon = computed(
@@ -200,7 +213,7 @@ const Select = defineComponent({
       if (props.disabled) {
         return false
       }
-      ; (state.model as any[]).splice(index, 1)
+      ;(state.model as any[]).splice(index, 1)
 
       if (props.filterable && state.visible) {
         inputEl.value!.focus()
@@ -221,7 +234,6 @@ const Select = defineComponent({
       toggleSingleSelected(model)
     }
 
-
     function updateMultipleSelected() {
       if (props.multiple && Array.isArray(state.model)) {
         const selected = []
@@ -241,7 +253,7 @@ const Select = defineComponent({
       toggleMultipleSelected()
     }
 
-    function toggleSingleSelected(val: unknown ) {
+    function toggleSingleSelected(val: unknown) {
       if (props.multiple) return
 
       options.forEach(option => {
@@ -342,32 +354,32 @@ const Select = defineComponent({
 
     function renderMultipleTags() {
       return state.selectedMultiple.map((item, index) => {
-          return h('span', { class: 'v-tag' }, [
-            h('span', { class: 'v-tag__text' }, item.label),
-            h('i', {
-              class: 'icon icon-x v-tag__close',
-              onClick: (e: Event) => {
-                e.stopPropagation()
-                removeTag(index)
-              }
-            })
-          ])
-        })
+        return h('span', { class: 'v-tag' }, [
+          h('span', { class: 'v-tag__text' }, item.label),
+          h('i', {
+            class: 'icon icon-x v-tag__close',
+            onClick: (e: Event) => {
+              e.stopPropagation()
+              removeTag(index)
+            }
+          })
+        ])
+      })
     }
 
     function renderInput() {
       return !props.filterable
         ? h('span', { class: 'v-select__selected' }, state.query)
         : h('input', {
-          value: state.query,
-          type: 'text',
-          class: 'v-select__input',
-          placeholder: showPlaceholder.value ? props.placeholder : '',
-          onBlur: blur,
-          onInput: (e: InputEvent) => state.query = (e.target as any).value,
-          onKeydown: handleInputDelete,
-          ref: inputEl
-        })
+            value: state.query,
+            type: 'text',
+            class: 'v-select__input',
+            placeholder: showPlaceholder.value ? props.placeholder : '',
+            onBlur: blur,
+            onInput: (e: InputEvent) => (state.query = (e.target as any).value),
+            onKeydown: handleInputDelete,
+            ref: inputEl
+          })
     }
 
     function renderSelection() {
@@ -391,7 +403,7 @@ const Select = defineComponent({
         }),
         showCloseIcon.value
       )
-      
+
       const arrow = h('i', { class: 'icon icon-chevron-down v-select__arrow' })
 
       return h('div', selectionProps, [
@@ -406,32 +418,38 @@ const Select = defineComponent({
     function renderDropdown() {
       const { placement, notFoundText } = props
       const preClass = 'v-select__dropdown'
-      const childClass = notFound.value ? 'v-select__not-found' : 'v-select__list'
-      const wapper = (child: VNode, show: boolean) => withVshow(h('ul', { class: childClass }, child), show)
+      const childClass = notFound.value
+        ? 'v-select__not-found'
+        : 'v-select__list'
+      const wapper = (child: VNode, show: boolean) =>
+        withVshow(h('ul', { class: childClass }, child), show)
       const noOption = wapper(h('li', notFoundText), notFound.value)
-      const hasOption = wapper(h('li', slots.default?.()), !notFound.value)
+      const hasOption = wapper(h('li', runSlot(slots.default)), !notFound.value)
       const dropDwonProps = {
         ref: popoverEl,
-        class: [preClass, placement ? `${preClass}--${placement}` : `${preClass}--bottom`]
+        class: [
+          preClass,
+          placement ? `${preClass}--${placement}` : `${preClass}--bottom`
+        ]
       }
-      return h(
-        Transition,
-        { name: 'slide-up' },
-        () => withVshow(
-          h('div', dropDwonProps, [noOption, hasOption]),
-          state.visible
-        )
+      return h(Transition, { name: 'slide-up' }, () =>
+        withVshow(h('div', dropDwonProps, [noOption, hasOption]), state.visible)
       )
     }
 
-    return () => withClickoutside(
-      h('div', {
-        style: attrs.style,
-        class: classs.value,
-        onKeydown: handleKeydown,
-      }, [renderSelection(), renderDropdown()]),
-      hideMenu
-    )
+    return () =>
+      withClickoutside(
+        h(
+          'div',
+          {
+            style: attrs.style,
+            class: classs.value,
+            onKeydown: handleKeydown
+          },
+          [renderSelection(), renderDropdown()]
+        ),
+        hideMenu
+      )
   }
 })
 

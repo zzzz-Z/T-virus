@@ -46,7 +46,7 @@ export interface ButtonProps {
    */
   icon?: string
   /**
-   * 跳转的链接，支持 next-vue-router 对象
+   * 跳转的链接，支持 vue-router 对象
    */
   to?: string | object
   /**
@@ -60,7 +60,7 @@ export interface ButtonProps {
    */
   target?: '_blank' | '_self' | '_parent' | '_top'
   /**
-   * 同 next-vue-router append
+   * 同 vue-router append
    * @default false
    */
   append?: boolean

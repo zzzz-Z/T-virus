@@ -1,4 +1,4 @@
-import { VNode } from 'next-vue'
+import { VNode } from 'vue'
 
 export interface MenuEvent {
   /**
@@ -48,7 +48,7 @@ export interface MenuItemProps {
    */
   name?: string | number
   /**
-   * 跳转的链接，支持 next-vue-router 对象
+   * 跳转的链接，支持 vue-router 对象
    */
   to?: string | object
   /**
@@ -62,7 +62,7 @@ export interface MenuItemProps {
    */
   target?: '_blank' | '_self' | '_parent' | '_top'
   /**
-   * 同 next-vue-router append
+   * 同 vue-router append
    * @default false
    */
   append?: boolean

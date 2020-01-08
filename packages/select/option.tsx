@@ -8,10 +8,11 @@ import {
   ref,
   PropType,
   VNode
-} from 'next-vue'
-import getParent from '../utils/getParent';
+} from 'vue'
+import { getParent } from '../utils/getParent'
+import { runSlot } from '../utils/runSlot'
 interface Parent {
-  onOptionSelect:(...args:any[])=>void
+  onOptionSelect: (...args: any[]) => void
 }
 const Option = defineComponent({
   name: 'Option',
@@ -37,24 +38,21 @@ const Option = defineComponent({
       [prefix]: true,
       [prefix + '--disabled']: props.disabled,
       [prefix + '--selected']: state.selected,
-      [prefix + '--focus']: state.isFocus,
-    })
-    )
+      [prefix + '--focus']: state.isFocus
+    }))
 
-    const parent = getParent<Parent>(
-      'select', {
-        state,
-        handleSelect,
-        queryChange,
-        blur,
-        value: props.value,
-        label: props.label
-      }
-    )
+    const parent = getParent<Parent>('select', {
+      state,
+      handleSelect,
+      queryChange,
+      blur,
+      value: props.value,
+      label: props.label
+    })
 
     function handleSelect() {
       if (props.disabled) return false
-      parent?.onOptionSelect(props.value, props.label)
+      parent && parent.onOptionSelect(props.value, props.label)
     }
 
     function blur() {
@@ -62,23 +60,25 @@ const Option = defineComponent({
     }
 
     function queryChange(val: string, index: number) {
-      state.hidden = val == '' ? false : (props.label as string).indexOf(val) == -1
+      state.hidden =
+        val == '' ? false : (props.label as string).indexOf(val) == -1
     }
 
-    return () => h(
-      'li',
-      {
-        style: { display: state.hidden ? 'none' : 'block' },
-        class: classs.value,
-        onClick: handleSelect,
-        onMouseout: blur,
-        ref: option
-      },
-      [
-        slots.default?.() || props.label,
-        state.selected ? h('i', { class: 'icon icon-check' }) : null
-      ]
-    )
+    return () =>
+      h(
+        'li',
+        {
+          style: { display: state.hidden ? 'none' : 'block' },
+          class: classs.value,
+          onClick: handleSelect,
+          onMouseout: blur,
+          ref: option
+        },
+        [
+          runSlot(slots.default) || props.label,
+          state.selected ? h('i', { class: 'icon icon-check' }) : null
+        ]
+      )
   }
 })
 

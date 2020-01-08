@@ -1,10 +1,4 @@
-import {
-  defineComponent,
-  reactive,
-  onMounted,
-  h,
-  inject
-} from 'next-vue'
+import { defineComponent, reactive, onMounted, h, inject } from 'vue'
 import { MenuItemProps } from './type'
 import useEvents from '../utils/useEvents'
 

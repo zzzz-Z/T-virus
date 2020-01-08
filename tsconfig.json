@@ -13,7 +13,7 @@
     "baseUrl": ".",
     "types": [],
     "paths": {
-      "@/*": ["dev/*"]
+      "@/*": ["packages/*"]
     },
     "lib": [
       "esnext",
@@ -23,9 +23,9 @@
     ]
   },
   "include": [
-    "dev/**/*.ts",
-    "dev/**/*.tsx",
-    "dev/**/*.vue"
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.vue"
   ],
   "exclude": [
     "node_modules"

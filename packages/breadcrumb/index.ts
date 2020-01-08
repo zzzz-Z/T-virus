@@ -1,7 +1,7 @@
 import vCBreadcrumb from './breadcrumb'
 import vCBreadcrumbItem from './breadcrumb-item'
 
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 /** Breadcrumb */
 const Breadcrumb = vCBreadcrumb

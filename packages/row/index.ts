@@ -1,5 +1,5 @@
 import vcRow from './row'
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 const Row = vcRow
 ;(Row as any).install = (app: App) => {

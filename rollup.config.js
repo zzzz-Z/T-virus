@@ -1,13 +1,10 @@
-import vue from 'rollup-plugin-vue'
-import commonjs from 'rollup-plugin-commonjs'
-import resolve from 'rollup-plugin-node-resolve'
 import typescript from 'rollup-plugin-typescript'
 import babel from 'rollup-plugin-babel'
-// import {uglify} from 'rollup-plugin-uglify';
-import postcss from 'rollup-plugin-postcss'
-import path from 'path'
+// import uglify from 'rollup-plugin-uglify';
+import sass from 'rollup-plugin-sass';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 // import ModuleMap from './script/split';
-const pkg = require('./package.json')
 
 export default {
   input: 'packages/index.ts',
@@ -16,31 +13,26 @@ export default {
       format: 'umd',
       name: 'virus',
       exports: 'named',
-      file: 'dist/index.js'
+      file: '../example/ui/index.js'
     }
   ],
   external: [],
   // 是否开启代码分割
-  // experimentalCodeSplitting: true,
+  experimentalCodeSplitting: true,
   plugins: [
-    postcss({
-      extensions: ['.less', '.css'],
-      use: [['less', { javascriptEnabled: true }]],
-      extract: `dist/index.css`
-    }),
-    vue(),
-    typescript(),
-    babel({
-      exclude: 'node_modules/**',
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
-      runtimeHelpers: true
+    sass({
+      output: false,
+      output: true,
+      output: '../example/ui/index.css',
     }),
     commonjs(),
     resolve(),
-    uglify()
+    typescript(),
+    babel({
+      exclude: 'node_modules/**',
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      runtimeHelpers: true
+    }),
+    // uglify()
   ]
-}
-
-function resolves(dir) {
-  return path.join(__dirname, dir)
 }

@@ -1,5 +1,5 @@
 import vcTag from './tag'
-import { App } from 'next-vue'
+import { App } from 'vue'
 
 const Tag = vcTag
 ;(Tag as any).install = (app: App) => {

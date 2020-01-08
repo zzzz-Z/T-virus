@@ -7,7 +7,7 @@ import {
   h,
   nextTick,
   computed
-} from 'next-vue'
+} from 'vue'
 import { findComponentsDownward } from '../utils/util'
 import useEvents from '../utils/useEvents'
 

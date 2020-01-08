@@ -1,4 +1,5 @@
-import { h, defineComponent, provide, reactive } from 'next-vue';
+import { h, defineComponent, provide, reactive } from 'vue'
+import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
   name: 'Breadcrumb',
@@ -12,10 +13,6 @@ export default defineComponent({
         separator: slots.separator || (() => props.separator)
       })
     )
-    return () => h(
-      'div',
-      { class: 'v-breadcrumb' },
-      slots.default?.()
-    )
+    return () => h('div', { class: 'v-breadcrumb' }, runSlot(slots.default))
   }
 })

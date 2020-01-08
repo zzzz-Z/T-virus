@@ -1,5 +1,6 @@
-import { h, defineComponent, Transition, computed, reactive } from 'next-vue'
+import { h, defineComponent, Transition, computed, reactive } from 'vue'
 import { withVif, withVshow } from '../utils/directives'
+import { runSlot } from '../utils/runSlot'
 
 const classArr: any = {
   success: 'icon-check-circle',
@@ -41,8 +42,8 @@ export default defineComponent({
 
     return () => {
       const { type, closable, closeText } = props
-      const description = props.description || slots.description?.()
-      const message = props.message || slots.message?.()
+      const description = props.description || runSlot(slots.description)
+      const message = props.message || runSlot(slots.message)
       const closeProps = {
         onClick: close,
         class: [
@@ -61,9 +62,7 @@ export default defineComponent({
         closable || !!closeText
       )
 
-      const renderContent = h(
-        'div',
-        { class: prefix + '__content' }, [
+      const renderContent = h('div', { class: prefix + '__content' }, [
         withVif(h('p', { class: prefix + '__message' }, message), message),
         withVif(
           h('p', { class: prefix + '__description' }, description),
@@ -81,14 +80,9 @@ export default defineComponent({
         ]
       }
 
-      return h(
-        Transition, { name: 'fade' }, () =>
+      return h(Transition, { name: 'fade' }, () =>
         withVshow(
-          h('div', alertProps, [
-            h('i', iconProps),
-            renderContent,
-            renderClose
-          ]),
+          h('div', alertProps, [h('i', iconProps), renderContent, renderClose]),
           state.show
         )
       )

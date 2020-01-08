@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'next-vue'
+import { defineComponent, h } from 'vue'
 
 const Icon = defineComponent({
   name: 'Icon',

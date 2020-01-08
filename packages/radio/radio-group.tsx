@@ -1,12 +1,5 @@
-import {
-  defineComponent,
-  watch,
-  h,
-  provide,
-  reactive,
-  onMounted,
-} from 'next-vue'
-
+import { defineComponent, watch, h, provide, reactive, onMounted } from 'vue'
+import { runSlot } from '../utils/runSlot'
 
 export const radioProps = {
   value: [String, Number],
@@ -30,10 +23,6 @@ export default defineComponent({
       }
     })
 
-    return () => h(
-      'div',
-      { class: 'v-radio-group' },
-      slots.default?.()
-    )
+    return () => h('div', { class: 'v-radio-group' }, runSlot(slots.default))
   }
 })

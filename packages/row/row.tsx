@@ -1,4 +1,5 @@
-import { defineComponent, computed, h, provide } from 'next-vue'
+import { defineComponent, computed, h, provide } from 'vue'
+import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
   name: 'VRow',
@@ -39,6 +40,10 @@ export default defineComponent({
     ])
 
     return () =>
-      h(props.tag, { class: classs.value, style: style.value }, slots.default?.())
+      h(
+        props.tag,
+        { class: classs.value, style: style.value },
+        runSlot(slots.default)
+      )
   }
 })

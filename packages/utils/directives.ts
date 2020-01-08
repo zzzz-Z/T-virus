@@ -3,13 +3,11 @@ import {
   VNode,
   vShow,
   ObjectDirective,
-  vModelDynamic,
-  vModelRadio
-} from 'next-vue'
+  vModelDynamic
+} from 'vue'
 interface OutEl extends HTMLElement {
   _handler(e: Event): void
 }
-
 /** as vshow */
 export const withVshow = (node: VNode, exp: boolean) => {
   return withDirectives(node, [[vShow, exp]])

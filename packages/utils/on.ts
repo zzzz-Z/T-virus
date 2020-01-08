@@ -1,8 +1,4 @@
-import {
-  getCurrentInstance,
-  capitalize,
-  onBeforeMount
-} from 'next-vue'
+import { getCurrentInstance, capitalize, onBeforeMount } from 'vue'
 
 export default function on(name: string, fn: () => void) {
   const vm = getCurrentInstance()!

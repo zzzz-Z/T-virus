@@ -3,7 +3,7 @@ import {
   getCurrentInstance,
   VNode,
   capitalize
-} from 'next-vue'
+} from 'vue'
 import { isObject } from './util'
 
 export default function useEvents() {
