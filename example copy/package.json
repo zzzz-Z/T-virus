@@ -1,0 +1,28 @@
+{
+	"name": "example",
+	"author": "zcc",
+	"version": "1.0.0",
+	"license": "MIT",
+	"scripts": {
+		"dev": "parcel serve src/index.html",
+		"build": "parcel build src/index.html"
+	},
+	"dependencies": {
+		"node-sass": "^4.13.0",
+		"parcel-bundler": "^1.12.4",
+		"sass": "^1.24.3",
+		"vue": "3.0.0-alpha.1"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.7.7",
+		"@babel/plugin-proposal-nullish-coalescing-operator": "^7.7.4",
+		"@babel/plugin-proposal-optional-chaining": "^7.7.5",
+		"@babel/preset-react": "^7.7.4",
+		"@babel/preset-typescript": "^7.7.7",
+		"typescript": "^3.7.4",
+		"ui": "^0.2.4"
+	},
+	"alias": {
+		"vue": "./node_modules/vue/dist/vue.esm.js"
+	}
+}
