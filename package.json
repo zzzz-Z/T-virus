@@ -39,20 +39,6 @@
       "autoprefixer": {}
     }
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged",
-    "commit-msg": "node  script/verifyCommit.js"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser typescript  --write",
-      "git add"
-    ]
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions"
