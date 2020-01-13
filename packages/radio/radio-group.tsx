@@ -9,7 +9,7 @@ export const radioProps = {
 }
 
 export default defineComponent({
-  name: 'RadioGroup',
+  name: 'VRadioGroup',
   inheritAttrs: false,
   props: radioProps,
   setup(props, { emit, slots }) {

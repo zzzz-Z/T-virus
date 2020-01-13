@@ -37,14 +37,14 @@ export const inputProps: any = {
 }
 
 export default defineComponent<InputProps, {}, {}>({
-  name: 'Input',
+  name: 'VInput',
   inheritAttrs: false,
   props: inputProps,
   setup(props, { emit, slots, attrs }) {
     const state = reactive({
       value: props.value,
-      prefix: { width: 0, offset: 0 },
-      suffix: { width: 0, offset: 0 }
+      offset: { prefix: 0, suffix: 0 },
+      style: {} as any
     })
     const inputRef = ref<HTMLInputElement | null>(null)
     const appendRef = ref<HTMLLIElement | null>(null)
@@ -103,10 +103,18 @@ export default defineComponent<InputProps, {}, {}>({
     })
 
     watch(() => {
-      state.prefix.offset = prependRef.value!.offsetWidth
-      state.prefix.width = prefixRef.value!.offsetWidth
-      state.suffix.offset = appendRef.value!.offsetWidth
-      state.suffix.width = suffixRef.value!.offsetWidth
+      if (prefixRef.value) {
+        state.style['padding-left'] = prefixRef.value.offsetWidth
+      }
+      if (suffixRef.value) {
+        state.style['padding-right'] = suffixRef.value.offsetWidth
+      }
+      if (prependRef.value) {
+        state.offset.prefix = prependRef.value.offsetWidth
+      }
+      if (appendRef.value) {
+        state.offset.suffix = appendRef.value.offsetWidth
+      }
     })
 
     const render = (type: 'append' | 'prepend') => {
@@ -130,7 +138,7 @@ export default defineComponent<InputProps, {}, {}>({
         'span',
         {
           ref: isPrefix ? prefixRef : suffixRef,
-          style: { [isPrefix ? 'left' : 'right']: state[type].offset + 'px' },
+          style: { [isPrefix ? 'left' : 'right']: state.offset[type] + 'px' },
           class: 'v-input--' + type
         },
         props[type] || runSlot(slots[type])
@@ -148,10 +156,7 @@ export default defineComponent<InputProps, {}, {}>({
         onKeyup,
         onInput,
         class: 'v-input__original',
-        style: {
-          'padding-left': state.prefix.width + 'px',
-          'padding-right': state.suffix.width + 'px'
-        }
+        style: state.style
       })
     }
 

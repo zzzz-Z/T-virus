@@ -117,7 +117,7 @@ export interface InputProps {
  */
 const Input = vcInput
 ;(Input as any).install = (app: App) => {
-  app.component('V' + Input.name, Input as any)
+  app.component(Input.name, Input as any)
 }
 
 export default Input

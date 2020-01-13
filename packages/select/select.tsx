@@ -29,7 +29,7 @@ const selectProps = {
 type O = Record<string, any>
 
 const Select = defineComponent({
-  name: 'Select',
+  name: 'VSelect',
   props: selectProps,
   inheritAttrs: false,
   setup(props, { emit, slots, attrs }) {

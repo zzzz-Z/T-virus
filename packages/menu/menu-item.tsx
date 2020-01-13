@@ -7,7 +7,7 @@ const menuItemProps: any = {
   disabled: { type: Boolean, default: false }
 }
 const MenuItem = defineComponent<MenuItemProps, {}, {}>({
-  name: 'MenuItem',
+  name: 'VMenuItem',
   props: menuItemProps,
   setup(props, { slots }) {
     const state = reactive({ active: false })

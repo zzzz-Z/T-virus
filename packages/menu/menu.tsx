@@ -24,7 +24,7 @@ export const menuProps = {
 }
 
 const Menu = defineComponent({
-  name: 'Menu',
+  name: 'VMenu',
   props: menuProps,
   setup(props, { slots, emit }) {
     const state = reactive({

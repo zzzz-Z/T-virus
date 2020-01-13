@@ -2,7 +2,7 @@ import { h, defineComponent, provide, reactive } from 'vue'
 import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
-  name: 'Breadcrumb',
+  name: 'VBreadcrumb',
   props: {
     separator: { type: [String, Object], default: '/' }
   },

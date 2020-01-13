@@ -16,7 +16,7 @@ import { App } from 'vue'
  */
 const Card = vcCard
 ;(Card as any).install = (app: App) => {
-  app.component('V' + Card.name, Card as any)
+  app.component(Card.name, Card as any)
 }
 
 export default Card

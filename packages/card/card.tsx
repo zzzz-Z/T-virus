@@ -3,7 +3,7 @@ import { withVif } from '../utils/directives'
 import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
-  name: 'Card',
+  name: 'VCard',
   props: {
     border: { type: Boolean, default: true },
     disHover: Boolean,

@@ -2,7 +2,7 @@ import { h, defineComponent, provide, inject } from 'vue'
 import { runSlot } from '../utils/runSlot'
 
 export default defineComponent({
-  name: 'BreadcrumbItem',
+  name: 'VBreadcrumbItem',
   props: {
     href: String,
     to: {

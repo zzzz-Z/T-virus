@@ -1,4 +1,4 @@
-export { default as Button } from './button'
+export { default as Button, ButtonGroup } from './button'
 export { default as Input } from './input'
 export { default as Select, Option } from './select'
 export { default as Card } from './card'

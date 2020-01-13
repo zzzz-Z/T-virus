@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "types": [],
     "paths": {
-      "packages": ["packages/"]
+      "packages": ["packages/"],
+      "dev": ["dev/"]
     },
     "lib": [
       "esnext",

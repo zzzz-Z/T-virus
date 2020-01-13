@@ -1,7 +1,7 @@
 import { defineComponent, h } from 'vue'
 
 const Icon = defineComponent({
-  name: 'Icon',
+  name: 'VIcon',
   props: {
     type: { type: String, default: '' },
     size: [Number, String],

@@ -10,7 +10,7 @@ export const radioProps = {
 }
 
 export default defineComponent({
-  name: 'Radio',
+  name: 'VRadio',
   inheritAttrs: false,
   props: radioProps,
   setup(props, { emit, slots, attrs }) {

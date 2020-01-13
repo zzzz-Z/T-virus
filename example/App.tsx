@@ -1,9 +1,7 @@
-import SelectDemo from './select'
+//@ts-ignore
 import { h } from 'vue'
 
-export default {
-  render() {
-    var a = {}
-    return h('div', { style: { margin: '30px' } }, h(SelectDemo))
-  }
+
+export default function() {
+  return h('div', { class: 'v-markdown v-container' }, '')
 }

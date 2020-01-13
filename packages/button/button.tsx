@@ -1,11 +1,12 @@
 import { ButtonProps } from './type'
 import { defineComponent, h } from 'vue'
 import { withVif } from '../utils/directives'
+import { runSlot } from '../utils/runSlot'
 
 const buttonProps: any = {
   shape: String,
-  loading: Boolean,
-  disabled: Boolean,
+  loading: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
   size: String,
   type: { type: String, default: 'default' },
   htmlType: { type: String, default: 'button' },
@@ -14,12 +15,12 @@ const buttonProps: any = {
 }
 
 const Button = defineComponent<ButtonProps, {}, {}>({
-  name: 'Button',
+  name: 'VButton',
   props: buttonProps,
   setup: (props, { slots, attrs }) => () => {
     const { type, size, loading, icon, ghost } = props
     const defSlot = withVif(
-      h('span', { class: 'v-btn__text' }, slots.default()),
+      h('span', { class: 'v-btn__text' }, runSlot(slots.default)),
       slots.default
     )
     const iconSlot = withVif(

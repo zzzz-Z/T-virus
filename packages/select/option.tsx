@@ -15,7 +15,7 @@ interface Parent {
   onOptionSelect: (...args: any[]) => void
 }
 const Option = defineComponent({
-  name: 'Option',
+  name: 'VOption',
   props: {
     value: { type: [String, Number], required: true },
     label: [String, Object] as PropType<string | VNode>,
