@@ -8,8 +8,7 @@
     "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"example/**/*.ts?(x)\"  \"example/**/*.md\""
   },
   "dependencies": {
-
-    "vue": "3.0.0-alpha.1",
+    "vue": "3.0.0-alpha.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
