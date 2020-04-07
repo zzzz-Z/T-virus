@@ -1,0 +1,43 @@
+.code-box {
+  margin: 16px 0;
+}
+.code-box-demo {
+  position: relative;
+  padding: 32px;
+  border: 1px solid #e2ecf4;
+  border-radius: 4px 4px 0 0;
+  background-color: #fff;
+}
+.code-box-code {
+  position: relative;
+  border: 1px solid #e2ecf4;
+  border-top: none;
+}
+.code-box-toggle {
+  display: block;
+  padding: 8px 12px;
+  color: #c5d9e8;
+  font-size: 12px;
+  text-align: center;
+  background-color: #fafbfc;
+  cursor: pointer;
+}
+.btn-copy {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  transition: all 0.3s;
+
+  &:hover {
+    color: #6190e8;
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+}
+.code-box-code:hover {
+  .btn-copy {
+    display: block;
+    animation: fadeIn 0.3s both;
+  }
+}
