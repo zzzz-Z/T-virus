@@ -31,7 +31,7 @@ export const menuProps = {
   openNames: Array
 } as any
 
-const Menu = defineComponent({
+export default defineComponent({
   name: 'VMenu',
   props: menuProps,
   emits: ['select'],
@@ -78,4 +78,3 @@ const Menu = defineComponent({
   }
 })
 
-export default Menu

@@ -30,7 +30,7 @@ function camelCase(name: string) {
     .replace(MOZ_HACK_REGEXP, 'Moz$1')
 }
 // getStyle
-export function getStyle(element: HTMLElement, styleName: string) {
+export function getStyle(element: any, styleName: string) {
   if (!element || !styleName) {
     return null
   }

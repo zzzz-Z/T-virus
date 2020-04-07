@@ -202,21 +202,6 @@
 //     }
 
 //     return () => {
-//       // tslint:disable-next-line: prefer-const
-//       const { type, size, splitButton } = props
-//       // tslint:disable-next-line:no-shadowed-variable
-//       const triggerElm = !splitButton
-//         ? this.$slots.default
-//         : ''
-//       // : (<el-button-group>
-//       //   <el-button type={type} size={size} nativeOn-click={handleMainButtonClick}>
-//       //     {this.$slots.default}
-//       //   </el-button>
-//       //   <el-button ref='trigger' type={type} size={size} class='el-dropdown__caret-button'>
-//       //     <i class='el-dropdown__icon el-icon-arrow-down'></i>
-//       //   </el-button>
-//       // </el-button-group>)
-
 //       return (
 //         <div class='t-dropdown' v-clickoutside={hide}>
 //           {triggerElm}
