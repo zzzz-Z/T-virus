@@ -12,11 +12,11 @@ import {
   Transition,
   provide
 } from 'vue'
-import { FormInstance, FormProps } from './form'
+import { FormInstance, FormProps, formInjectKey } from './form'
 import AsyncValidator from 'async-validator'
 import { getPropByPath, noop } from 'packages/utils/util'
+import { Data } from 'packages/interface'
 
-type Data = { [key: string]: any }
 
 export interface FormItemInstance extends ComponentInternalInstance {
   validate(field: string, cb?: (errors: Data) => void): void
@@ -25,6 +25,8 @@ export interface FormItemInstance extends ComponentInternalInstance {
   onFieldChange(): void
   onFieldBlur(): void
 }
+export const formItemInjectKey = Symbol('FormItem')
+
 export default defineComponent({
   name: 'VFormItem',
   props: {
@@ -42,14 +44,14 @@ export default defineComponent({
   },
   setup(props, { slots }) {
     const prefix = (str = '') => 'v-form-item' + str
-    const formInstance = inject<FormInstance>('formInstance')
+    const formInstance = inject<FormInstance>(formInjectKey)
     const formProps = formInstance?.propsProxy as any as FormProps
     const instance = getCurrentInstance() as FormItemInstance
     instance.validate = validate
     instance.resetField = resetField
     instance.onFieldBlur = onFieldBlur
     instance.onFieldChange = onFieldChange
-    provide('formItem', instance)
+    provide(formItemInjectKey, instance)
     let initialValue: string | any[] = ''
     const state = reactive({
       validateState: '',

@@ -1,4 +1,4 @@
-// import './theme/index.scss'
+import './styles/index.scss'
 import * as components from './components'
 import { App } from 'vue'
 

@@ -1,24 +1,39 @@
 import { Table } from 'packages'
-import { h } from 'vue'
+import { h, reactive } from 'vue'
 import { Columns } from 'packages/table/type'
 
 const columns: Columns[] = [
   {
-    title: 'zcc', key: 'z', width: 300, align: 'center',
-    render: ({ val }) => h('span', val + 1111)
+    title: 'zcc', key: 'a', align: 'center', width: 300,
+    render: ({ val, row }) => {
+      return h('span', val)
+    }
   },
-  { title: 'sss', key: 's' },
-  { title: 'ddd', key: 'd' },
+  { title: 'sss', key: 'a', align: 'center', width: 200 },
+  { title: 'ddd', key: 'b', align: 'center', width: 200 },
+  { title: 'xxx', key: 'c', align: 'center', width: 200 },
+  // { title: 'www', key: 'd', align: 'center', width: 300 },
+  // { title: 'eee', key: 'e', align: 'center', width: 300 },
+  // { title: 'rrr', key: 'f', align: 'center', width: 300 },
+  { title: 'ttt', key: 'g', align: 'center' },
 ]
 const data = [
-  { z: 1, s: 2, d: 3 },
-  { z: 1, s: 2, d: 3 },
-  { z: 1, s: 2, d: 3 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
+  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7 },
 ]
 
 export const tableDemo = () => {
   return h(Table, {
+    height: 400,
     columns: columns,
-    data: data
+    data: data,
+    footer: () => h('div', 'zzz')
   })
 }
