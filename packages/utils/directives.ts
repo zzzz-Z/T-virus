@@ -9,7 +9,7 @@ interface OutEl extends HTMLElement {
   _handler(e: Event): void
 }
 /** as vshow */
-export const withVshow = (node: VNode, exp: boolean) => {
+export const withVshow = (node: VNode, exp: boolean | undefined) => {
   return withDirectives(node, [[vShow, exp]])
 }
 /** as vif */

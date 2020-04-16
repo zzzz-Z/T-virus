@@ -15,8 +15,12 @@
     "baseUrl": ".",
     "types": [],
     "paths": {
-      "packages": ["packages/"],
-      "dev": ["dev/"]
+      "packages": [
+        "packages/"
+      ],
+      "dev": [
+        "dev/"
+      ]
     },
     "lib": [
       "esnext",
@@ -25,13 +29,8 @@
       "scripthost"
     ]
   },
-  "include": [
-    "packages/**/*.ts",
-    "packages/**/*.tsx",
-    "packages/**/*.vue",
-    "example/**/*.ts",
-    "example/**/*.tsx",
-    "example/**/*.vue"
+  "files": [
+    "packages/index.ts",
   ],
   "exclude": [
     "node_modules"

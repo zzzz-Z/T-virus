@@ -1,11 +1,11 @@
-import { VNode } from "vue";
+import { VNode } from 'vue'
 
-interface renderParams {
+export interface renderParams {
   val: any
   index: number
   row: Record<string, any>
 }
-interface Columns {
+export interface Columns {
   key: string
   title: string | VNode
   width?: number

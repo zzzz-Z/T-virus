@@ -4,7 +4,7 @@ import { defineComponent, h, Transition } from 'vue';
 const collapseTransitio = defineComponent({
   setup(props, { slots }) {
     return () => h(Transition, {
-      onBeforeEnter(el) {
+      onBeforeEnter(el:any) {
         addClass(el, 'collapse-transition')
         if (!el.dataset) el.dataset = {}
 
@@ -16,7 +16,7 @@ const collapseTransitio = defineComponent({
         el.style.paddingBottom = 0
       },
 
-      onEnter(el) {
+      onEnter(el:any) {
         el.dataset.oldOverflow = el.style.overflow
         if (el.scrollHeight !== 0) {
           el.style.height = el.scrollHeight + 'px'
@@ -31,14 +31,14 @@ const collapseTransitio = defineComponent({
         el.style.overflow = 'hidden'
       },
 
-      onAfterEnter(el) {
+      onAfterEnter(el:any) {
         // for safari: remove class then reset height is necessary
         removeClass(el, 'collapse-transition')
         el.style.height = ''
         el.style.overflow = el.dataset.oldOverflow
       },
 
-      onBeforeLeave(el) {
+      onBeforeLeave(el:any) {
         if (!el.dataset) el.dataset = {}
         el.dataset.oldPaddingTop = el.style.paddingTop
         el.dataset.oldPaddingBottom = el.style.paddingBottom
@@ -48,7 +48,7 @@ const collapseTransitio = defineComponent({
         el.style.overflow = 'hidden'
       },
 
-      onLeave(el) {
+      onLeave(el:any) {
         if (el.scrollHeight !== 0) {
           // for safari: add class after set height, or it will jump to zero height suddenly, weired
           addClass(el, 'collapse-transition')
@@ -58,7 +58,7 @@ const collapseTransitio = defineComponent({
         }
       },
 
-      onAfterLeave(el) {
+      onAfterLeave(el:any) {
         removeClass(el, 'collapse-transition')
         el.style.height = ''
         el.style.overflow = el.dataset.oldOverflow
