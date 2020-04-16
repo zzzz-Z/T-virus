@@ -23,6 +23,9 @@ export interface FormInstance extends ComponentInternalInstance {
   validate(cb?: (isValid: boolean, invalidFields: object) => void): void
   validateField(prop: string, callback: () => void): void
 }
+
+export const formInjectKey = Symbol('Form')
+
 export default defineComponent({
   name: 'VForm',
   props: {
@@ -53,7 +56,7 @@ export default defineComponent({
       validateField,
       resetFields
     }
-    provide('formInstance', instance)
+    provide(formInjectKey, instance)
 
     watch(() => props.rules as any, validate)
 

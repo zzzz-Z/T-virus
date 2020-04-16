@@ -12,15 +12,16 @@ import {
   ComponentInternalInstance,
   onUnmounted
 } from 'vue'
-import { SelectIntance, SelectCtxKey } from './select'
+import { SelectIntance, SelectInjectKey } from './select'
 import { isString } from 'packages/utils/util'
+import { Data } from 'packages/interface'
 
 export interface OptionInstance extends ComponentInternalInstance {
   handleSelect(): void
   queryChange(val: string): void
   getQueryLabel(): string
   blur(): void
-  state: Record<any, any>
+  state: Data
   propsProxy: {
     value: any
     label?: any
@@ -53,7 +54,7 @@ const Option = defineComponent({
       [prefix + '--focus']: state.isFocus
     }))
 
-    const selectInstance = inject<SelectIntance>(SelectCtxKey)
+    const selectInstance = inject<SelectIntance>(SelectInjectKey)
     const instance = getCurrentInstance() as OptionInstance
     instance.handleSelect = handleSelect
     instance.queryChange = queryChange

@@ -4,6 +4,9 @@ import { SubMenu } from 'packages/menu';
 
 export const menuDeom = () => {
   return h(Menu, {
+    onVnodeMounted: (el) => {
+        console.log(el);
+    },
     inlineCollapsed: true,
     onSelect: (val) => { }
   }, () => [

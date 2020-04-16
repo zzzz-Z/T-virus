@@ -1,5 +1,5 @@
 //@ts-ignore
-import { h, ref, reactive, getCurrentInstance, watch, onMounted, defineComponent } from 'vue'
+import { h, defineComponent } from 'vue'
 import { renderForm } from './form'
 import { menuDeom } from './menu'
 import { tableDemo } from './table'
@@ -9,8 +9,8 @@ export default defineComponent({
     return () => h(
       'div',
       { class: ' v-container' }, [
-      menuDeom(),
-      renderForm(),
+      // menuDeom(),
+      // renderForm(),
       tableDemo()
     ])
   }

@@ -11,8 +11,8 @@ import {
   inject,
   getCurrentInstance
 } from 'vue'
-import { withVif } from '../utils/directives'
-import { FormItemInstance } from 'packages/form/formItem'
+
+import useForm from '../utils/useForm';
 
 export const inputProps = {
   elementId: String,
@@ -41,11 +41,11 @@ export const inputProps = {
 
 export default defineComponent({
   name: 'VInput',
-  inheritAttrs: false,
   props: inputProps,
+  emits: ['change', 'input', 'enter'],
   setup(props: InputProps, { emit, slots, attrs }) {
-    const formItem = inject<FormItemInstance>('formItem')
     const instace = getCurrentInstance()!
+    const { _emit } = useForm()
     instace.sink = {
       clean: () => {
         state.value = ''
@@ -87,7 +87,6 @@ export default defineComponent({
       val => {
         if (props.value === state.value) return
         state.value = val
-        formItem?.onFieldChange()
       }
     )
 
@@ -95,23 +94,20 @@ export default defineComponent({
       () => state.value,
       val => {
         emit('input', val)
-        emit('change', val)
+        _emit('change', val)
       }
     )
 
     const onInput = (e: Event) => {
       const val = (e.target as HTMLInputElement).value
-      emit('input', val, e)
-      emit('change', val, e)
+      emit('input', val)
+      emit('change', val)
     }
 
     const onKeyup = (event: KeyboardEvent) => {
       event.keyCode === 13 && emit('enter', event)
     }
-    const onBlur = (event: Event) => {
-      emit('blur', event)
-      formItem?.onFieldBlur()
-    }
+    const onBlur = (event: Event) => _emit('blur', event)
 
     watchEffect(() => {
       if (prefixRef.value) {

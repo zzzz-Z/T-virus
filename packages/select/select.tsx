@@ -18,14 +18,12 @@ import { FormItemInstance } from 'packages/form/formItem'
 import { OptionInstance } from './option'
 import { isString, isNumber, isArray } from 'packages/utils/util'
 
-type Data = Record<string, any>
-
 export interface SelectIntance extends ComponentInternalInstance {
   onOptionSelect(val: string | number, label: unknown): void
   options: OptionInstance[]
 }
 
-export const SelectCtxKey = Symbol()
+export const SelectInjectKey = Symbol('Select')
 const selectProps = {
   value: { type: [String, Number, Array], default: '' },
   trigger: { type: String, default: 'click' },
@@ -67,7 +65,7 @@ const Select = defineComponent({
     const options: OptionInstance[] = []
     instance.onOptionSelect = onOptionSelect
     instance.options = options
-    provide(SelectCtxKey, instance)
+    provide(SelectInjectKey, instance)
     onMounted(() => setSelected())
     watch(() => props.value, valueChange)
     watch(() => state.model, modelChange, { deep: true })
