@@ -6,9 +6,7 @@ import {
   computed,
   h,
   ref,
-  onMounted,
   watchEffect,
-  inject,
   getCurrentInstance
 } from 'vue'
 
@@ -39,11 +37,11 @@ export const inputProps = {
   clearable: { type: Boolean, default: false }
 } as any
 
-export default defineComponent({
+export default defineComponent<InputProps>({
   name: 'VInput',
   props: inputProps,
   emits: ['change', 'input', 'enter'],
-  setup(props: InputProps, { emit, slots, attrs }) {
+  setup(props, { emit, slots, attrs }) {
     const instace = getCurrentInstance()!
     const { _emit } = useForm()
     instace.sink = {

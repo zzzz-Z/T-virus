@@ -311,9 +311,9 @@ const Select = defineComponent({
       }
     }
 
-    function focus() {
-      inputEl.value!.select()
-    }
+    // function focus() {
+    //   inputEl.value!.select()
+    // }
 
     function blur() {
       inputEl.value!.blur()

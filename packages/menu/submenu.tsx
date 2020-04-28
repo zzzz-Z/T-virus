@@ -96,13 +96,13 @@ export default defineComponent({
     function handleMouseEnter() {
       if (props.disabled || menuProps.mode === 'inline') return
       clearTimeout(timeout)
-      timeout = setTimeout(() => state.isOpen = true, 200)
+      timeout = window.setTimeout(() => state.isOpen = true, 200)
     }
 
     function handleMouseLeave() {
       if (props.disabled || menuProps.mode === 'inline') return
       clearTimeout(timeout)
-      timeout = setTimeout(() => state.isOpen = false, 200)
+      timeout = window.setTimeout(() => state.isOpen = false, 200)
     }
 
     return () => {

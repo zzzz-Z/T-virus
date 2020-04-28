@@ -1,4 +1,4 @@
-import vcInput from './input'
+import Input from './input'
 import { VNode, App } from 'vue'
 
 export interface InputProps {
@@ -72,6 +72,10 @@ export interface InputProps {
   onClear?(): void
 }
 
+;(Input as any).install = (app: App) => {
+  app.component(Input.name, Input as any)
+}
+
 /**
  * @see [`docs`](https://baidu.com)
  *
@@ -115,9 +119,4 @@ export interface InputProps {
  * onClear?(): void//开启 clearable 时可用，点击清空按钮时触发
  * ```
  */
-const Input = vcInput
-;(Input as any).install = (app: App) => {
-  app.component(Input.name, Input as any)
-}
-
 export default Input

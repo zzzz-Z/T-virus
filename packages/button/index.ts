@@ -1,4 +1,4 @@
-import vcButton from './button'
+import Button from './button'
 import vcButtonGroup from './button-group'
 import { App } from 'vue'
 
@@ -10,18 +10,11 @@ import { App } from 'vue'
  
  * ```
  */
-const Button = vcButton
+// const Button = vcButton
 ;(Button as any).install = (app: App) => {
   app.component(Button.name, Button as any)
 }
-/**
- *  @see [`docs`](https://baidu.com)
- *
- * `props`
- * ```
- 
- * ```
- */
+
 const ButtonGroup = vcButtonGroup
 ;(ButtonGroup as any).install = (app: App) => {
   app.component(ButtonGroup.name, ButtonGroup as any)

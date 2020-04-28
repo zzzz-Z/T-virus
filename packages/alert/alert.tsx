@@ -1,6 +1,6 @@
-import { h, defineComponent, Transition, computed, reactive } from 'vue'
+import { h, defineComponent, Transition, reactive } from 'vue'
 import { withVif, withVshow } from '../utils/directives'
- 
+
 
 export default defineComponent({
   name: 'VAlert',
@@ -50,7 +50,7 @@ export default defineComponent({
 
       const renderClose = withVshow(
         h('i', closeProps, closeText),
-        closable || !!closeText
+        !!closable || !!closeText
       )
 
       const renderContent = h('div', { class: prefix + '__content' }, [

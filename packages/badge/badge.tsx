@@ -1,30 +1,15 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, PropType } from 'vue'
 import { withVshow } from '../utils/directives'
- 
+
 
 export default defineComponent({
   name: 'VBadge',
   props: {
-    value: {
-      type: [String, Number],
-      default: ''
-    },
-    maxNum: {
-      type: Number,
-      default: 99
-    },
-    dot: {
-      type: Boolean,
-      default: false
-    },
-    show: {
-      type: Boolean,
-      default: true
-    },
-    status: {
-      type: String,
-      default: 'error'
-    }
+    value: { type: [String, Number], default: '' },
+    maxNum: { type: Number, default: 99 },
+    dot: { type: Boolean, default: false } as any as PropType<boolean>,
+    show: { type: Boolean, default: true } as any as PropType<boolean>,
+    status: { type: String, default: 'error' }
   },
   setup(props, { slots }) {
     const prefix = 'v-badge'
@@ -61,7 +46,7 @@ export default defineComponent({
 
       return h('span', badgeProps, [
         slots.default?.(),
-        withVshow(h('sup', contentProps, dot ? '' : content), show)
+        withVshow(h('sup', contentProps, dot ? '' : content), !!show)
       ])
     }
   }

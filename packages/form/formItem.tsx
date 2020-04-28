@@ -188,11 +188,11 @@ export default defineComponent({
         formInstance?.emit?.('validate', props.prop, !errors, state.validateMessage || null)
       })
     }
-    function clearValidate() {
-      state.validateState = '';
-      state.validateMessage = '';
-      state.validateDisabled = false;
-    }
+    // function clearValidate() {
+    //   state.validateState = '';
+    //   state.validateMessage = '';
+    //   state.validateDisabled = false;
+    // }
     function resetField() {
       state.validateState = ''
       state.validateMessage = ''
@@ -228,10 +228,9 @@ export default defineComponent({
       validate('change')
     }
 
-    function updateComputedLabelWidth(width: string | number) {
-      state.computedLabelWidth = width ? `${width}px` : '';
-
-    }
+    // function updateComputedLabelWidth(width: string | number) {
+    //   state.computedLabelWidth = width ? `${width}px` : '';
+    // }
 
     return () => {
       const { isRequired, validateMessage, validateState, labelStyles, contentStyles } = state
@@ -257,7 +256,7 @@ export default defineComponent({
       ])
 
       const classs = [prefix(), {
-        'el-form-item--feedback': formProps?.statusIcon,
+        'v-form-item--feedback': formProps?.statusIcon,
         'is-error': validateState === 'error',
         'is-validating': validateState === 'validating',
         'is-success': validateState === 'success',

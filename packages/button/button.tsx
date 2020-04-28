@@ -12,12 +12,12 @@ const buttonProps = {
   htmlType: { type: String, default: 'button' },
   icon: { type: String, default: '' },
   ghost: { type: Boolean, default: false }
-} as any
+} as any 
 
-export default defineComponent({
+export default defineComponent<ButtonProps>({
   name: 'VButton',
   props: buttonProps,
-  setup: (props: ButtonProps, { slots, attrs }) => () => {
+  setup: (props, { slots, attrs }) => () => {
     const { type, size, loading, icon, ghost } = props
     const defSlot = withVif(
       h('span', { class: 'v-btn__text' }, slots.default?.()),

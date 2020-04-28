@@ -64,14 +64,14 @@ export default defineComponent({
       formItems.forEach(menuIem => menuIem.resetField())
     }
 
-    function clearValidate(props: any[] | string = []) {
-      const items = props.length
-        ? (typeof props === 'string'
-          ? formItems.filter(v => props === v.propsProxy?.prop)
-          : formItems.filter(v => props.indexOf(v.propsProxy?.prop) > -1)
-        ) : formItems;
-      items.forEach(v => v.clearValidate())
-    }
+    // function clearValidate(props: any[] | string = []) {
+    //   const items = props.length
+    //     ? (typeof props === 'string'
+    //       ? formItems.filter(v => props === v.propsProxy?.prop)
+    //       : formItems.filter(v => props.indexOf(v.propsProxy?.prop) > -1)
+    //     ) : formItems;
+    //   items.forEach(v => v.clearValidate())
+    // }
 
     function validate(callback: any) {
       let valid = true

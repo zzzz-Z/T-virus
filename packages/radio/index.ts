@@ -1,6 +1,6 @@
 import vcRadio from './radio'
 import { App } from 'vue'
-import vcRadioGroup from '../radio/radio-group'
+import vcRadioGroup from './radio-group'
 
 /**
  *  @see [`docs`](https://baidu.com)

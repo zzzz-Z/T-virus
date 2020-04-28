@@ -1,4 +1,4 @@
-import { h, defineComponent, provide, inject } from 'vue'
+import { h, defineComponent, inject } from 'vue'
 
 
 export default defineComponent({
@@ -16,7 +16,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const parent: any = inject('breadcrumb')
     const handleClick = () => {
-      const { href, to } = props
+      const { href } = props
       if (href) {
         window.location.href = href
       } else {

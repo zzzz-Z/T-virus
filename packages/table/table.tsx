@@ -1,4 +1,15 @@
-import { defineComponent, h, reactive, getCurrentInstance, ref, nextTick, watch, computed, PropType, onMounted, VNode, toRefs, toRaw } from 'vue';
+import {
+  defineComponent,
+  h,
+  reactive,
+  ref,
+  nextTick,
+  watch,
+  computed,
+  PropType,
+  onMounted,
+  VNode
+} from 'vue';
 import { getStyle, isNumber } from 'packages/utils/util';
 import { Columns } from './type';
 
@@ -23,8 +34,6 @@ export default defineComponent({
   props: tableProps,
   setup(props, { slots }) {
     const prefix = (cls: string = '') => 'v-table' + cls
-    const instance = getCurrentInstance()!
-
     /**===================state====================**/
     const state = reactive({
       columns: props.columns,
