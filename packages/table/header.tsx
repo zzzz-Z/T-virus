@@ -1,5 +1,5 @@
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
-export const Header = defineComponent((props,slots) => {
+export const Header = defineComponent((props, slots) => {
   return
 })

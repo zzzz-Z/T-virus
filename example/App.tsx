@@ -6,12 +6,11 @@ import { tableDemo } from './table'
 
 export default defineComponent({
   setup() {
-    return () => h(
-      'div',
-      { class: ' v-container' }, [
-      // menuDeom(),
-      // renderForm(),
-      tableDemo()
-    ])
+    return () =>
+      h('div', { class: ' v-container' }, [
+        // menuDeom(),
+        // renderForm(),
+        tableDemo()
+      ])
   }
 })

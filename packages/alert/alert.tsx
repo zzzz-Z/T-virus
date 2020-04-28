@@ -1,4 +1,4 @@
-import { h, defineComponent, Transition, reactive } from 'vue'
+import { h, defineComponent, Transition, reactive, PropType } from 'vue'
 import { withVif, withVshow } from '../utils/directives'
 
 
@@ -8,7 +8,7 @@ export default defineComponent({
     type: { type: String, default: 'info' },
     message: [String, Object],
     description: [String, Object],
-    closable: { type: Boolean, default: false },
+    closable: { type: Boolean, default: false } as any as PropType<boolean>,
     showIcon: { type: Boolean, default: false },
     icon: { type: String, default: 'info' },
     closeText: String

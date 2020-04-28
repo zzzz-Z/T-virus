@@ -1,8 +1,15 @@
 import { h, defineComponent, PropType } from 'vue'
 import { withVshow } from '../utils/directives'
 
+export interface BageProps {
+  value?: string | number
+  maxNum?: number
+  dot?: boolean
+  show?: boolean
+  status?: string
+}
 
-export default defineComponent({
+export default defineComponent<BageProps>({
   name: 'VBadge',
   props: {
     value: { type: [String, Number], default: '' },
@@ -10,10 +17,9 @@ export default defineComponent({
     dot: { type: Boolean, default: false } as any as PropType<boolean>,
     show: { type: Boolean, default: true } as any as PropType<boolean>,
     status: { type: String, default: 'error' }
-  },
+  } as any,
   setup(props, { slots }) {
     const prefix = 'v-badge'
-
     return () => {
       const { value, maxNum, status, dot, show } = props
 
