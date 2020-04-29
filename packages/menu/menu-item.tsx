@@ -1,4 +1,13 @@
-import { defineComponent, reactive, onMounted, h, inject, getCurrentInstance, ComponentInternalInstance, onUnmounted } from 'vue'
+import {
+  defineComponent,
+  reactive,
+  onMounted,
+  h,
+  inject,
+  getCurrentInstance,
+  ComponentInternalInstance,
+  onUnmounted,
+} from 'vue'
 import { MenuItemProps } from './type'
 import { MenuInstance, MenuCtxKey } from './menu'
 
@@ -8,9 +17,14 @@ export interface MenuItemInstance extends ComponentInternalInstance {
 
 const menuItemProps = {
   name: { type: [String, Number] },
-  to: { type: [Object, String], default() { return {} } },
+  to: {
+    type: [Object, String],
+    default() {
+      return {}
+    },
+  },
   replace: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false }
+  disabled: { type: Boolean, default: false },
 } as any
 
 const MenuItem = defineComponent({
@@ -50,17 +64,13 @@ const MenuItem = defineComponent({
             'v-menu__item',
             {
               'v-menu__item--active': state.active,
-              'v-menu__item--disabled': props.disabled
-            }
-          ]
+              'v-menu__item--disabled': props.disabled,
+            },
+          ],
         },
-        h(
-          'div',
-          { class: 'v-menu__item-link' },
-          slots.default?.()
-        )
+        h('div', { class: 'v-menu__item-link' }, slots.default?.())
       )
-  }
+  },
 })
 
 export default MenuItem

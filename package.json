@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "rm -rf .cache && parcel  example/index.html",
-    "build": "npx rollup -c",
-    "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"example/**/*.ts?(x)\"  \"example/**/*.md\""
+    "build": "rm -rf dist npx rollup -c",
+    "lint": "prettier --write  \"packages/**/*.ts?(x)\" \"example/**/*.ts?(x)\""
   },
   "dependencies": {
     "vue": "3.0.0-alpha.11"
@@ -29,18 +29,27 @@
     "markdown-it-emoji": "^1.4.0",
     "markdown-it-table-of-contents": "^0.4.4",
     "marked": "^0.8.2",
+    "prettier": "^2.0.5",
     "node-sass": "^4.13.0",
     "parcel-bundler": "^1.12.4",
-    "prettier": "~1.14.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-sass": "^1.2.2",
-    "rollup-plugin-typescript2": "^0.27.0",
     "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-typescript2": "^0.27.0",
     "rollup-plugin-uglify": "^6.0.4",
     "sass-loader": "^8.0.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "vue-loader": "^16.0.0-alpha.3"
+  },
+  "lint-staged": {
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write",
+      "git add"
+    ]
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
   "postcss": {
     "plugins": {
@@ -52,7 +61,6 @@
     "last 2 versions"
   ],
   "alias": {
-    "packages": "./packages",
-    "vue": "./node_modules/vue/dist/vue.esm.js"
+    "packages": "./packages"
   }
 }

@@ -10,7 +10,7 @@ import {
   VNode,
   onMounted,
   ComponentInternalInstance,
-  onUnmounted
+  onUnmounted,
 } from 'vue'
 import { SelectIntance, SelectInjectKey } from './select'
 import { isString } from 'packages/utils/util'
@@ -33,17 +33,16 @@ const Option = defineComponent({
   props: {
     value: { type: [String, Number], required: true },
     label: [String, Object] as PropType<string | VNode>,
-    disabled: Boolean
+    disabled: Boolean,
   },
   setup(props, { slots }) {
-
     const state = reactive({
       id: 0,
       selected: false,
       index: 0,
       isFocus: false,
       hidden: false,
-      disabled: props.disabled
+      disabled: props.disabled,
     })
     const option = ref<HTMLLIElement | null>(null)
     const prefix = 'v-select__option'
@@ -51,7 +50,7 @@ const Option = defineComponent({
       [prefix]: true,
       [prefix + '--disabled']: props.disabled,
       [prefix + '--selected']: state.selected,
-      [prefix + '--focus']: state.isFocus
+      [prefix + '--focus']: state.isFocus,
     }))
 
     const selectInstance = inject<SelectIntance>(SelectInjectKey)
@@ -83,9 +82,7 @@ const Option = defineComponent({
     }
 
     function getQueryLabel() {
-      return isString(props.label)
-        ? props.label
-        : (instance.vnode.el as HTMLElement).innerText
+      return isString(props.label) ? props.label : (instance.vnode.el as HTMLElement).innerText
     }
 
     function queryChange(val: string) {
@@ -101,14 +98,14 @@ const Option = defineComponent({
           class: classs.value,
           onClick: handleSelect,
           onMouseout: blur,
-          ref: option
+          ref: option,
         },
         [
           slots.default?.() || props.label,
-          state.selected ? h('i', { class: 'icon icon-check' }) : null
+          state.selected ? h('i', { class: 'icon icon-check' }) : null,
         ]
       )
-  }
+  },
 })
 
 export default Option

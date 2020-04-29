@@ -1,13 +1,5 @@
 export interface ButtonProps {
-  type?:
-    | 'default'
-    | 'primary'
-    | 'dashed'
-    | 'text'
-    | 'info'
-    | 'success'
-    | 'warning'
-    | 'error'
+  type?: 'default' | 'primary' | 'dashed' | 'text' | 'info' | 'success' | 'warning' | 'error'
   /**
    * 幽灵属性，使按钮背景透明
    * @default false

@@ -2,8 +2,7 @@ import { VNode, ComponentInternalInstance, Component } from 'vue'
 // // tslint:disable: only-arrow-functions
 
 export const isArray = Array.isArray
-export const isFunction = (val: unknown): val is Function =>
-  typeof val === 'function'
+export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isNumber = (val: unknown): val is number => typeof val === 'number'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
@@ -24,7 +23,7 @@ const MOZ_HACK_REGEXP = /^moz([A-Z])/
 
 function camelCase(name: string) {
   return name
-    .replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
+    .replace(SPECIAL_CHARS_REGEXP, function (_, separator, letter, offset) {
       return offset ? letter.toUpperCase() : letter
     })
     .replace(MOZ_HACK_REGEXP, 'Moz$1')
@@ -40,9 +39,7 @@ export function getStyle(element: any, styleName: string) {
   }
   try {
     const computed = document.defaultView!.getComputedStyle(element, '')
-    return element.style[styleName as any] || computed
-      ? computed[styleName as any]
-      : null
+    return element.style[styleName as any] || computed ? computed[styleName as any] : null
   } catch (e) {
     return element.style[styleName as any]
   }
@@ -61,9 +58,7 @@ export function findComponentsDownward(
     if (name && name === componentName) {
       components.push(child)
     }
-    const foundChilds = component
-      ? findComponentsDownward(component, componentName)
-      : []
+    const foundChilds = component ? findComponentsDownward(component, componentName) : []
     return components.concat(foundChilds)
   }, [])
 }
@@ -74,8 +69,7 @@ export function findComponentUpward(
   componentName: string,
   componentNames?: string[]
 ) {
-  componentNames =
-    typeof componentName === 'string' ? [componentName] : componentName
+  componentNames = typeof componentName === 'string' ? [componentName] : componentName
   let parent = context.parent || context.root
   let name = parent.type.name
   while (parent && (!name || componentNames.indexOf(name) < 0)) {
@@ -104,7 +98,7 @@ export function findComponentsUpward(
   }
 }
 
-const trim = function(str: string) {
+const trim = function (str: string) {
   return (str || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '')
 }
 
@@ -174,11 +168,7 @@ export function removeClass(el: Element, cls: string) {
   }
 }
 
-export function getPropByPath(
-  obj: Record<any, any>,
-  path: string,
-  strict?: boolean
-) {
+export function getPropByPath(obj: Record<any, any>, path: string, strict?: boolean) {
   let tempObj = obj
   path = path.replace(/\[(\w+)\]/g, '.$1')
   path = path.replace(/^\./, '')
@@ -200,6 +190,6 @@ export function getPropByPath(
   return {
     o: tempObj,
     k: keyArr[i],
-    v: tempObj ? tempObj[keyArr[i]] : null
+    v: tempObj ? tempObj[keyArr[i]] : null,
   }
 }

@@ -7,10 +7,10 @@ import {
   h,
   ref,
   watchEffect,
-  getCurrentInstance
+  getCurrentInstance,
 } from 'vue'
 
-import useForm from '../utils/useForm';
+import useForm from '../utils/useForm'
 
 export const inputProps = {
   elementId: String,
@@ -34,7 +34,7 @@ export const inputProps = {
   autofocus: { type: Boolean, default: false },
   spellcheck: { type: Boolean, default: false },
   autocomplete: { type: String, default: 'off' },
-  clearable: { type: Boolean, default: false }
+  clearable: { type: Boolean, default: false },
 } as any
 
 export default defineComponent<InputProps>({
@@ -48,8 +48,7 @@ export default defineComponent<InputProps>({
       clean: () => {
         state.value = ''
         emit('input', '')
-      }
-
+      },
     }
     const state = reactive({
       value: props.value,
@@ -69,10 +68,10 @@ export default defineComponent<InputProps>({
             'v-input-group': group,
             'v-input--disabled': disabled,
             'v-input--prepend': _prepend,
-            'v-input--append': _append
-          }
+            'v-input--append': _append,
+          },
         ]
-      })
+      }),
     })
     const inputRef = ref<HTMLInputElement | null>(null)
     const appendRef = ref<HTMLLIElement | null>(null)
@@ -82,7 +81,7 @@ export default defineComponent<InputProps>({
 
     watch(
       () => props.value,
-      val => {
+      (val) => {
         if (props.value === state.value) return
         state.value = val
       }
@@ -90,7 +89,7 @@ export default defineComponent<InputProps>({
 
     watch(
       () => state.value,
-      val => {
+      (val) => {
         emit('input', val)
         _emit('change', val)
       }
@@ -124,27 +123,33 @@ export default defineComponent<InputProps>({
 
     const render = (type: 'append' | 'prepend') => {
       const node = props[type] || slots[type]?.()
-      return node && h(
-        'div',
-        {
-          ref: type === 'append' ? appendRef : prependRef,
-          class: ['v-input-group__' + type, { 'v-input-group--button': node }]
-        },
-        node
+      return (
+        node &&
+        h(
+          'div',
+          {
+            ref: type === 'append' ? appendRef : prependRef,
+            class: ['v-input-group__' + type, { 'v-input-group--button': node }],
+          },
+          node
+        )
       )
     }
 
     const renderFix = (type: 'prefix' | 'suffix') => {
       const isPrefix = type === 'prefix'
       const el = props[type] || slots[type]?.()
-      return el && h(
-        'span',
-        {
-          ref: isPrefix ? prefixRef : suffixRef,
-          style: { [isPrefix ? 'left' : 'right']: state.offset[type] + 'px' },
-          class: 'v-input--' + type
-        },
-        el
+      return (
+        el &&
+        h(
+          'span',
+          {
+            ref: isPrefix ? prefixRef : suffixRef,
+            style: { [isPrefix ? 'left' : 'right']: state.offset[type] + 'px' },
+            class: 'v-input--' + type,
+          },
+          el
+        )
       )
     }
 
@@ -160,7 +165,7 @@ export default defineComponent<InputProps>({
         onInput,
         onBlur,
         class: 'v-input__original',
-        style: state.style
+        style: state.style,
       })
     }
 
@@ -170,7 +175,7 @@ export default defineComponent<InputProps>({
         renderFix('prefix'),
         input(),
         renderFix('suffix'),
-        render('append')
+        render('append'),
       ])
-  }
+  },
 })

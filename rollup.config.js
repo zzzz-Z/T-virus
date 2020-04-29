@@ -5,7 +5,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 
-
+typescript.createCompilerHost
 const fs = require('fs-extra')
 const path = require('path')
 const dir = path.join(__dirname, './packages')
@@ -27,32 +27,41 @@ const plugins = [
 ]
 function createRollupConfig() {
   return files
-    .filter(name => isDir(path.join(dir, name)) && !['styles', 'utils'].includes(name))
+    .filter(
+      name => isDir(path.join(dir, name)) && !['styles', 'utils'].includes(name)
+    )
     .map(file => ({
       input: `packages/${file}/index.ts`,
-      output: [{
-        format: 'es',
-        name: file,
-        file: `dist/es/${file}/index.js`,
-      }],
+      output: [
+        {
+          format: 'es',
+          name: file,
+          file: `dist/es/${file}/index.js`
+        }
+      ],
       plugins
     }))
 }
 
-export default [{
-  input: `packages/index.ts`,
-  output: [{ format: 'es', name: 'index', file: `dist/index.js` }],
-  plugins: [
-    commonjs(),
-    resolve(),
-    typescript({ tsconfig: 'tsconfig.type.json' }),
-    babel({
-      include: 'packages/**',
-      extensions: ['.js', '.ts', '.tsx'],
-      runtimeHelpers: true
-    }),
-    terser()
-  ]
-},
+export default [
+  {
+    input: `packages/index.ts`,
+    output: [{ format: 'es', name: 'index', file: `dist/index.js` }],
+    plugins: [
+      commonjs(),
+      resolve(),
+      typescript({
+        clean:true,
+        useTsconfigDeclarationDir: true,
+        tsconfig: 'tsconfig.type.json'
+      }),
+      babel({
+        include: 'packages/**',
+        extensions: ['.js', '.ts', '.tsx'],
+        runtimeHelpers: true
+      }),
+      terser()
+    ]
+  },
   ...createRollupConfig()
 ]

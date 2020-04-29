@@ -1,5 +1,13 @@
-import { defineComponent, h, reactive, watch, getCurrentInstance, provide, ComponentInternalInstance } from 'vue';
-import { FormItemInstance } from './formItem';
+import {
+  defineComponent,
+  h,
+  reactive,
+  watch,
+  getCurrentInstance,
+  provide,
+  ComponentInternalInstance,
+} from 'vue'
+import { FormItemInstance } from './formItem'
 
 export interface FormProps {
   model: Record<string, any>
@@ -41,7 +49,7 @@ export default defineComponent({
     size: String,
     disabled: Boolean,
     validateOnRuleChange: { type: Boolean, default: true },
-    hideRequiredAsterisk: { type: Boolean, default: false }
+    hideRequiredAsterisk: { type: Boolean, default: false },
   } as any,
   setup(props: FormProps, { slots }) {
     const formItems = reactive<FormItemInstance[]>([])
@@ -54,14 +62,14 @@ export default defineComponent({
       formItems,
       validate,
       validateField,
-      resetFields
+      resetFields,
     }
     provide(formInjectKey, instance)
 
     watch(() => props.rules as any, validate)
 
     function resetFields() {
-      formItems.forEach(menuIem => menuIem.resetField())
+      formItems.forEach((menuIem) => menuIem.resetField())
     }
 
     // function clearValidate(props: any[] | string = []) {
@@ -77,14 +85,14 @@ export default defineComponent({
       let valid = true
       let count = 0
       if (formItems.length === 0 && callback) {
-        callback(true);
+        callback(true)
       }
-      formItems.forEach(field => {
-        field.validate('', errors => {
+      formItems.forEach((field) => {
+        field.validate('', (errors) => {
           if (errors) {
             valid = false
           }
-          if (typeof callback === 'function' && (++count) === formItems.length) {
+          if (typeof callback === 'function' && ++count === formItems.length) {
             callback(valid)
           }
         })
@@ -92,7 +100,7 @@ export default defineComponent({
     }
 
     function validateField(prop: string, callback: () => void) {
-      const field = formItems.filter(formItem => formItem.propsProxy?.prop === prop)[0]
+      const field = formItems.filter((formItem) => formItem.propsProxy?.prop === prop)[0]
 
       if (!field) {
         throw new Error('Must call validateField with valid prop string!')
@@ -101,12 +109,19 @@ export default defineComponent({
       field.validate('', callback)
     }
 
-    return () => h('form', {
-      class: ['v-form', {
-        ['v-form--label-' + props.labelPosition]: props.labelPosition,
-        'v-form--inline': props.inline
-      }]
-    }, slots.default?.()
-    )
-  }
+    return () =>
+      h(
+        'form',
+        {
+          class: [
+            'v-form',
+            {
+              ['v-form--label-' + props.labelPosition]: props.labelPosition,
+              'v-form--inline': props.inline,
+            },
+          ],
+        },
+        slots.default?.()
+      )
+  },
 })

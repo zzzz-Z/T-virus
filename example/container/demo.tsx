@@ -18,9 +18,9 @@ export default defineComponent({
   setup(props, { slots, attrs }) {
     const state = reactive({
       isShow: false,
-      lange: computed(() => 'zh')
+      lange: computed(() => 'zh'),
     })
 
     return { ...state }
-  }
+  },
 })

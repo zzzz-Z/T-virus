@@ -1,23 +1,22 @@
 import { defineComponent, computed, h, provide } from 'vue'
- 
 
 export default defineComponent({
   name: 'VRow',
   props: {
     tag: {
       type: String,
-      default: 'div'
+      default: 'div',
     },
     gutter: Number,
     type: String,
     justify: {
       type: String,
-      default: 'start'
+      default: 'start',
     },
     align: {
       type: String,
-      default: 'top'
-    }
+      default: 'top',
+    },
   },
 
   setup(props, { slots }) {
@@ -36,14 +35,9 @@ export default defineComponent({
       'v-row',
       props.justify !== 'start' ? `is-justify-${props.justify}` : '',
       props.align !== 'top' ? `is-align-${props.align}` : '',
-      { 'v-row--flex': props.type === 'flex' }
+      { 'v-row--flex': props.type === 'flex' },
     ])
 
-    return () =>
-      h(
-        props.tag,
-        { class: classs.value, style: style.value },
-        slots.default?.()
-      )
-  }
+    return () => h(props.tag, { class: classs.value, style: style.value }, slots.default?.())
+  },
 })

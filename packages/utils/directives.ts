@@ -1,10 +1,4 @@
-import {
-  withDirectives,
-  VNode,
-  vShow,
-  ObjectDirective,
-  vModelDynamic
-} from 'vue'
+import { withDirectives, VNode, vShow, ObjectDirective, vModelDynamic } from 'vue'
 interface OutEl extends HTMLElement {
   _handler(e: Event): void
 }
@@ -26,7 +20,7 @@ export const withClickoutside = (node: VNode, cb: () => void) => {
 
 const clickoutside: ObjectDirective = {
   mounted(el: OutEl, binding) {
-    el._handler = evt => {
+    el._handler = (evt) => {
       if (!el.contains(evt.target as HTMLElement)) {
         binding.value(evt)
       }
@@ -36,5 +30,5 @@ const clickoutside: ObjectDirective = {
   },
   unmounted(el: OutEl) {
     document.removeEventListener('click', el._handler)
-  }
+  },
 }

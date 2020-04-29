@@ -7,14 +7,14 @@ export default defineComponent({
     disabled: { type: Boolean, default: false },
     size: String,
     checkedText: [String, Object],
-    unCheckedText: [String, Object]
+    unCheckedText: [String, Object],
   },
   setup(props, { emit, slots }) {
     const state = reactive({ checkStatus: props.value })
 
     watch(
       () => props.value,
-      val => {
+      (val) => {
         state.checkStatus = val
       }
     )
@@ -25,10 +25,8 @@ export default defineComponent({
       emit('change', state.checkStatus)
       emit('input', state.checkStatus)
     }
-    const checkedText =
-      props.checkedText || (slots.checkedText && slots.checkedText())
-    const unCheckedText =
-      props.checkedText || (slots.checkedText && slots.checkedText())
+    const checkedText = props.checkedText || (slots.checkedText && slots.checkedText())
+    const unCheckedText = props.checkedText || (slots.checkedText && slots.checkedText())
 
     return () =>
       h(
@@ -40,15 +38,11 @@ export default defineComponent({
             {
               [`v-switch--${props.size}`]: props.size,
               'v-switch--disabled': props.disabled,
-              'v-switch--checked': state.checkStatus
-            }
-          ]
+              'v-switch--checked': state.checkStatus,
+            },
+          ],
         },
-        h(
-          'span',
-          { class: 'v-switch__text' },
-          state.checkStatus ? checkedText : unCheckedText
-        )
+        h('span', { class: 'v-switch__text' }, state.checkStatus ? checkedText : unCheckedText)
       )
-  }
+  },
 })

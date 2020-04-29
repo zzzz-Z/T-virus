@@ -10,7 +10,7 @@ export default defineComponent({
       h('div', { class: ' v-container' }, [
         // menuDeom(),
         // renderForm(),
-        tableDemo()
+        tableDemo(),
       ])
-  }
+  },
 })

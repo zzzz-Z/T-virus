@@ -10,13 +10,12 @@ import {
   onUnmounted,
   h,
   Transition,
-  provide
+  provide,
 } from 'vue'
 import { FormInstance, FormProps, formInjectKey } from './form'
 import AsyncValidator from 'async-validator'
 import { getPropByPath, noop } from 'packages/utils/util'
 import { Data } from 'packages/interface'
-
 
 export interface FormItemInstance extends ComponentInternalInstance {
   validate(field: string, cb?: (errors: Data) => void): void
@@ -40,12 +39,12 @@ export default defineComponent({
     for: String,
     inlineMessage: { type: [String, Boolean], default: '' },
     showMessage: { type: Boolean, default: true },
-    size: String
+    size: String,
   },
   setup(props, { slots }) {
     const prefix = (str = '') => 'v-form-item' + str
     const formInstance = inject<FormInstance>(formInjectKey)
-    const formProps = formInstance?.propsProxy as any as FormProps
+    const formProps = (formInstance?.propsProxy as any) as FormProps
     const instance = getCurrentInstance() as FormItemInstance
     instance.validate = validate
     instance.resetField = resetField
@@ -65,7 +64,9 @@ export default defineComponent({
       labelStyles: computed(() => {
         const style: Record<string, any> = {}
         const labelWidth = props.labelWidth || formProps.labelWidth
-        if (labelWidth) { style.width = `${labelWidth}px` }
+        if (labelWidth) {
+          style.width = `${labelWidth}px`
+        }
         return style
       }),
       contentStyles: computed(() => {
@@ -77,18 +78,20 @@ export default defineComponent({
         const labelWidth = props.labelWidth || formProps.labelWidth
         if (labelWidth === 'auto') {
           if (props.labelWidth === 'auto') {
-            style.marginLeft = state.computedLabelWidth;
+            style.marginLeft = state.computedLabelWidth
           } else if (formProps.labelWidth === 'auto') {
             // style.marginLeft = formProps.autoLabelWidth;
           }
         } else {
-          style.marginLeft = labelWidth;
+          style.marginLeft = labelWidth
         }
-        return style;
+        return style
       }),
       fieldValue: computed(() => {
         const model = formProps.model
-        if (!model || !props.prop) { return }
+        if (!model || !props.prop) {
+          return
+        }
 
         let path = props.prop
         if (path.indexOf(':') !== -1) {
@@ -102,7 +105,7 @@ export default defineComponent({
         let isRequired = false
 
         if (rules && rules.length) {
-          rules.every(rule => {
+          rules.every((rule) => {
             if (rule.required) {
               isRequired = true
               return false
@@ -111,7 +114,7 @@ export default defineComponent({
           })
         }
         return isRequired
-      })
+      }),
     })
 
     onMounted(() => {
@@ -122,38 +125,44 @@ export default defineComponent({
       }
     })
     onUnmounted(() => {
-      const index = formInstance?.formItems.findIndex(v => v == instance)!
+      const index = formInstance?.formItems.findIndex((v) => v == instance)!
       formInstance?.formItems.splice(index, 1)
     })
 
-    watch(() => props.error, val => {
-      state.validateMessage = val!
-      state.validateState = val ? 'error' : ''
-    }, { immediate: true })
-    watch(() => props.validateState, val => {
-      state.validateState = val!
-    })
-
+    watch(
+      () => props.error,
+      (val) => {
+        state.validateMessage = val!
+        state.validateState = val ? 'error' : ''
+      },
+      { immediate: true }
+    )
+    watch(
+      () => props.validateState,
+      (val) => {
+        state.validateState = val!
+      }
+    )
 
     function getRules(): any[] {
       let formRules = formProps.rules
       const { rules, required, prop } = props
-      const requiredRule: any = required !== undefined ? { required: !!required } : [];
-      const _prop = getPropByPath(formRules!, props.prop || '');
-      formRules = formRules ? (_prop.o[prop || ''] || _prop.v) : [];
+      const requiredRule: any = required !== undefined ? { required: !!required } : []
+      const _prop = getPropByPath(formRules!, props.prop || '')
+      formRules = formRules ? _prop.o[prop || ''] || _prop.v : []
 
-      return [].concat(rules || formRules || []).concat(requiredRule);
+      return [].concat(rules || formRules || []).concat(requiredRule)
     }
 
     function getFilteredRule(trigger: string) {
       const rules = getRules()
 
       return rules.filter((rule) => {
-        if (!rule.trigger || trigger === '') return true;
+        if (!rule.trigger || trigger === '') return true
         if (Array.isArray(rule.trigger)) {
-          return rule.trigger.indexOf(trigger) > -1;
+          return rule.trigger.indexOf(trigger) > -1
         } else {
-          return rule.trigger === trigger;
+          return rule.trigger === trigger
         }
       })
     }
@@ -162,7 +171,7 @@ export default defineComponent({
       state.validateDisabled = false
       const rules = getFilteredRule(trigger)
 
-      if (!rules || rules.length === 0 && props.required === undefined) {
+      if (!rules || (rules.length === 0 && props.required === undefined)) {
         callback()
         return true
       }
@@ -170,8 +179,8 @@ export default defineComponent({
 
       const descriptor: Data = {}
       if (rules && rules.length > 0) {
-        rules.forEach(rule => {
-          delete rule.trigger;
+        rules.forEach((rule) => {
+          delete rule.trigger
         })
       }
       descriptor[props.prop!] = rules
@@ -181,7 +190,7 @@ export default defineComponent({
 
       model[props.prop!] = state.fieldValue
 
-      validator.validate(model, { firstFields: true }, errors => {
+      validator.validate(model, { firstFields: true }, (errors) => {
         state.validateState = errors ? 'error' : 'success'
         state.validateMessage = errors ? errors[0].message : ''
         callback(state.validateMessage)
@@ -205,14 +214,13 @@ export default defineComponent({
           path = path.replace(/:/, '.')
         }
         const prop = getPropByPath(model, path, true)
-        state.validateDisabled = true;
+        state.validateDisabled = true
 
         if (Array.isArray(value)) {
-          prop.o[prop.k] = ([] as any[]).concat(initialValue);
+          prop.o[prop.k] = ([] as any[]).concat(initialValue)
         } else {
-          prop.o[prop.k] = initialValue;
+          prop.o[prop.k] = initialValue
         }
-
       }
     }
 
@@ -234,36 +242,50 @@ export default defineComponent({
 
     return () => {
       const { isRequired, validateMessage, validateState, labelStyles, contentStyles } = state
-      const labelAttrs = { for: state.labelFor, class: prefix('__label'), style: labelStyles }
-      const label = props.label || slots.label
-        ? h('label', labelAttrs, props.label || slots.label?.())
-        : null
+      const labelAttrs = {
+        for: state.labelFor,
+        class: prefix('__label'),
+        style: labelStyles,
+      }
+      const label =
+        props.label || slots.label ? h('label', labelAttrs, props.label || slots.label?.()) : null
       const contentAttrs = { class: prefix('__content'), style: contentStyles }
       const showErrorTip = validateState === 'error' && props.showMessage && formProps.showMessage
-      const error = showErrorTip && h('div', {
-        class: [prefix('__error'), {
-          [prefix('__error--inline')]: typeof props.inlineMessage === 'boolean'
-            ? props.inlineMessage
-            : formProps.inlineMessage
-        }]
-      },
-        validateMessage
-      )
+      const error =
+        showErrorTip &&
+        h(
+          'div',
+          {
+            class: [
+              prefix('__error'),
+              {
+                [prefix('__error--inline')]:
+                  typeof props.inlineMessage === 'boolean'
+                    ? props.inlineMessage
+                    : formProps.inlineMessage,
+              },
+            ],
+          },
+          validateMessage
+        )
 
       const content = h('div', contentAttrs, [
         slots.default?.(),
-        h(Transition, { name: 'fade' }, () => error)
+        h(Transition, { name: 'fade' }, () => error),
       ])
 
-      const classs = [prefix(), {
-        'v-form-item--feedback': formProps?.statusIcon,
-        'is-error': validateState === 'error',
-        'is-validating': validateState === 'validating',
-        'is-success': validateState === 'success',
-        'is-required': isRequired || props.required,
-        'is-no-asterisk': formProps?.hideRequiredAsterisk
-      }]
+      const classs = [
+        prefix(),
+        {
+          'v-form-item--feedback': formProps?.statusIcon,
+          'is-error': validateState === 'error',
+          'is-validating': validateState === 'validating',
+          'is-success': validateState === 'success',
+          'is-required': isRequired || props.required,
+          'is-no-asterisk': formProps?.hideRequiredAsterisk,
+        },
+      ]
       return h('div', { class: classs }, [label, content])
     }
-  }
+  },
 })

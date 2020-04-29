@@ -11,7 +11,7 @@ import {
   inject,
   getCurrentInstance,
   ComponentInternalInstance,
-  provide
+  provide,
 } from 'vue'
 import { withVshow, withClickoutside, withVif } from '../utils/directives'
 import { FormItemInstance } from 'packages/form/formItem'
@@ -34,9 +34,8 @@ const selectProps = {
   filterable: { type: Boolean, default: false },
   size: { type: String, default: 'normal' },
   notFoundText: { type: String, default: 'notfound' },
-  placement: { type: String, default: 'bottom' }
+  placement: { type: String, default: 'bottom' },
 }
-
 
 const Select = defineComponent({
   name: 'VSelect',
@@ -49,7 +48,7 @@ const Select = defineComponent({
       selectedMultiple: [] as OptionInstance[],
       focusIndex: 0,
       query: '',
-      model: props.value
+      model: props.value,
     })
     const inputEl = ref<HTMLInputElement | null>(null)
     const popoverEl = ref<HTMLLIElement | null>(null)
@@ -100,7 +99,7 @@ const Select = defineComponent({
 
     function notFound() {
       let show = true
-      options.find(option => {
+      options.find((option) => {
         if (!option.state.hidden) {
           show = false
         }
@@ -161,7 +160,7 @@ const Select = defineComponent({
 
           let hasFocus = false
 
-          options.forEach(option => {
+          options.forEach((option) => {
             if (option.state.isFocus) {
               hasFocus = true
               option.handleSelect()
@@ -207,7 +206,7 @@ const Select = defineComponent({
       if (props.disabled) {
         return false
       }
-      ; (state.model as any[]).splice(index, 1)
+      ;(state.model as any[]).splice(index, 1)
 
       if (props.filterable && state.visible) {
         inputEl.value!.focus()
@@ -222,7 +221,6 @@ const Select = defineComponent({
             state.selectedSingle = propsProxy.label
           }
         })
-
       }
       toggleSingleSelected(model)
     }
@@ -230,8 +228,8 @@ const Select = defineComponent({
     function updateMultipleSelected() {
       if (props.multiple && isArray(state.model)) {
         const selected: OptionInstance[] = []
-        state.model.forEach(val => {
-          options.forEach(option => {
+        state.model.forEach((val) => {
+          options.forEach((option) => {
             if (val === option.propsProxy.value) {
               selected.push(option)
             }
@@ -246,7 +244,7 @@ const Select = defineComponent({
     function toggleSingleSelected(val: unknown) {
       if (props.multiple) return
 
-      options.forEach(option => {
+      options.forEach((option) => {
         option.state.selected = option.propsProxy.value === val
       })
       hideMenu()
@@ -330,7 +328,7 @@ const Select = defineComponent({
 
     function setSelected() {
       if (!props.multiple) {
-        options.forEach(option => {
+        options.forEach((option) => {
           if (state.model === option.propsProxy.value) {
             option.state.selected = true
             state.query = option.propsProxy.label as string
@@ -338,15 +336,14 @@ const Select = defineComponent({
         })
       } else {
         if (isArray(props.value)) {
-          props.value.forEach(v => {
-            options.forEach(option => {
+          props.value.forEach((v) => {
+            options.forEach((option) => {
               if (v === option.propsProxy.value) {
                 option.state.selected = true
                 state.selectedMultiple.push(option)
               }
             })
           })
-
         }
       }
     }
@@ -360,8 +357,8 @@ const Select = defineComponent({
             onClick: (e: Event) => {
               e.stopPropagation()
               removeTag(index)
-            }
-          })
+            },
+          }),
         ])
       })
     }
@@ -370,21 +367,21 @@ const Select = defineComponent({
       return !props.filterable
         ? h('span', { class: 'v-select__selected' }, state.query)
         : h('input', {
-          value: state.query,
-          type: 'text',
-          class: 'v-select__input',
-          placeholder: showPlaceholder.value ? props.placeholder : '',
-          onBlur: blur,
-          onInput: (e: InputEvent) => (state.query = (e.target as any).value),
-          onKeydown: handleInputDelete,
-          ref: inputEl
-        })
+            value: state.query,
+            type: 'text',
+            class: 'v-select__input',
+            placeholder: showPlaceholder.value ? props.placeholder : '',
+            onBlur: blur,
+            onInput: (e: InputEvent) => (state.query = (e.target as any).value),
+            onKeydown: handleInputDelete,
+            ref: inputEl,
+          })
     }
 
     function renderSelection() {
       const selectionProps = {
         class: 'v-select__selection',
-        onClick: toggleMenu
+        onClick: toggleMenu,
       }
 
       const placeholder = withVif(
@@ -395,68 +392,72 @@ const Select = defineComponent({
       const clear = withVif(
         h('i', {
           class: 'icon icon-x v-select__clear',
-          onClick: clearSingleSelect
+          onClick: clearSingleSelect,
         }),
         showCloseIcon.value
       )
 
       const arrow = h('i', { class: 'icon icon-chevron-down v-select__arrow' })
 
-      return h('div',
-        selectionProps,
-        [
-          renderMultipleTags(),
-          placeholder,
-          renderInput(),
-          arrow,
-          clear
-        ])
+      return h('div', selectionProps, [
+        renderMultipleTags(),
+        placeholder,
+        renderInput(),
+        arrow,
+        clear,
+      ])
     }
 
     function renderDropdown() {
       const { placement, notFoundText } = props
       const preClass = 'v-select__dropdown'
       const wapper = (child: VNode, show: boolean) => {
-        return withVshow(h('ul', {
-          class: notFound()
-            ? 'v-select__not-found'
-            : 'v-select__list'
-        }, child), show)
+        return withVshow(
+          h(
+            'ul',
+            {
+              class: notFound() ? 'v-select__not-found' : 'v-select__list',
+            },
+            child
+          ),
+          show
+        )
       }
 
       const noOption = wapper(h('li', notFoundText), notFound())
       const hasOption = wapper(h('li', slots.default?.()), !notFound())
       const dropDwonProps = {
         ref: popoverEl,
-        class: [
-          preClass,
-          placement ? `${preClass}--${placement}` : `${preClass}--bottom`
-        ]
+        class: [preClass, placement ? `${preClass}--${placement}` : `${preClass}--bottom`],
       }
       return h(Transition, { name: 'slide-up' }, () =>
         withVshow(h('div', dropDwonProps, [noOption, hasOption]), state.visible)
       )
     }
 
-    return () => withClickoutside(
-      h(
-        'div', {
-        class: ['v-select', {
-          'v-select--visible': state.visible,
-          'v-select--disabled': props.disabled,
-          'v-select--multiple': props.multiple,
-          'v-select--single': !props.multiple,
-          'v-select--show-clear': showCloseIcon.value,
-          [`v-select--${props.size}`]: !!props.size
-        }
-        ],
-        onKeydown: handleKeydown
-      },
-        [renderSelection(), renderDropdown()]
-      ),
-      hideMenu
-    )
-  }
+    return () =>
+      withClickoutside(
+        h(
+          'div',
+          {
+            class: [
+              'v-select',
+              {
+                'v-select--visible': state.visible,
+                'v-select--disabled': props.disabled,
+                'v-select--multiple': props.multiple,
+                'v-select--single': !props.multiple,
+                'v-select--show-clear': showCloseIcon.value,
+                [`v-select--${props.size}`]: !!props.size,
+              },
+            ],
+            onKeydown: handleKeydown,
+          },
+          [renderSelection(), renderDropdown()]
+        ),
+        hideMenu
+      )
+  },
 })
 
 export default Select

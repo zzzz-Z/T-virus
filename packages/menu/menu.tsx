@@ -8,7 +8,7 @@ import {
   nextTick,
   computed,
   getCurrentInstance,
-  ComponentInternalInstance
+  ComponentInternalInstance,
 } from 'vue'
 import { MenuItemInstance } from './menu-item'
 import { MenuProps } from './type'
@@ -17,7 +17,6 @@ export interface MenuInstance extends ComponentInternalInstance {
   onMenuItemSelect(name: string): void
   menuItems: MenuItemInstance[]
   subMenus: SubMenuInstance[]
-
 }
 
 export const MenuCtxKey = Symbol('MenuInstance')
@@ -28,7 +27,7 @@ export const menuProps = {
   inlineCollapsed: { type: Boolean, default: false },
   width: { type: String, default: '240px' },
   router: { type: Boolean, default: false },
-  openNames: Array
+  openNames: Array,
 } as any
 
 export default defineComponent({
@@ -47,7 +46,7 @@ export default defineComponent({
           style.width = width
         }
         return { class: classs, style }
-      })
+      }),
     })
     const instance = getCurrentInstance()! as MenuInstance
     instance.subMenus = []
@@ -60,7 +59,10 @@ export default defineComponent({
     provide(MenuCtxKey, instance)
 
     onMounted(() => nextTick(updateActiveName))
-    watch(() => props.activeName, val => (state.activeName = val))
+    watch(
+      () => props.activeName,
+      (val) => (state.activeName = val)
+    )
     watch(() => state.activeName, updateActiveName)
 
     function updateActiveName() {
@@ -68,13 +70,12 @@ export default defineComponent({
         state.activeName = -1
       }
       const { subMenus, menuItems } = instance
-      subMenus.forEach(subMenu => subMenu.updateActiveName(false))
+      subMenus.forEach((subMenu) => subMenu.updateActiveName(false))
       menuItems.forEach((menuItem) => {
         menuItem.updateActiveName(state.activeName!)
       })
     }
 
     return () => h('ul', state.attrs, slots.default?.())
-  }
+  },
 })
-

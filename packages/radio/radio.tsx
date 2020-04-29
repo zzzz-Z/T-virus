@@ -1,20 +1,11 @@
-import {
-  defineComponent,
-  reactive,
-  watch,
-  h,
-  inject,
-  ref,
-  computed
-} from 'vue'
-
+import { defineComponent, reactive, watch, h, inject, ref, computed } from 'vue'
 
 const prefix = 'v-radio'
 
 export const radioProps = {
   value: [String, Number],
   name: String,
-  disabled: Boolean
+  disabled: Boolean,
 }
 
 export default defineComponent({
@@ -26,12 +17,12 @@ export default defineComponent({
       value: props.value,
       focus: false,
       isGroup: false,
-      checked: false
+      checked: false,
     })
     const radio = ref<HTMLInputElement | null>(null)
     const radioGroup = inject<any>('radioGroup')
-    const isChecked = computed(
-      () => (radioGroup ? state.value == radioGroup.state.model : state.checked)
+    const isChecked = computed(() =>
+      radioGroup ? state.value == radioGroup.state.model : state.checked
     )
     const focus = () => {
       state.focus = true
@@ -62,7 +53,7 @@ export default defineComponent({
         {
           style: attrs.style,
           class: [prefix, attrs.class],
-          onClick: click
+          onClick: click,
         },
         [
           h('span', { class: prefix + '__input' }, [
@@ -72,9 +63,9 @@ export default defineComponent({
                 {
                   [prefix + '--focus']: props.disabled,
                   [prefix + '--checked']: isChecked.value,
-                  [prefix + '--focus']: props.disabled
-                }
-              ]
+                  [prefix + '--focus']: props.disabled,
+                },
+              ],
             }),
             h('input', {
               type: 'radio',
@@ -86,12 +77,12 @@ export default defineComponent({
               value: props.value,
               disabled: props.disabled,
               onFocus: focus,
-              onBlur: blur
+              onBlur: blur,
               // onChange: change
-            })
+            }),
           ]),
-          h('span', { class: prefix + '__label' }, slots.default?.())
+          h('span', { class: prefix + '__label' }, slots.default?.()),
         ]
       )
-  }
+  },
 })

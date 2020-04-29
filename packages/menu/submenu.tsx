@@ -9,7 +9,7 @@ import {
   h,
   ComponentInternalInstance,
   Transition,
-  onUnmounted
+  onUnmounted,
 } from 'vue'
 import { getStyle } from '../utils/util'
 import { SubMenuProps, MenuProps } from './type'
@@ -25,7 +25,7 @@ export interface SubMenuInstance extends ComponentInternalInstance {
 export const subMenuProps = {
   name: { type: [String, Number] },
   disabled: { type: Boolean, default: false },
-  title: { type: [String, Object] }
+  title: { type: [String, Object] },
 } as any
 
 export default defineComponent({
@@ -37,7 +37,7 @@ export default defineComponent({
     const state = reactive({
       active: false,
       isOpen: props.opened!,
-      dropWidth: getStyle(instance?.vnode?.el as HTMLElement, 'width')
+      dropWidth: getStyle(instance?.vnode?.el as HTMLElement, 'width'),
     })
     const popoverRef = ref<HTMLDivElement>(null!)
     const triggerRef = ref<HTMLDivElement>(null!)
@@ -46,17 +46,20 @@ export default defineComponent({
     const parent = instance?.parent?.type
     let timeout!: undefined | number
 
-    instance.updateActiveName = (status: boolean) => state.active = status
-    instance.close = () => state.isOpen = false
+    instance.updateActiveName = (status: boolean) => (state.active = status)
+    instance.close = () => (state.isOpen = false)
     inject('subMenu', instance)
 
-    watch(() => state.isOpen, val => {
-      if (menuProps.mode === 'inline') return
-      if (val) {
-        state.dropWidth = getStyle(instance?.vnode?.el as HTMLElement, 'width')
-        resetDropdownPosition()
+    watch(
+      () => state.isOpen,
+      (val) => {
+        if (menuProps.mode === 'inline') return
+        if (val) {
+          state.dropWidth = getStyle(instance?.vnode?.el as HTMLElement, 'width')
+          resetDropdownPosition()
+        }
       }
-    })
+    )
 
     onMounted(() => {
       menuInstance?.subMenus.push(instance)
@@ -88,7 +91,7 @@ export default defineComponent({
       if (props.disabled || menuProps.mode !== 'inline') return
       const opend = state.isOpen
       if (menuProps.inlineCollapsed) {
-        menuInstance?.subMenus.forEach(subMenu => subMenu.close())
+        menuInstance?.subMenus.forEach((subMenu) => subMenu.close())
       }
       state.isOpen = !opend
     }
@@ -96,55 +99,55 @@ export default defineComponent({
     function handleMouseEnter() {
       if (props.disabled || menuProps.mode === 'inline') return
       clearTimeout(timeout)
-      timeout = window.setTimeout(() => state.isOpen = true, 200)
+      timeout = window.setTimeout(() => (state.isOpen = true), 200)
     }
 
     function handleMouseLeave() {
       if (props.disabled || menuProps.mode === 'inline') return
       clearTimeout(timeout)
-      timeout = window.setTimeout(() => state.isOpen = false, 200)
+      timeout = window.setTimeout(() => (state.isOpen = false), 200)
     }
 
     return () => {
-      const title = h('div',
-        { onClick: handleClick, class: prefix('-title') },
-        [
-          props.title || slots.title?.(),
-          h('i', { class: ['icon icon-chevron-down ', prefix('-icon')] })
-        ]
-      )
-      const popover = h(
-        Transition, { name: 'slide-up' },
-        () => withVshow(
-          h('div', {
-            ref: popoverRef,
-            class: 'v-dropdown__popover',
-            style: { 'min-width': state.dropWidth }
-          }, h('ul', { class: 'v-dropdown-menu' }, slots.default?.())),
-          state.isOpen
-        ))
-
-      const inlineDrop = h(
-        collapseTransitio,
-        () => withVshow(h('ul', { class: 'v-menu' }, slots.default?.()), state.isOpen)
-      )
-      return h('li', {
-        ref: triggerRef,
-        onMouseenter: handleMouseEnter,
-        onMouseleave: handleMouseLeave,
-        class: [prefix(), {
-          [prefix('--active')]: state.active,
-          [prefix('--opened')]: state.isOpen,
-          [prefix('--disabled')]: props.disabled,
-        }]
-      }, [
-        title,
-        menuProps.mode === 'inline'
-          ? inlineDrop
-          : popover
+      const title = h('div', { onClick: handleClick, class: prefix('-title') }, [
+        props.title || slots.title?.(),
+        h('i', { class: ['icon icon-chevron-down ', prefix('-icon')] }),
       ])
+      const popover = h(Transition, { name: 'slide-up' }, () =>
+        withVshow(
+          h(
+            'div',
+            {
+              ref: popoverRef,
+              class: 'v-dropdown__popover',
+              style: { 'min-width': state.dropWidth },
+            },
+            h('ul', { class: 'v-dropdown-menu' }, slots.default?.())
+          ),
+          state.isOpen
+        )
+      )
+
+      const inlineDrop = h(collapseTransitio, () =>
+        withVshow(h('ul', { class: 'v-menu' }, slots.default?.()), state.isOpen)
+      )
+      return h(
+        'li',
+        {
+          ref: triggerRef,
+          onMouseenter: handleMouseEnter,
+          onMouseleave: handleMouseLeave,
+          class: [
+            prefix(),
+            {
+              [prefix('--active')]: state.active,
+              [prefix('--opened')]: state.isOpen,
+              [prefix('--disabled')]: props.disabled,
+            },
+          ],
+        },
+        [title, menuProps.mode === 'inline' ? inlineDrop : popover]
+      )
     }
-  }
+  },
 })
-
-

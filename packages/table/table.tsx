@@ -8,17 +8,27 @@ import {
   computed,
   PropType,
   onMounted,
-  VNode
-} from 'vue';
-import { getStyle, isNumber } from 'packages/utils/util';
-import { Columns } from './type';
+  VNode,
+} from 'vue'
+import { getStyle, isNumber } from 'packages/utils/util'
+import { Columns } from './type'
 
 const tableProps = {
   size: { type: String, default: 'normal' },
   stripe: { type: Boolean, default: false },
   border: { type: Boolean, default: false },
-  data: { type: Array, default() { return [] } } as any as PropType<any[]>,
-  columns: { type: Array, default() { return [] } } as any as PropType<Columns[]>,
+  data: ({
+    type: Array,
+    default() {
+      return []
+    },
+  } as any) as PropType<any[]>,
+  columns: ({
+    type: Array,
+    default() {
+      return []
+    },
+  } as any) as PropType<Columns[]>,
   optional: { type: Boolean, default: false },
   pagination: { type: Boolean, default: false },
   pageSize: { type: Number, default: 10 },
@@ -26,7 +36,7 @@ const tableProps = {
   showPageSizer: { type: Boolean, default: false },
   showPageQuickjump: { type: Boolean, default: false },
   height: { type: [Number, String] },
-  footer: Function
+  footer: Function,
 }
 export default defineComponent({
   name: 'VTable',
@@ -47,10 +57,9 @@ export default defineComponent({
           style.height = isNumber(height) ? `${height}px` : height
         }
         return style
-      })
+      }),
     })
     /**===================state====================**/
-
 
     /**===================refs===================**/
     const footerRef = ref<HTMLElement | null>(null)
@@ -71,7 +80,7 @@ export default defineComponent({
       nextTick(() => {
         let bodyWidth = 0
         const table = tableRef.value!
-        const widths = headerThs.map(node => parseInt(getStyle(node.el, 'width')))
+        const widths = headerThs.map((node) => parseInt(getStyle(node.el, 'width')))
         state.columns!.forEach((r, n) => {
           r.width = r.width || widths[n]
           bodyWidth += r.width
@@ -94,64 +103,71 @@ export default defineComponent({
       }
     }
 
-
     function renderColgroup() {
-      return h('colgroup', state.columns!.map(c => h('col', { width: c.width })))
+      return h(
+        'colgroup',
+        state.columns!.map((c) => h('col', { width: c.width }))
+      )
     }
 
     function renderThead() {
-      headerThs = state.columns!.map(column => {
+      headerThs = state.columns!.map((column) => {
         const attrs = {
           align: column['align'],
           colspan: 1,
           rowspan: 1,
-          class: ['is-leaf']
+          class: ['is-leaf'],
         }
         return h('th', attrs, h('div', { class: 'cell' }, column.title))
       })
 
-      return h('thead',
-        { class: prefix('__thead'), ref: headerRef }, [
-        h('tr', headerThs)
-      ])
+      return h('thead', { class: prefix('__thead'), ref: headerRef }, [h('tr', headerThs)])
     }
 
     function renderHeader() {
-      return h('div', {
-        style: { width: state.bodyWidth + 'px' },
-        class: prefix('__header-wrapper')
-      },
-        h('table', {
-          border: "0",
-          cellspacing: "0",
-          cellpadding: "0",
-          class: prefix('__header')
-        }, [
-          renderColgroup(),
-          renderThead()
-        ]))
-
+      return h(
+        'div',
+        {
+          style: { width: state.bodyWidth + 'px' },
+          class: prefix('__header-wrapper'),
+        },
+        h(
+          'table',
+          {
+            border: '0',
+            cellspacing: '0',
+            cellpadding: '0',
+            class: prefix('__header'),
+          },
+          [renderColgroup(), renderThead()]
+        )
+      )
     }
 
     function renderTbody() {
       const trs = props.data!.map((row, index) => {
-        return h('tr', state.columns!.map(column => {
-          const { key, render } = column
-          const params = { val: row[key], index, row }
-          const attrs = {
-            colspan: 1,
-            rowspan: 1,
-            class: 'cell',
-            align: column['align'],
-          }
-          return h('td', attrs, render?.(params) || slots[key]?.(params) || row[key])
-        })
+        return h(
+          'tr',
+          state.columns!.map((column) => {
+            const { key, render } = column
+            const params = { val: row[key], index, row }
+            const attrs = {
+              colspan: 1,
+              rowspan: 1,
+              class: 'cell',
+              align: column['align'],
+            }
+            return h('td', attrs, render?.(params) || slots[key]?.(params) || row[key])
+          })
         )
       })
 
-      const empty = h('tr', h('td', {
-        class: [prefix('__cell'), prefix('))cell--nodata')]
-      }))
+      const empty = h(
+        'tr',
+        h('td', {
+          class: [prefix('__cell'), prefix('))cell--nodata')],
+        })
+      )
 
       return props.data?.length
         ? h('tbody', { class: prefix('__tbody'), ref: bodyRef }, trs)
@@ -159,38 +175,41 @@ export default defineComponent({
     }
 
     function renderBody() {
-      return h('div', {
-        class: prefix('__body-wrapper'),
-        style: {
-          width: state.bodyWidth + 'px',
-          height: state.bodyHeight + 'px'
-        }
-      },
-        h('table', {
-          border: "0",
-          cellspacing: "0",
-          cellpadding: "0",
-          class: prefix('__body')
-        }, [
-          renderColgroup(),
-          renderTbody()
-        ]))
+      return h(
+        'div',
+        {
+          class: prefix('__body-wrapper'),
+          style: {
+            width: state.bodyWidth + 'px',
+            height: state.bodyHeight + 'px',
+          },
+        },
+        h(
+          'table',
+          {
+            border: '0',
+            cellspacing: '0',
+            cellpadding: '0',
+            class: prefix('__body'),
+          },
+          [renderColgroup(), renderTbody()]
+        )
+      )
     }
 
     function renderFooter() {
       const footer = props.footer || slots.footer
       return footer && h('div', { ref: footerRef, class: prefix('__footer') }, footer())
     }
-    return () => h('div', {
-      style: state.tableStyles,
-      class: [
-        prefix()
-      ],
-      ref: tableRef
-    }, [
-      renderHeader(),
-      renderBody(),
-      renderFooter()
-    ])
-  }
+    return () =>
+      h(
+        'div',
+        {
+          style: state.tableStyles,
+          class: [prefix()],
+          ref: tableRef,
+        },
+        [renderHeader(), renderBody(), renderFooter()]
+      )
+  },
 })

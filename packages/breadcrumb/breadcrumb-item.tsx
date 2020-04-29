@@ -1,6 +1,5 @@
 import { h, defineComponent, inject } from 'vue'
 
-
 export default defineComponent({
   name: 'VBreadcrumbItem',
   props: {
@@ -9,9 +8,9 @@ export default defineComponent({
       type: [Object, String],
       default() {
         return {}
-      }
+      },
     },
-    replace: { type: Boolean, default: false }
+    replace: { type: Boolean, default: false },
   } as any,
   setup(props, { slots }) {
     const parent: any = inject('breadcrumb')
@@ -26,13 +25,9 @@ export default defineComponent({
     return () =>
       h('span', { class: 'v-breadcrumb__item' }, [
         props.href || Object.keys(props.to).length
-          ? h(
-            'a',
-            { class: 'v-breadcrumb__link', onClick: handleClick },
-            slots.default?.()
-          )
+          ? h('a', { class: 'v-breadcrumb__link', onClick: handleClick }, slots.default?.())
           : h('span', { class: 'v-breadcrumb__text' }, slots.default?.()),
-        h('span', { class: 'v-breadcrumb__separator' }, parent.separator())
+        h('span', { class: 'v-breadcrumb__separator' }, parent.separator()),
       ])
-  }
+  },
 })

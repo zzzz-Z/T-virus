@@ -14,9 +14,9 @@ export default defineComponent<BageProps>({
   props: {
     value: { type: [String, Number], default: '' },
     maxNum: { type: Number, default: 99 },
-    dot: { type: Boolean, default: false } as any as PropType<boolean>,
-    show: { type: Boolean, default: true } as any as PropType<boolean>,
-    status: { type: String, default: 'error' }
+    dot: ({ type: Boolean, default: false } as any) as PropType<boolean>,
+    show: ({ type: Boolean, default: true } as any) as PropType<boolean>,
+    status: { type: String, default: 'error' },
   } as any,
   setup(props, { slots }) {
     const prefix = 'v-badge'
@@ -35,9 +35,9 @@ export default defineComponent<BageProps>({
           prefix + '__content',
           {
             [prefix + '--corner']: slots.default,
-            [prefix + '--dot']: dot
-          }
-        ]
+            [prefix + '--dot']: dot,
+          },
+        ],
       }
 
       const badgeProps = {
@@ -45,15 +45,15 @@ export default defineComponent<BageProps>({
           prefix,
           {
             [`${prefix}--${status}`]: status,
-            [prefix + '--alone']: !slots.default
-          }
-        ]
+            [prefix + '--alone']: !slots.default,
+          },
+        ],
       }
 
       return h('span', badgeProps, [
         slots.default?.(),
-        withVshow(h('sup', contentProps, dot ? '' : content), !!show)
+        withVshow(h('sup', contentProps, dot ? '' : content), !!show),
       ])
     }
-  }
+  },
 })

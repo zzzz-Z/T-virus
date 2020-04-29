@@ -13,20 +13,18 @@ export const renderForm = () => {
           {
             type: 'email',
             message: '请输入正确的邮箱地址',
-            trigger: ['change']
-          }
-        ]
+            trigger: ['change'],
+          },
+        ],
       },
-      () => h(Input, { value: state.m, onChange: val => (state.m = val) })
+      () => h(Input, { value: state.m, onChange: (val) => (state.m = val) })
     ),
     h(
       FormItem,
       {
         prop: 'x',
         label: 'sele',
-        rules: [
-          { type: 'email', message: '请输入正确的xxxx', trigger: ['change'] }
-        ]
+        rules: [{ type: 'email', message: '请输入正确的xxxx', trigger: ['change'] }],
       },
       () =>
         h(
@@ -37,17 +35,17 @@ export const renderForm = () => {
             filterable: true,
             onChange: (val: any) => {
               state.x = val
-            }
+            },
           },
           () => [
             h(Option, {
               label: h('span', { class: 'xx' }, '2121'),
-              value: '111'
+              value: '111',
             }),
             h(Option, { label: '222', value: '222' }),
-            h(Option, { label: '333', value: '333' })
+            h(Option, { label: '333', value: '333' }),
           ]
         )
-    )
+    ),
   ])
 }
